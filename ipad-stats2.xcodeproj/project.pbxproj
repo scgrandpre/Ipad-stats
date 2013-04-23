@@ -21,6 +21,15 @@
 		380F5836171711CF005ED397 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380F5817171711CE005ED397 /* Foundation.framework */; };
 		380F583E171711CF005ED397 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 380F583C171711CF005ED397 /* InfoPlist.strings */; };
 		380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F5840171711CF005ED397 /* ipad_stats2Tests.m */; };
+		380F584C171712F8005ED397 /* StatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F584B171712F8005ED397 /* StatViewController.m */; };
+		380F584F1717136B005ED397 /* CourtView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F584E1717136B005ED397 /* CourtView.m */; };
+		380F58501717136B005ED397 /* CourtView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F584E1717136B005ED397 /* CourtView.m */; };
+		380F585917173845005ED397 /* Pitt_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F585817173845005ED397 /* Pitt_center.png */; };
+		380F585A17173845005ED397 /* Pitt_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F585817173845005ED397 /* Pitt_center.png */; };
+		380F585D17173B07005ED397 /* CourtOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F585C17173B07005ED397 /* CourtOverlayView.m */; };
+		380F585E17173B07005ED397 /* CourtOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F585C17173B07005ED397 /* CourtOverlayView.m */; };
+		380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F58601717418D005ED397 /* FancyMultipleButtonsView.m */; };
+		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +62,17 @@
 		380F583D171711CF005ED397 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		380F583F171711CF005ED397 /* ipad_stats2Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ipad_stats2Tests.h; sourceTree = "<group>"; };
 		380F5840171711CF005ED397 /* ipad_stats2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ipad_stats2Tests.m; sourceTree = "<group>"; };
+		380F584A171712F8005ED397 /* StatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatViewController.h; sourceTree = "<group>"; };
+		380F584B171712F8005ED397 /* StatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatViewController.m; sourceTree = "<group>"; };
+		380F584D1717136B005ED397 /* CourtView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtView.h; sourceTree = "<group>"; };
+		380F584E1717136B005ED397 /* CourtView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtView.m; sourceTree = "<group>"; };
+		380F585817173845005ED397 /* Pitt_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pitt_center.png; sourceTree = "<group>"; };
+		380F585B17173B07005ED397 /* CourtOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtOverlayView.h; sourceTree = "<group>"; };
+		380F585C17173B07005ED397 /* CourtOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtOverlayView.m; sourceTree = "<group>"; };
+		380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FancyMultipleButtonsView.h; sourceTree = "<group>"; };
+		380F58601717418D005ED397 /* FancyMultipleButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FancyMultipleButtonsView.m; sourceTree = "<group>"; };
+		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +83,7 @@
 				380F5816171711CE005ED397 /* UIKit.framework in Frameworks */,
 				380F5818171711CE005ED397 /* Foundation.framework in Frameworks */,
 				380F581A171711CE005ED397 /* CoreGraphics.framework in Frameworks */,
+				9182738118B549FFAA38C230 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +107,7 @@
 				380F5839171711CF005ED397 /* ipad-stats2Tests */,
 				380F5814171711CE005ED397 /* Frameworks */,
 				380F5813171711CE005ED397 /* Products */,
+				9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +127,7 @@
 				380F5817171711CE005ED397 /* Foundation.framework */,
 				380F5819171711CE005ED397 /* CoreGraphics.framework */,
 				380F5833171711CF005ED397 /* SenTestingKit.framework */,
+				8137AC22AF1A4BF591EC415D /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,8 +135,17 @@
 		380F581B171711CE005ED397 /* ipad-stats2 */ = {
 			isa = PBXGroup;
 			children = (
+				380F585117172EC5005ED397 /* images */,
 				380F5824171711CF005ED397 /* AppDelegate.h */,
 				380F5825171711CF005ED397 /* AppDelegate.m */,
+				380F584A171712F8005ED397 /* StatViewController.h */,
+				380F584B171712F8005ED397 /* StatViewController.m */,
+				380F584D1717136B005ED397 /* CourtView.h */,
+				380F584E1717136B005ED397 /* CourtView.m */,
+				380F585B17173B07005ED397 /* CourtOverlayView.h */,
+				380F585C17173B07005ED397 /* CourtOverlayView.m */,
+				380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */,
+				380F58601717418D005ED397 /* FancyMultipleButtonsView.m */,
 				380F581C171711CE005ED397 /* Supporting Files */,
 			);
 			path = "ipad-stats2";
@@ -152,6 +184,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		380F585117172EC5005ED397 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				380F585817173845005ED397 /* Pitt_center.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -162,6 +202,7 @@
 				380F580E171711CE005ED397 /* Sources */,
 				380F580F171711CE005ED397 /* Frameworks */,
 				380F5810171711CE005ED397 /* Resources */,
+				32DCC6BF4E9B4249B491CAAF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -227,6 +268,7 @@
 				380F5828171711CF005ED397 /* Default.png in Resources */,
 				380F582A171711CF005ED397 /* Default@2x.png in Resources */,
 				380F582C171711CF005ED397 /* Default-568h@2x.png in Resources */,
+				380F585917173845005ED397 /* Pitt_center.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,12 +277,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				380F583E171711CF005ED397 /* InfoPlist.strings in Resources */,
+				380F585A17173845005ED397 /* Pitt_center.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		32DCC6BF4E9B4249B491CAAF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
 		380F5830171711CF005ED397 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -263,6 +320,10 @@
 			files = (
 				380F5822171711CF005ED397 /* main.m in Sources */,
 				380F5826171711CF005ED397 /* AppDelegate.m in Sources */,
+				380F584C171712F8005ED397 /* StatViewController.m in Sources */,
+				380F584F1717136B005ED397 /* CourtView.m in Sources */,
+				380F585D17173B07005ED397 /* CourtOverlayView.m in Sources */,
+				380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +332,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */,
+				380F58501717136B005ED397 /* CourtView.m in Sources */,
+				380F585E17173B07005ED397 /* CourtOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,22 +427,28 @@
 		};
 		380F5845171711CF005ED397 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Grandpre (34C46883AH)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ipad-stats2/ipad-stats2-Prefix.pch";
 				INFOPLIST_FILE = "ipad-stats2/ipad-stats2-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9F74004E-64EB-4005-A8D5-A81B2AEB167D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		380F5846171711CF005ED397 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Grandpre (34C46883AH)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ipad-stats2/ipad-stats2-Prefix.pch";
 				INFOPLIST_FILE = "ipad-stats2/ipad-stats2-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9F74004E-64EB-4005-A8D5-A81B2AEB167D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -437,6 +506,7 @@
 				380F5846171711CF005ED397 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		380F5847171711CF005ED397 /* Build configuration list for PBXNativeTarget "ipad-stats2Tests" */ = {
 			isa = XCConfigurationList;
@@ -445,6 +515,7 @@
 				380F5849171711CF005ED397 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
