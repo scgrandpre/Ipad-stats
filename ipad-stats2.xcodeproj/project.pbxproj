@@ -29,6 +29,11 @@
 		380F585D17173B07005ED397 /* CourtOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F585C17173B07005ED397 /* CourtOverlayView.m */; };
 		380F585E17173B07005ED397 /* CourtOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F585C17173B07005ED397 /* CourtOverlayView.m */; };
 		380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F58601717418D005ED397 /* FancyMultipleButtonsView.m */; };
+		38651F011729725700D99AB4 /* ScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38651F001729725700D99AB4 /* ScoreView.m */; };
+		38651F0C1729CF3900D99AB4 /* StatAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */; };
+		38CD88B917271D420099A3EB /* DrawnStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88B817271D420099A3EB /* DrawnStatViewController.m */; };
+		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
+		38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +76,16 @@
 		380F585C17173B07005ED397 /* CourtOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtOverlayView.m; sourceTree = "<group>"; };
 		380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FancyMultipleButtonsView.h; sourceTree = "<group>"; };
 		380F58601717418D005ED397 /* FancyMultipleButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FancyMultipleButtonsView.m; sourceTree = "<group>"; };
+		38651EFF1729725700D99AB4 /* ScoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScoreView.h; path = "ipad-stats2/ScoreView.h"; sourceTree = "<group>"; };
+		38651F001729725700D99AB4 /* ScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScoreView.m; path = "ipad-stats2/ScoreView.m"; sourceTree = "<group>"; };
+		38651F0A1729CF3900D99AB4 /* StatAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalysisViewController.h; sourceTree = "<group>"; };
+		38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalysisViewController.m; sourceTree = "<group>"; };
+		38CD88B717271D420099A3EB /* DrawnStatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawnStatViewController.h; sourceTree = "<group>"; };
+		38CD88B817271D420099A3EB /* DrawnStatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawnStatViewController.m; sourceTree = "<group>"; };
+		38CD88BA17271E0A0099A3EB /* DrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
+		38CD88BB17271E0A0099A3EB /* DrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
+		38E4A7FC17272C8100C7E1AF /* FullScreenChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenChoiceViewController.h; sourceTree = "<group>"; };
+		38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenChoiceViewController.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -103,6 +118,10 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				38651F0A1729CF3900D99AB4 /* StatAnalysisViewController.h */,
+				38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */,
+				38651EFF1729725700D99AB4 /* ScoreView.h */,
+				38651F001729725700D99AB4 /* ScoreView.m */,
 				380F581B171711CE005ED397 /* ipad-stats2 */,
 				380F5839171711CF005ED397 /* ipad-stats2Tests */,
 				380F5814171711CE005ED397 /* Frameworks */,
@@ -146,6 +165,12 @@
 				380F585C17173B07005ED397 /* CourtOverlayView.m */,
 				380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */,
 				380F58601717418D005ED397 /* FancyMultipleButtonsView.m */,
+				38CD88B717271D420099A3EB /* DrawnStatViewController.h */,
+				38CD88B817271D420099A3EB /* DrawnStatViewController.m */,
+				38CD88BA17271E0A0099A3EB /* DrawingView.h */,
+				38CD88BB17271E0A0099A3EB /* DrawingView.m */,
+				38E4A7FC17272C8100C7E1AF /* FullScreenChoiceViewController.h */,
+				38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */,
 				380F581C171711CE005ED397 /* Supporting Files */,
 			);
 			path = "ipad-stats2";
@@ -324,6 +349,11 @@
 				380F584F1717136B005ED397 /* CourtView.m in Sources */,
 				380F585D17173B07005ED397 /* CourtOverlayView.m in Sources */,
 				380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */,
+				38CD88B917271D420099A3EB /* DrawnStatViewController.m in Sources */,
+				38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */,
+				38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */,
+				38651F011729725700D99AB4 /* ScoreView.m in Sources */,
+				38651F0C1729CF3900D99AB4 /* StatAnalysisViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

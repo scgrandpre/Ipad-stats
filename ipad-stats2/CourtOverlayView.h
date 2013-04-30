@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CourtOverlayView : UIView
-
+- (void)rotateWithTeam:(NSString*)team increment:(int)increment;
 @end

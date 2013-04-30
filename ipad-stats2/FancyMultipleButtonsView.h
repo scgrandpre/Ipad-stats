@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface FancyMultipleButtonsView : UIView
+@property(strong) NSString* label;
 
-- (id)initWithFrame:(CGRect)frame label:(NSString*)label options:(NSArray*)options choose:(void (^)(int)) choose;
+- (id)initWithFrame:(CGRect)frame label:(NSString*)label options:(NSArray*)options choose:(void (^)(int, UITouch*)) choose;
+- (void)select;
+- (void)processTouch:(UITouch*) touch;
 @end

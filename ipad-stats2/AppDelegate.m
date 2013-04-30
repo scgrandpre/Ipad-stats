@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "StatViewController.h"
+#import "DrawnStatViewController.h"
+#import "StatAnalysisViewController.h"
 
 @implementation AppDelegate
 
@@ -15,10 +17,19 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    NSMutableArray *stats = [[NSMutableArray alloc] init];
+    
     // Override point for customization after application launch.
-    UIViewController *mainViewController = [[StatViewController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
-    [self.window setRootViewController:navController];
+    UIViewController *mainViewController = [[StatViewController alloc] initWithStats: stats];
+    UIViewController *otherViewController = [[DrawnStatViewController alloc] init];
+    UIViewController *analysisViewController = [[StatAnalysisViewController alloc] initWithStats: stats];
+    UITabBarController *tabBar = [[UITabBarController alloc] init];
+    tabBar.viewControllers = @[mainViewController, otherViewController, analysisViewController];
+    tabBar.selectedViewController = mainViewController;
+    mainViewController.title = @"Main View";
+    otherViewController.title = @"Other View";
+    analysisViewController.title = @"Analysis";
+    [self.window setRootViewController:tabBar];
     
     self.window.backgroundColor = [UIColor whiteColor];
 
