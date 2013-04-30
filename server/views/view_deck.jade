@@ -1,0 +1,11 @@
+extends layout
+
+block css
+  != css('view')
+
+block content
+  script config = {'deck': !{JSON.stringify(deck)}};
+  .deck
+
+block scripts
+  != js('view')

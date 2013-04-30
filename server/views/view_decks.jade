@@ -1,0 +1,11 @@
+extends layout
+
+block css
+  != css('view')
+
+block content
+  .view-decks
+      -each deck in decks
+        a(href="/view/#{deck.id}").deck
+          img(src=deck.thumbnailURL)
+

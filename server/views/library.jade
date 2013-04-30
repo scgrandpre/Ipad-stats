@@ -1,0 +1,32 @@
+extends layout
+
+block css
+  != css('library')
+
+block content
+  script
+    window.config = {'user': !{JSON.stringify(user)} }
+  != js("//api.filepicker.io/v1/filepicker.js")
+
+  .container
+    h1 Welcome To Your Library!
+    h5 Images will be cropped on the phone.
+
+    .add-file
+      span.message Drop To Add a File
+
+    .images
+      -each image in user.library.images
+        .image
+          img(src=image.url)
+          .remove
+            .remove-label Remove
+
+      -each image in user.library.code
+        .code
+          img(src="http://placehold.it/100x100&text=CODE")
+          .remove
+            .remove-label Remove
+
+block scripts
+  != js('library')
