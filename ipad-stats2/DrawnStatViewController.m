@@ -10,6 +10,7 @@
 #import "CourtView.h"
 #import "DrawingView.h"
 #import "FullScreenChoiceViewController.h"
+#import "Game.h"
 
 @interface DrawnStatViewController ()
 
@@ -17,9 +18,9 @@
 
 @implementation DrawnStatViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+- (id)initWithGame:(Game*)game {
+    self = [super init];
     if (self) {
         // Custom initialization
     }

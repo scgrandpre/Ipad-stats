@@ -10,6 +10,9 @@
 #import "CourtView.h"
 #import "ScoreView.h"
 #import "EventEmitter.h"
+#import "Game.h"
+#import "Stat.h"
+#import "Play.h"
 
 @interface RotationButtonView : UIView
 @property (strong) void (^rotate)(int);
@@ -54,15 +57,15 @@
 
 @interface StatViewController ()
 @property int servingTeam;
-@property NSMutableArray *stats;
+@property Game* game;
 @end
 
 @implementation StatViewController
 
-- (id)initWithStats:(NSMutableArray*)stats {
+- (id)initWithGame:(Game*)game {
     self = [super init];
     if (self) {
-        self.stats = stats;
+        self.game = game;
         self.servingTeam = 0;
     }
     return self;
@@ -102,15 +105,15 @@
  
     [self.view addSubview:court];
     
-    [court on:@"end_play" callback:^(NSDictionary* play) {
+    [court on:@"end_play" callback:^(Play* play) {
         NSLog(@"%@", play);
-        NSString *winner = play[@"winner"];
+        NSString *winner = play.winner;
         if([winner compare: @"0"] == NSOrderedSame) {
             [scoreView increment];
         } else {
             [otherScoreView increment];
         }
-        [self.stats addObject:play];
+        [self.game addPlay:play];
     }];
     
 

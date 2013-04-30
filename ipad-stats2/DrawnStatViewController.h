@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DrawnStatViewController : UIViewController
+@class Game;
 
+@interface DrawnStatViewController : UIViewController
+- (id)initWithGame:(Game*)game;
 @end

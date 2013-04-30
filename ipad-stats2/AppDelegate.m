@@ -10,31 +10,101 @@
 #import "StatViewController.h"
 #import "DrawnStatViewController.h"
 #import "StatAnalysisViewController.h"
+#import "Game.h"
+#import "Play.h"
+#import "GamesMenuViewController.h"
+#import "Serializable.h"
+#import <SocketIO.h>
+#import <SocketIOPacket.h>
+
+@interface AppDelegate ()
+
+@property (strong) UINavigationController *navigationController;
+@property (strong) SocketIO *socket;
+@property (strong) NSMutableDictionary *games;
+
+@end
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    NSMutableArray *stats = [[NSMutableArray alloc] init];
-    
-    // Override point for customization after application launch.
-    UIViewController *mainViewController = [[StatViewController alloc] initWithStats: stats];
-    UIViewController *otherViewController = [[DrawnStatViewController alloc] init];
-    UIViewController *analysisViewController = [[StatAnalysisViewController alloc] initWithStats: stats];
+- (void)openGame:(Game*) game {
+    UIViewController *mainViewController = [[StatViewController alloc] initWithGame: game];
+    UIViewController *otherViewController = [[DrawnStatViewController alloc] initWithGame: game];
+    UIViewController *analysisViewController = [[StatAnalysisViewController alloc] initWithGame: game];
     UITabBarController *tabBar = [[UITabBarController alloc] init];
     tabBar.viewControllers = @[mainViewController, otherViewController, analysisViewController];
     tabBar.selectedViewController = mainViewController;
     mainViewController.title = @"Main View";
     otherViewController.title = @"Other View";
     analysisViewController.title = @"Analysis";
-    [self.window setRootViewController:tabBar];
+    
+    [self.navigationController pushViewController:tabBar animated:YES];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    UINavigationController *root = [[UINavigationController alloc] init];
+    root.navigationBar.hidden = YES;
+    self.navigationController = root;
+    SerializableManager *manager = [SerializableManager manager];
+    self.games = [[NSMutableDictionary alloc] init];
+    [manager GetAllSerializable:[Game class] callback:^(NSArray *games) {
+        GamesMenuViewController *gamesMenu = [[GamesMenuViewController alloc] initWithGames:games];
+        for(Game* game in games) {
+            self.games[game.id] = game;
+        }
+        [root pushViewController:gamesMenu animated:NO];
+    }];
+    
+    
+    [self.window setRootViewController:root];
+    
     
     self.window.backgroundColor = [UIColor whiteColor];
 
     [self.window makeKeyAndVisible];
+    
+    
+    SocketIO *socketIO = [[SocketIO alloc] initWithDelegate:self];
+    [socketIO connectToHost:@"localhost" onPort:8338];
+    [socketIO sendMessage:@"hello world"];
+    self.socket = socketIO;
+    
     return YES;
+}
+
+- (void) socketIODidConnect:(SocketIO *)socket {
+    NSLog(@"CONNECT!");
+}
+
+- (void) socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error {
+    NSLog(@"DIS!");
+}
+- (void) socketIO:(SocketIO *)socket didReceiveJSON:(SocketIOPacket *)packet {
+    NSLog(@"JSON: %@", packet);
+}
+
+- (void) socketIO:(SocketIO *)socket didReceiveMessage:(SocketIOPacket *)packet {
+    NSLog(@"MESSAGE: %@", packet);
+}
+
+- (void) socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
+    if([packet.name compare: @"add-play"] == NSOrderedSame) {
+        NSLog(@"EVENT: %@", packet);
+        Play *newPlay = (Play*)[Play fromDict:packet.args[0]];
+        NSLog(@"%@", newPlay);
+        Game* game = self.games[newPlay.gameID];
+        if(game) {
+            for(Play *play in game.plays) {
+                if([play.id compare:newPlay.id] == NSOrderedSame) {
+                    return;
+                }
+            }
+            [game.plays addObject: newPlay];
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

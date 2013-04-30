@@ -9,6 +9,7 @@
 #import "CourtView.h"
 #import "CourtOverlayView.h"
 #import <EventEmitter.h>
+#import "Play.h"
 
 @interface CourtView ()
 @property (strong) CourtOverlayView* overlay;
@@ -28,7 +29,7 @@
         self.overlay = [[CourtOverlayView alloc] initWithFrame:self.bounds];
         [self addSubview:self.overlay];
         
-        [self.overlay on:@"end_play" callback:^(NSDictionary* play) {
+        [self.overlay on:@"end_play" callback:^(Play* play) {
             [self emit:@"end_play" data:play];
         }];
         

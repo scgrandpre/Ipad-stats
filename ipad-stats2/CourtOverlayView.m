@@ -17,6 +17,8 @@
 #import "CourtOverlayView.h"
 #import "FancyMultipleButtonsView.h"
 #import "EventEmitter.h"
+#import "Play.h"
+#import "Stat.h"
 
 @interface CourtOverlayView ()
 @property NSMutableDictionary* playerButtons;
@@ -24,7 +26,7 @@
 @property NSDictionary *skills;
 @property NSMutableDictionary* players;
 @property NSMutableDictionary *rotation;
-@property NSMutableArray *currentPlay;
+@property NSMutableArray *currentStats;
 @end
 
 @implementation CourtOverlayView
@@ -65,7 +67,7 @@
                         @"1": [[NSMutableArray alloc] initWithArray:@[@10,@11,@12,@13,@14,@15]]}];
         self.rotation = [[NSMutableDictionary alloc] initWithDictionary:@{@"0": @0, @"1": @3}];
         
-        self.currentPlay = nil;
+        self.currentStats = nil;
         
         [self makeFrontRowPlayers];
         [self makeBackRowPlayers];
@@ -86,11 +88,9 @@
 }
 
 - (void)endPlayWithWinner:(NSString*)winner {
-    if(self.currentPlay != nil) {
-        NSDictionary *play = @{
-                               @"winner": winner,
-                               @"events": self.currentPlay
-                               };
+    if(self.currentStats != nil) {
+        Play *play = [[Play alloc] initWithStats:self.currentStats winner:winner rotation:self.rotation gameID:nil id:nil];
+        
         [self emit:@"end_play" data:play];
     }
 }
@@ -100,10 +100,11 @@
         [self showPlayers];
         
         if([skill compare: @"SERVE"] == NSOrderedSame) {
-            self.currentPlay = [[NSMutableArray alloc] init];
+            self.currentStats = [[NSMutableArray alloc] init];
         }
         
-        [self.currentPlay addObject:@{@"skill": skill, @"details": info}];
+        [self.currentStats addObject:[[Stat alloc] initWithSkill:skill details:info id:nil]];
+        
         NSString* result = info[@"RESULT"];
         if(result) {
             if([result compare: @"KILL"] == NSOrderedSame || [result compare:@"ACE"] == NSOrderedSame) {

@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SocketIO.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class Game;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, SocketIODelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+- (void)openGame:(Game*) game;
 
 @end

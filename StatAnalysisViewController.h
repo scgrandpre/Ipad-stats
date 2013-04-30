@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class Game;
+
 @interface StatAnalysisViewController : UIViewController
-- (id)initWithStats:(NSMutableArray*)stats;
+-(id)initWithGame:(Game*) game;
 @end

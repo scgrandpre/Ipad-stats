@@ -31,6 +31,12 @@
 		380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F58601717418D005ED397 /* FancyMultipleButtonsView.m */; };
 		38651F011729725700D99AB4 /* ScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38651F001729725700D99AB4 /* ScoreView.m */; };
 		38651F0C1729CF3900D99AB4 /* StatAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */; };
+		387C4CAC17301F5B0002CA0B /* Serializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CAB17301F5B0002CA0B /* Serializable.m */; };
+		387C4CAF17301F970002CA0B /* CommonUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CAE17301F970002CA0B /* CommonUtil.m */; };
+		387C4CB3173020E60002CA0B /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB2173020E60002CA0B /* Game.m */; };
+		387C4CB6173028D30002CA0B /* Stat.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB5173028D30002CA0B /* Stat.m */; };
+		387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB8173033970002CA0B /* GamesMenuViewController.m */; };
+		387C4CBC17303AFD0002CA0B /* Play.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CBB17303AFD0002CA0B /* Play.m */; };
 		38CD88B917271D420099A3EB /* DrawnStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88B817271D420099A3EB /* DrawnStatViewController.m */; };
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */; };
@@ -80,6 +86,18 @@
 		38651F001729725700D99AB4 /* ScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScoreView.m; path = "ipad-stats2/ScoreView.m"; sourceTree = "<group>"; };
 		38651F0A1729CF3900D99AB4 /* StatAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalysisViewController.h; sourceTree = "<group>"; };
 		38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalysisViewController.m; sourceTree = "<group>"; };
+		387C4CAA17301F5B0002CA0B /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serializable.h; sourceTree = "<group>"; };
+		387C4CAB17301F5B0002CA0B /* Serializable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Serializable.m; sourceTree = "<group>"; };
+		387C4CAD17301F970002CA0B /* CommonUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtil.h; sourceTree = "<group>"; };
+		387C4CAE17301F970002CA0B /* CommonUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtil.m; sourceTree = "<group>"; };
+		387C4CB1173020E60002CA0B /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		387C4CB2173020E60002CA0B /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		387C4CB4173028D30002CA0B /* Stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stat.h; sourceTree = "<group>"; };
+		387C4CB5173028D30002CA0B /* Stat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stat.m; sourceTree = "<group>"; };
+		387C4CB7173033970002CA0B /* GamesMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMenuViewController.h; sourceTree = "<group>"; };
+		387C4CB8173033970002CA0B /* GamesMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMenuViewController.m; sourceTree = "<group>"; };
+		387C4CBA17303AFC0002CA0B /* Play.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Play.h; path = ../Play.h; sourceTree = "<group>"; };
+		387C4CBB17303AFD0002CA0B /* Play.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Play.m; path = ../Play.m; sourceTree = "<group>"; };
 		38CD88B717271D420099A3EB /* DrawnStatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawnStatViewController.h; sourceTree = "<group>"; };
 		38CD88B817271D420099A3EB /* DrawnStatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawnStatViewController.m; sourceTree = "<group>"; };
 		38CD88BA17271E0A0099A3EB /* DrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
@@ -118,6 +136,8 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				387C4CB7173033970002CA0B /* GamesMenuViewController.h */,
+				387C4CB8173033970002CA0B /* GamesMenuViewController.m */,
 				38651F0A1729CF3900D99AB4 /* StatAnalysisViewController.h */,
 				38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */,
 				38651EFF1729725700D99AB4 /* ScoreView.h */,
@@ -154,6 +174,7 @@
 		380F581B171711CE005ED397 /* ipad-stats2 */ = {
 			isa = PBXGroup;
 			children = (
+				387C4CB0173020CE0002CA0B /* models */,
 				380F585117172EC5005ED397 /* images */,
 				380F5824171711CF005ED397 /* AppDelegate.h */,
 				380F5825171711CF005ED397 /* AppDelegate.m */,
@@ -172,6 +193,10 @@
 				38E4A7FC17272C8100C7E1AF /* FullScreenChoiceViewController.h */,
 				38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */,
 				380F581C171711CE005ED397 /* Supporting Files */,
+				387C4CAA17301F5B0002CA0B /* Serializable.h */,
+				387C4CAB17301F5B0002CA0B /* Serializable.m */,
+				387C4CAD17301F970002CA0B /* CommonUtil.h */,
+				387C4CAE17301F970002CA0B /* CommonUtil.m */,
 			);
 			path = "ipad-stats2";
 			sourceTree = "<group>";
@@ -215,6 +240,19 @@
 				380F585817173845005ED397 /* Pitt_center.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		387C4CB0173020CE0002CA0B /* models */ = {
+			isa = PBXGroup;
+			children = (
+				387C4CBA17303AFC0002CA0B /* Play.h */,
+				387C4CBB17303AFD0002CA0B /* Play.m */,
+				387C4CB1173020E60002CA0B /* Game.h */,
+				387C4CB2173020E60002CA0B /* Game.m */,
+				387C4CB4173028D30002CA0B /* Stat.h */,
+				387C4CB5173028D30002CA0B /* Stat.m */,
+			);
+			name = models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -354,6 +392,12 @@
 				38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */,
 				38651F011729725700D99AB4 /* ScoreView.m in Sources */,
 				38651F0C1729CF3900D99AB4 /* StatAnalysisViewController.m in Sources */,
+				387C4CAC17301F5B0002CA0B /* Serializable.m in Sources */,
+				387C4CAF17301F970002CA0B /* CommonUtil.m in Sources */,
+				387C4CB3173020E60002CA0B /* Game.m in Sources */,
+				387C4CB6173028D30002CA0B /* Stat.m in Sources */,
+				387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */,
+				387C4CBC17303AFD0002CA0B /* Play.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
