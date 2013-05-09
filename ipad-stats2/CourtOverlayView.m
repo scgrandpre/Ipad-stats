@@ -46,11 +46,9 @@
                                  @{@"LABEL": @"RESULT", @"OPTIONS": @[@"ACE", @"ERROR", @"0", @"1", @"2", @"3", @"4"]},
                                  ],
                          @"PASS": @[
-                                 @{@"LABEL": @"SIDE", @"OPTIONS": @[@"L", @"FL", @"F", @"FR", @"R", @"BR", @"B", @"BL"]},
                                  @{@"LABEL": @"PLATFORM", @"OPTIONS": @[@"HANDS", @"ARMS"]},
                                  ],
                          @"DIG": @[
-                                 @{@"LABEL": @"SIDE", @"OPTIONS": @[@"L", @"FL", @"F", @"FR", @"R", @"BR", @"B", @"BL"]},
                                  @{@"LABEL": @"PLATFORM", @"OPTIONS": @[@"HANDS", @"ARMS"]},
                                  @{@"LABEL": @"RESULT", @"OPTIONS": @[@"ERROR", @"0", @"1", @"2", @"3", @"4"]},
                                  ],

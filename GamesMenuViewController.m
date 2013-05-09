@@ -51,8 +51,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Game* game = self.games[indexPath.row];
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    [delegate openGame:game];
-}
+    [delegate openGame:game];}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

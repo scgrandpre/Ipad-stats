@@ -5,7 +5,12 @@
 //  Created by Jim Grandpre on 4/11/13.
 //  Copyright (c) 2013 RIPP Volleyball. All rights reserved.
 //
+/*
+~/redis/redis-2.6.13/src/redis-server
 
+cd ~/Video Stats/ipad-stats2/server
+cake go
+*/
 #import "AppDelegate.h"
 #import "StatViewController.h"
 #import "DrawnStatViewController.h"
@@ -49,6 +54,7 @@
     root.navigationBar.hidden = YES;
     self.navigationController = root;
     SerializableManager *manager = [SerializableManager manager];
+    //[manager SaveSerializable:[Game stub] withCallback:^(NSObject<Serializable> *object) {}];
     self.games = [[NSMutableDictionary alloc] init];
     [manager GetAllSerializable:[Game class] callback:^(NSArray *games) {
         GamesMenuViewController *gamesMenu = [[GamesMenuViewController alloc] initWithGames:games];

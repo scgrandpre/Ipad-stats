@@ -73,7 +73,26 @@
     int kills = [self filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"KILL"}}].count;
     int hittingAttempts = [self filterEventsBy:@{@"skill": @"HIT"}].count;
     int hittingErrors = [self filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"ERROR"}}].count;
-    return [NSString stringWithFormat:@"Attempts: %i\nKills: %i\nErrors: %i\nHitting Average: %f", hittingAttempts, kills, hittingErrors, ((float)kills - hittingErrors)/hittingAttempts];
+
+    ///passing stat team 0
+    int passingAttempts = [self filterEventsBy:@{@"skill": @"SERVE"}].count; 
+    int pass4 = [self filterEventsBy:@{@"skill": @"SERVE", @"details": @{@"RESULT":@"4"}}].count;
+    int countPasses = 0;
+    //for (i in [self filterEventsBy:@{@"skill": @"SERVE"}]){
+    //    countPasses += i
+    
+    //}
+    //NSString *passStat = countPasses
+    
+    
+    NSLog(@"%d\n%d", passingAttempts, pass4);
+    
+    
+    return [NSString stringWithFormat:@"Attempts: %i\nKills: %i\nErrors: %i\nHitting Average: %f\n4 Passes: %i", hittingAttempts, kills, hittingErrors, ((float)kills - hittingErrors)/hittingAttempts, pass4];
+
+    
+    
+    
 }
 
 @end
