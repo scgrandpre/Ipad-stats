@@ -10,6 +10,7 @@
 #import "Serializable.h"
 
 @class Play;
+@class Game;
 
 @interface Game : NSObject <Serializable>
 
@@ -19,4 +20,7 @@
 
 - (void)addPlay:(Play*)play;
 + (Game*)stub;
+-(id)initWithGame:(Game*) game;
+-(NSArray*)filterEventsBy:(NSDictionary*) filter;
+
 @end

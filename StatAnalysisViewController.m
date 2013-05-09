@@ -37,46 +37,16 @@
     self.text.text = [self basicStats];
 }
 
--(void)forEachEvent:(void (^)(Stat*))each {
-    for(Play* play in self.game.plays) {
-        for(Stat* stat in play.stats) {
-            each(stat);
-        }
-    }
-}
-
--(BOOL)stat:(Stat*)stat matchesFilter:(NSDictionary*)filter {
-    NSString* filter_skill = filter[@"skill"];
-    if(filter_skill != nil && [filter_skill compare:stat.skill] != NSOrderedSame) return NO;
-    
-    if(filter[@"details"] != nil) {
-        for(NSString* detail in [filter[@"details"] allKeys]) {
-            NSString* filter_detail = filter[@"details"][detail];
-            if([filter_detail compare:stat.details[detail]] != NSOrderedSame) return NO;
-        }
-    }
-    return YES;
-}
-
--(NSArray*)filterEventsBy:(NSDictionary*) filter {
-    NSMutableArray *filtered = [[NSMutableArray alloc] init];
-    [self forEachEvent:^(Stat* stat){
-        if([self stat:stat matchesFilter:filter]) {
-            [filtered addObject: stat];
-        }
-    }];
-    return filtered;
-}
 
 - (NSString*)basicStats {
     ///kills by team 0
-    int kills = [self filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"KILL"}}].count;
-    int hittingAttempts = [self filterEventsBy:@{@"skill": @"HIT"}].count;
-    int hittingErrors = [self filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"ERROR"}}].count;
-
+    int kills = [self.game filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"KILL"}}].count;
+    int hittingAttempts = [self.game filterEventsBy:@{@"skill": @"HIT"}].count;
+    int hittingErrors = [self.game filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"ERROR"}}].count;
+    
     ///passing stat team 0
-    int passingAttempts = [self filterEventsBy:@{@"skill": @"SERVE"}].count; 
-    int pass4 = [self filterEventsBy:@{@"skill": @"SERVE", @"details": @{@"RESULT":@"4"}}].count;
+    int passingAttempts = [self.game filterEventsBy:@{@"skill": @"SERVE"}].count;
+    int pass4 = [self.game filterEventsBy:@{@"skill": @"SERVE", @"details": @{@"RESULT":@"4"}}].count;
     int countPasses = 0;
     //for (i in [self filterEventsBy:@{@"skill": @"SERVE"}]){
     //    countPasses += i
@@ -89,7 +59,7 @@
     
     
     return [NSString stringWithFormat:@"Attempts: %i\nKills: %i\nErrors: %i\nHitting Average: %f\n4 Passes: %i", hittingAttempts, kills, hittingErrors, ((float)kills - hittingErrors)/hittingAttempts, pass4];
-
+    
     
     
     
