@@ -20,7 +20,7 @@
 
 - (void)addPlay:(Play*)play;
 + (Game*)stub;
--(id)initWithGame:(Game*) game;
+- (id)initWithPlays:(NSMutableArray*)plays date:(NSDate*)date id:(NSString*)id;
 -(NSArray*)filterEventsBy:(NSDictionary*) filter;
 
 @end

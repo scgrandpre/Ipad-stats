@@ -41,6 +41,7 @@
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
+		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenChoiceViewController.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
+		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,7 @@
 		380F581B171711CE005ED397 /* ipad-stats2 */ = {
 			isa = PBXGroup;
 			children = (
+				F1CD0DB8173C8715006F4A32 /* Analysis */,
 				387C4CB0173020CE0002CA0B /* models */,
 				380F585117172EC5005ED397 /* images */,
 				380F5824171711CF005ED397 /* AppDelegate.h */,
@@ -253,6 +257,15 @@
 				387C4CB5173028D30002CA0B /* Stat.m */,
 			);
 			name = models;
+			sourceTree = "<group>";
+		};
+		F1CD0DB8173C8715006F4A32 /* Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */,
+				F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */,
+			);
+			name = Analysis;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,6 +411,7 @@
 				387C4CB6173028D30002CA0B /* Stat.m in Sources */,
 				387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */,
 				387C4CBC17303AFD0002CA0B /* Play.m in Sources */,
+				F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
