@@ -10,18 +10,24 @@
 #import "Game.h"
 #import "Play.h"
 #import "Stat.h"
+#import "StatAnalyzer.h"
 
 @interface StatAnalysisViewController ()
 @property UITextView *text;
 @property Game *game;
-
+@property StatAnalyzer *StatAnalyzer;
 @end
+
+
+
 
 @implementation StatAnalysisViewController
 
 -(id)initWithGame:(Game*) game {
     self = [super init];
     self.game = game;
+    self.StatAnalyzer = [[StatAnalyzer alloc] initWithGame: game];
+    
     return self;
 }
 

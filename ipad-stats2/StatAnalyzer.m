@@ -11,8 +11,10 @@
 #import "Play.h"
 #import "Stat.h"
 
+@interface StatAnalyzer ()
+@property Game* game;
+@end
 
-@class Game;
 @implementation StatAnalyzer
 
 -(id)initWithGame:(Game*) game {
@@ -21,19 +23,12 @@
     //look at other init with games
     //property declared
     
-    self.details = details;
-    self.skill = skill;
-    self.id = id;
-    return self;
-}
+    
+    self.game = game;
+    NSLog(@"%@",self.game);
+    NSLog(@"above is what a game looks like");
 
-+ (Stat*) fromDict: (NSDictionary*) dict {
-    return [[Stat alloc] initWithSkill:dict[@"skill"]
-                               details:dict[@"details"]
-                                    id:dict[@"id"]];
-}
     return self;
-    
-    
 }
+    
 @end

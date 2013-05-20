@@ -52,24 +52,24 @@
     
     // BORDER
     CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, 1*width, 1*height);
-    CGContextAddLineToPoint(ctx, 7*width, 1*height);
-    CGContextAddLineToPoint(ctx, 7*width, 4*height);
-    CGContextAddLineToPoint(ctx, 1*width, 4*height);
+    CGContextMoveToPoint(   ctx, 1*width, .5*height);
+    CGContextAddLineToPoint(ctx, 3*width, .5*height);
+    CGContextAddLineToPoint(ctx, 3*width, 4.5*height);
+    CGContextAddLineToPoint(ctx, 1*width, 4.5*height);
     CGContextClosePath(ctx);
     CGContextStrokePath(ctx);
     // NET
     CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, 4*width, 0.5*height);
-    CGContextAddLineToPoint(ctx, 4*width, 4.5*height);
+    CGContextMoveToPoint(   ctx, 1*width, 2.5*height);
+    CGContextAddLineToPoint(ctx, 3*width, 2.5*height);
     CGContextStrokePath(ctx);
     
     //10 FT Line
     CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, 3*width, 1*height);
-    CGContextAddLineToPoint(ctx, 3*width, 4*height);
-    CGContextMoveToPoint(   ctx, 5*width, 1*height);
-    CGContextAddLineToPoint(ctx, 5*width, 4*height);
+    CGContextMoveToPoint(   ctx, 1*width, 1.75*height);
+    CGContextAddLineToPoint(ctx, 3*width, 1.75*height);
+    CGContextMoveToPoint(   ctx, 1*width, 3.25*height);
+    CGContextAddLineToPoint(ctx, 3*width, 3.25*height);
     CGContextStrokePath(ctx);
 }
 

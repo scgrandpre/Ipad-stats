@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Game.h"
 
 @interface StatAnalyzer : NSObject
 
-
-
+-(id)initWithGame:(Game*) game;
 @end
+
