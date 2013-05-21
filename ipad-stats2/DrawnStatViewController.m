@@ -40,11 +40,11 @@
     DrawingView *drawing = [[DrawingView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.height, self.view.bounds.size.width) choose:^(NSArray *points) {
         NSLog(@"%@", points);
         
-        FullScreenChoiceViewController *chooser = [[FullScreenChoiceViewController alloc] initWithChoices:@[@"Intent to Score", @"Safe Hit"] choose:^(int choice) {
-            NSLog(@"%d", choice);
-            [self dismissViewControllerAnimated:NO completion:nil];
-        }];
-        [self presentViewController:chooser animated:NO completion:nil];
+     //   FullScreenChoiceViewController *chooser = [[FullScreenChoiceViewController alloc] initWithChoices:@[@"Intent to Score", @"Safe Hit"] choose:^(int choice) {
+     //       NSLog(@"%d", choice);
+     //       [self dismissViewControllerAnimated:NO completion:nil];
+     //   }];
+     //   [self presentViewController:chooser animated:NO completion:nil];
     }];
     [self.view addSubview:drawing];
 }

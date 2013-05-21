@@ -67,8 +67,8 @@
         
         self.currentStats = nil;
         
-        [self makeFrontRowPlayers];
-        [self makeBackRowPlayers];
+        //[self makeFrontRowPlayers];
+        //[self makeBackRowPlayers];
     }
     return self;
 }
