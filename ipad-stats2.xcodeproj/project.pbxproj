@@ -41,6 +41,8 @@
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
+		F170B4C9174D68FF00ED6597 /* PatternTable.h in Resources */ = {isa = PBXBuildFile; fileRef = F170B4C7174D68FF00ED6597 /* PatternTable.h */; };
+		F170B4CA174D68FF00ED6597 /* PatternTable.m in Resources */ = {isa = PBXBuildFile; fileRef = F170B4C8174D68FF00ED6597 /* PatternTable.m */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +109,8 @@
 		38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenChoiceViewController.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		F170B4C7174D68FF00ED6597 /* PatternTable.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = PatternTable.h; path = ../PatternTable.h; sourceTree = "<group>"; };
+		F170B4C8174D68FF00ED6597 /* PatternTable.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = PatternTable.m; path = ../PatternTable.m; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
 		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,6 +190,8 @@
 				380F584B171712F8005ED397 /* StatViewController.m */,
 				380F584D1717136B005ED397 /* CourtView.h */,
 				380F584E1717136B005ED397 /* CourtView.m */,
+				F170B4C7174D68FF00ED6597 /* PatternTable.h */,
+				F170B4C8174D68FF00ED6597 /* PatternTable.m */,
 				380F585B17173B07005ED397 /* CourtOverlayView.h */,
 				380F585C17173B07005ED397 /* CourtOverlayView.m */,
 				380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */,
@@ -345,6 +351,8 @@
 				380F582A171711CF005ED397 /* Default@2x.png in Resources */,
 				380F582C171711CF005ED397 /* Default-568h@2x.png in Resources */,
 				380F585917173845005ED397 /* Pitt_center.png in Resources */,
+				F170B4C9174D68FF00ED6597 /* PatternTable.h in Resources */,
+				F170B4CA174D68FF00ED6597 /* PatternTable.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

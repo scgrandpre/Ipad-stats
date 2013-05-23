@@ -64,6 +64,8 @@
     if(self.points.count > 0) {
         CGPoint point = [self.points[0] CGPointValue];
         CGContextMoveToPoint(ctx, point.x, point.y);
+        //NSLog(@"testing if this prints");
+        //NSLog(@"%f", point.x);ct
     }
     for(NSValue *pointVal in self.points) {
         CGPoint point = [pointVal CGPointValue];
