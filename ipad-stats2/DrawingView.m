@@ -7,6 +7,8 @@
 //
 
 #import "DrawingView.h"
+#import "EventEmitter.h"
+
 
 @interface DrawingView ()
 
@@ -17,6 +19,10 @@
 
 @implementation DrawingView
 
+- (id)initWithFrame:(CGRect)frame {
+    return [self initWithFrame:frame choose:nil];
+}
+
 - (id)initWithFrame:(CGRect)frame choose:(void (^)(NSArray*))choose {
     self = [super initWithFrame:frame];
     if (self) {
@@ -26,6 +32,17 @@
         self.choose = choose;
     }
     return self;
+}
+
+- (CGPoint)pointByNormalizingPoint:(CGPoint)point {
+    return CGPointMake((point.x - self.bounds.origin.x)/self.bounds.size.width,
+                       (point.y - self.bounds.origin.y)/self.bounds.size.height);
+}
+
+- (CGPoint)pointByExpandingPoint:(CGPoint)point {
+    return CGPointMake(point.x*self.bounds.size.width  + self.bounds.origin.x,
+                       point.y*self.bounds.size.height + self.bounds.origin.y);
+                      
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -42,13 +59,13 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = touches.anyObject;
     [self processTouch:touch];
-    self.choose(self.points);
+    [self emit:@"drew_line" data:self.points];
     self.points = [[NSMutableArray alloc] init];
 }
 
 - (void)processTouch:(UITouch*)touch {
     CGPoint location = [touch locationInView:self];
-    [self.points addObject: [NSValue valueWithCGPoint:location]];
+    [self.points addObject: [NSValue valueWithCGPoint:[self pointByNormalizingPoint:location]]];
     [self setNeedsDisplay];
 }
 
@@ -62,13 +79,14 @@
     CGContextSetLineWidth(ctx, 2);
     CGContextBeginPath(ctx);
     if(self.points.count > 0) {
-        CGPoint point = [self.points[0] CGPointValue];
+        CGPoint point = [self pointByExpandingPoint:[self.points[0] CGPointValue]];
         CGContextMoveToPoint(ctx, point.x, point.y);
+        [self.points emit:@"points" data:self.points];
         //NSLog(@"testing if this prints");
         //NSLog(@"%f", point.x);ct
     }
     for(NSValue *pointVal in self.points) {
-        CGPoint point = [pointVal CGPointValue];
+        CGPoint point = [self pointByExpandingPoint:[pointVal CGPointValue]];
         CGContextAddLineToPoint(ctx, point.x, point.y);
     }
     CGContextStrokePath(ctx);
