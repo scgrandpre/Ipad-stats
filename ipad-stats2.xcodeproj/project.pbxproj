@@ -44,6 +44,7 @@
 		F170B4C9174D68FF00ED6597 /* PatternTable.h in Resources */ = {isa = PBXBuildFile; fileRef = F170B4C7174D68FF00ED6597 /* PatternTable.h */; };
 		F170B4CA174D68FF00ED6597 /* PatternTable.m in Resources */ = {isa = PBXBuildFile; fileRef = F170B4C8174D68FF00ED6597 /* PatternTable.m */; };
 		F170B4D0174EB27F00ED6597 /* LinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4CF174EB27F00ED6597 /* LinesView.m */; };
+		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 /* End PBXBuildFile section */
 
@@ -114,6 +115,8 @@
 		F170B4C8174D68FF00ED6597 /* PatternTable.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = PatternTable.m; path = ../PatternTable.m; sourceTree = "<group>"; };
 		F170B4CE174EB27E00ED6597 /* LinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinesView.h; sourceTree = "<group>"; };
 		F170B4CF174EB27F00ED6597 /* LinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinesView.m; sourceTree = "<group>"; };
+		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
+		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
 		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,6 +204,8 @@
 				380F58601717418D005ED397 /* FancyMultipleButtonsView.m */,
 				38CD88B717271D420099A3EB /* DrawnStatViewController.h */,
 				38CD88B817271D420099A3EB /* DrawnStatViewController.m */,
+				F170B4D11757B92400ED6597 /* StatEntryView.h */,
+				F170B4D21757B92400ED6597 /* StatEntryView.m */,
 				F170B4CE174EB27E00ED6597 /* LinesView.h */,
 				F170B4CF174EB27F00ED6597 /* LinesView.m */,
 				38CD88BA17271E0A0099A3EB /* DrawingView.h */,
@@ -426,6 +431,7 @@
 				387C4CBC17303AFD0002CA0B /* Play.m in Sources */,
 				F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */,
 				F170B4D0174EB27F00ED6597 /* LinesView.m in Sources */,
+				F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

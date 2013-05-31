@@ -16,6 +16,8 @@
 #import <EventEmitter.h>
 #import "Play.h"
 #import "LinesView.h"
+#import "StatEntryView.h"
+
 
 
 @interface DrawnStatViewController ()
@@ -47,15 +49,27 @@
     LinesView* linesView = [[LinesView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.height, self.view.bounds.size.width)];
     [self.view addSubview:linesView];
     
+    StatEntryView *statsEntry = [[StatEntryView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.height, self.view.bounds.size.width)];
+    [statsEntry on:@"drew_line" callback:^(NSArray* points) {
+        [statsEntry currentState:@"pass"];
+        NSLog(@"%@",statsEntry);
+        NSLog(@"in statsEntry");
+    }];
     
+    
+    [self.view addSubview:statsEntry];
     
     DrawingView *drawing = [[DrawingView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.height, self.view.bounds.size.width)];
+    
+    
 
     [drawing on:@"drew_line" callback:^(NSArray* points) {
         linesView.lines = [linesView.lines arrayByAddingObject:points];
     }];
         
     [self.view addSubview:drawing];
+    
+
 }
 
 - (void)didReceiveMemoryWarning
