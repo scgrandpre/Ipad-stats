@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
 @class Game;
+
 
 @interface DrawnStatViewController : UIViewController
 - (id)initWithGame:(Game*)game;
+@property NSString* currentStateTest;
+
 @end

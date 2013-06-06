@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface StatEntryView : UIView
 - (id)initWithFrame:(CGRect)frame;
-- (void)currentState:(NSString*)state;
+- (NSString*)nextStateForLine:(NSArray*)line;
+@property NSMutableString* currentStateTest;
 
 @end

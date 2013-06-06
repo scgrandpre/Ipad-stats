@@ -50,10 +50,15 @@
     [self.view addSubview:linesView];
     
     StatEntryView *statsEntry = [[StatEntryView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.height, self.view.bounds.size.width)];
+    
+    
     [statsEntry on:@"drew_line" callback:^(NSArray* points) {
-        [statsEntry currentState:@"pass"];
-        NSLog(@"%@",statsEntry);
+        //[statsEntry currentState];
+        //StatEntryView * tmp = [StatEntryView state];
+        //NSLog(@"%@",state);
         NSLog(@"in statsEntry");
+
+        
     }];
     
     
@@ -65,6 +70,9 @@
 
     [drawing on:@"drew_line" callback:^(NSArray* points) {
         linesView.lines = [linesView.lines arrayByAddingObject:points];
+        [statsEntry nextStateForLine:points];
+        NSLog(@"in drew_line");
+        
     }];
         
     [self.view addSubview:drawing];

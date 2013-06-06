@@ -8,6 +8,8 @@
 
 #import "LinesView.h"
 #import "DrawnStatViewController.h"
+#import "StatEntryView.h"
+
 
 @implementation LinesView
 @synthesize lines = _lines;
@@ -70,6 +72,8 @@
     NSLog(@"%@", self.lines);
     for (NSArray* line in self.lines) {
         [self drawLine:line withContext:ctx];
+        
+        
     }
 }
 
