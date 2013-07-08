@@ -7,57 +7,16 @@
 //
 
 #import "StatViewController.h"
-#import "CourtView.h"
-#import "ScoreView.h"
-#import "EventEmitter.h"
+#import "StatEntryView.h"
+#import <EventEmitter/EventEmitter.h>
 #import "Game.h"
-#import "Stat.h"
 #import "Play.h"
-
-@interface RotationButtonView : UIView
-@property (strong) void (^rotate)(int);
-@end
-
-@implementation RotationButtonView
-
-- (id)initWithFrame:(CGRect)frame rotate:(void (^)(int)) rotate {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.rotate = rotate;
-        
-        float width = self.bounds.size.width/2;
-        
-        UIButton *rotateBack = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        rotateBack.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, width, self.bounds.size.height);
-        rotateBack.titleLabel.font = [UIFont systemFontOfSize:16];
-        [rotateBack setTitle:@"-1" forState:UIControlStateNormal];
-        [rotateBack addTarget:self action:@selector(rotateBack:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview: rotateBack];
-        
-        UIButton *rotateForward = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        rotateForward.frame = CGRectMake(self.bounds.origin.x + width, self.bounds.origin.y, width, self.bounds.size.height);
-        rotateForward.titleLabel.font = [UIFont systemFontOfSize:16];
-        [rotateForward setTitle:@"+1" forState:UIControlStateNormal];
-        [rotateForward addTarget:self action:@selector(rotateForward:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview: rotateForward];
-        
-    }
-    return self;
-}
-
-- (void)rotateBack:(UIButton*)button {
-    self.rotate(-1);
-}
-
-- (void)rotateForward:(UIButton*)button {
-    self.rotate(1);
-}
-
-@end
+#import "Stat.h"
+#import "PlayListView.h"
 
 @interface StatViewController ()
-@property int servingTeam;
 @property Game* game;
+
 @end
 
 @implementation StatViewController
@@ -66,55 +25,32 @@
     self = [super init];
     if (self) {
         self.game = game;
-        self.servingTeam = 0;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CourtView *court = [[CourtView alloc] initWithFrame:CGRectMake(0,50,1024,592)];
+
+    StatEntryView *statEntryView = [[StatEntryView alloc] initWithFrame:CGRectMake(0,0,700,592)]; //we have 324 to work with on the right side
+    [self.view addSubview:statEntryView];
+
     
-    ScoreView *scoreView = [[ScoreView alloc] initWithFrame:CGRectMake(0, 0, 200, 100) flipped:NO increment: ^{
-        if(self.servingTeam != 0) {
-            [court rotateWithTeam:@"0" increment:1];
-            self.servingTeam = 0;
-        }
+    PlayListView *playListView = [[PlayListView alloc] initWithFrame:CGRectMake(700, 00, 324, 592) game:self.game];
+    [self.view addSubview:playListView];
+    
+    [statEntryView on:@"play-added" callback:^(Play* play) {
+        NSLog(@"Adding play");
+        [self.game.plays addObject:play];
     }];
-    [self.view addSubview:scoreView];
     
-    RotationButtonView *rotationButtons = [[RotationButtonView alloc] initWithFrame:CGRectMake(250, 0, 133, 50) rotate:^(int increment) {
-        [court rotateWithTeam:@"0" increment:increment];
+    [statEntryView on:@"stat-added" callback:^(Stat* stat) {
+         NSLog(@"Adding stat");
+        [playListView refresh];
     }];
-    [self.view addSubview:rotationButtons];
-    
-    ScoreView *otherScoreView = [[ScoreView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x + self.view.bounds.size.height - 200, self.view.bounds.origin.y, 200, 100) flipped: YES increment:^{
-        if(self.servingTeam != 1) {
-            [court rotateWithTeam:@"1" increment:1];
-            self.servingTeam = 1;
-        }
-    }];
-    [self.view addSubview:otherScoreView];
-    
-    RotationButtonView *otherRotationButtons = [[RotationButtonView alloc] initWithFrame:CGRectMake(self.view.bounds.size.height - (250 + 133), 0, 133, 50) rotate:^(int increment) {
-        [court rotateWithTeam:@"1" increment:increment];
-    }];
-    [self.view addSubview:otherRotationButtons];
-    
+
     self.view.backgroundColor = [UIColor clearColor];
- 
-    [self.view addSubview:court];
     
-    [court on:@"end_play" callback:^(Play* play) {
-        NSLog(@"%@", play);
-        NSString *winner = play.winner;
-        if([winner compare: @"0"] == NSOrderedSame) {
-            [scoreView increment];
-        } else {
-            [otherScoreView increment];
-        }
-        [self.game addPlay:play];
-    }];
     
 
 }

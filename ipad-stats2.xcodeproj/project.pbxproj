@@ -26,9 +26,6 @@
 		380F58501717136B005ED397 /* CourtView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F584E1717136B005ED397 /* CourtView.m */; };
 		380F585917173845005ED397 /* Pitt_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F585817173845005ED397 /* Pitt_center.png */; };
 		380F585A17173845005ED397 /* Pitt_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F585817173845005ED397 /* Pitt_center.png */; };
-		380F585D17173B07005ED397 /* CourtOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F585C17173B07005ED397 /* CourtOverlayView.m */; };
-		380F585E17173B07005ED397 /* CourtOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F585C17173B07005ED397 /* CourtOverlayView.m */; };
-		380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F58601717418D005ED397 /* FancyMultipleButtonsView.m */; };
 		38651F011729725700D99AB4 /* ScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38651F001729725700D99AB4 /* ScoreView.m */; };
 		38651F0C1729CF3900D99AB4 /* StatAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38651F0B1729CF3900D99AB4 /* StatAnalysisViewController.m */; };
 		387C4CAC17301F5B0002CA0B /* Serializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CAB17301F5B0002CA0B /* Serializable.m */; };
@@ -37,15 +34,12 @@
 		387C4CB6173028D30002CA0B /* Stat.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB5173028D30002CA0B /* Stat.m */; };
 		387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB8173033970002CA0B /* GamesMenuViewController.m */; };
 		387C4CBC17303AFD0002CA0B /* Play.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CBB17303AFD0002CA0B /* Play.m */; };
-		38CD88B917271D420099A3EB /* DrawnStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88B817271D420099A3EB /* DrawnStatViewController.m */; };
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
-		38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
-		F170B4C9174D68FF00ED6597 /* PatternTable.h in Resources */ = {isa = PBXBuildFile; fileRef = F170B4C7174D68FF00ED6597 /* PatternTable.h */; };
-		F170B4CA174D68FF00ED6597 /* PatternTable.m in Resources */ = {isa = PBXBuildFile; fileRef = F170B4C8174D68FF00ED6597 /* PatternTable.m */; };
-		F170B4D0174EB27F00ED6597 /* LinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4CF174EB27F00ED6597 /* LinesView.m */; };
 		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
+		F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B681770099F00D63DD8 /* PlayListView.m */; };
+		F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,10 +77,6 @@
 		380F584D1717136B005ED397 /* CourtView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtView.h; sourceTree = "<group>"; };
 		380F584E1717136B005ED397 /* CourtView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtView.m; sourceTree = "<group>"; };
 		380F585817173845005ED397 /* Pitt_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pitt_center.png; sourceTree = "<group>"; };
-		380F585B17173B07005ED397 /* CourtOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtOverlayView.h; sourceTree = "<group>"; };
-		380F585C17173B07005ED397 /* CourtOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtOverlayView.m; sourceTree = "<group>"; };
-		380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FancyMultipleButtonsView.h; sourceTree = "<group>"; };
-		380F58601717418D005ED397 /* FancyMultipleButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FancyMultipleButtonsView.m; sourceTree = "<group>"; };
 		38651EFF1729725700D99AB4 /* ScoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScoreView.h; path = "ipad-stats2/ScoreView.h"; sourceTree = "<group>"; };
 		38651F001729725700D99AB4 /* ScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScoreView.m; path = "ipad-stats2/ScoreView.m"; sourceTree = "<group>"; };
 		38651F0A1729CF3900D99AB4 /* StatAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalysisViewController.h; sourceTree = "<group>"; };
@@ -103,22 +93,18 @@
 		387C4CB8173033970002CA0B /* GamesMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMenuViewController.m; sourceTree = "<group>"; };
 		387C4CBA17303AFC0002CA0B /* Play.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Play.h; path = ../Play.h; sourceTree = "<group>"; };
 		387C4CBB17303AFD0002CA0B /* Play.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Play.m; path = ../Play.m; sourceTree = "<group>"; };
-		38CD88B717271D420099A3EB /* DrawnStatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawnStatViewController.h; sourceTree = "<group>"; };
-		38CD88B817271D420099A3EB /* DrawnStatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawnStatViewController.m; sourceTree = "<group>"; };
 		38CD88BA17271E0A0099A3EB /* DrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
 		38CD88BB17271E0A0099A3EB /* DrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
-		38E4A7FC17272C8100C7E1AF /* FullScreenChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenChoiceViewController.h; sourceTree = "<group>"; };
-		38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenChoiceViewController.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		F170B4C7174D68FF00ED6597 /* PatternTable.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = PatternTable.h; path = ../PatternTable.h; sourceTree = "<group>"; };
-		F170B4C8174D68FF00ED6597 /* PatternTable.m */ = {isa = PBXFileReference; lastKnownFileType = file; name = PatternTable.m; path = ../PatternTable.m; sourceTree = "<group>"; };
-		F170B4CE174EB27E00ED6597 /* LinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinesView.h; sourceTree = "<group>"; };
-		F170B4CF174EB27F00ED6597 /* LinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinesView.m; sourceTree = "<group>"; };
 		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
 		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
 		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
+		F1CE9B671770099F00D63DD8 /* PlayListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayListView.h; sourceTree = "<group>"; };
+		F1CE9B681770099F00D63DD8 /* PlayListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayListView.m; sourceTree = "<group>"; };
+		F1CE9B6A17700B0700D63DD8 /* PlayListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayListViewCell.h; sourceTree = "<group>"; };
+		F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayListViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,27 +182,19 @@
 				380F584B171712F8005ED397 /* StatViewController.m */,
 				380F584D1717136B005ED397 /* CourtView.h */,
 				380F584E1717136B005ED397 /* CourtView.m */,
-				F170B4C7174D68FF00ED6597 /* PatternTable.h */,
-				F170B4C8174D68FF00ED6597 /* PatternTable.m */,
-				380F585B17173B07005ED397 /* CourtOverlayView.h */,
-				380F585C17173B07005ED397 /* CourtOverlayView.m */,
-				380F585F1717418D005ED397 /* FancyMultipleButtonsView.h */,
-				380F58601717418D005ED397 /* FancyMultipleButtonsView.m */,
-				38CD88B717271D420099A3EB /* DrawnStatViewController.h */,
-				38CD88B817271D420099A3EB /* DrawnStatViewController.m */,
 				F170B4D11757B92400ED6597 /* StatEntryView.h */,
 				F170B4D21757B92400ED6597 /* StatEntryView.m */,
-				F170B4CE174EB27E00ED6597 /* LinesView.h */,
-				F170B4CF174EB27F00ED6597 /* LinesView.m */,
 				38CD88BA17271E0A0099A3EB /* DrawingView.h */,
 				38CD88BB17271E0A0099A3EB /* DrawingView.m */,
-				38E4A7FC17272C8100C7E1AF /* FullScreenChoiceViewController.h */,
-				38E4A7FD17272C8100C7E1AF /* FullScreenChoiceViewController.m */,
-				380F581C171711CE005ED397 /* Supporting Files */,
+				F1CE9B671770099F00D63DD8 /* PlayListView.h */,
+				F1CE9B681770099F00D63DD8 /* PlayListView.m */,
+				F1CE9B6A17700B0700D63DD8 /* PlayListViewCell.h */,
+				F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */,
 				387C4CAA17301F5B0002CA0B /* Serializable.h */,
 				387C4CAB17301F5B0002CA0B /* Serializable.m */,
 				387C4CAD17301F970002CA0B /* CommonUtil.h */,
 				387C4CAE17301F970002CA0B /* CommonUtil.m */,
+				380F581C171711CE005ED397 /* Supporting Files */,
 			);
 			path = "ipad-stats2";
 			sourceTree = "<group>";
@@ -361,8 +339,6 @@
 				380F582A171711CF005ED397 /* Default@2x.png in Resources */,
 				380F582C171711CF005ED397 /* Default-568h@2x.png in Resources */,
 				380F585917173845005ED397 /* Pitt_center.png in Resources */,
-				F170B4C9174D68FF00ED6597 /* PatternTable.h in Resources */,
-				F170B4CA174D68FF00ED6597 /* PatternTable.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,11 +392,7 @@
 				380F5826171711CF005ED397 /* AppDelegate.m in Sources */,
 				380F584C171712F8005ED397 /* StatViewController.m in Sources */,
 				380F584F1717136B005ED397 /* CourtView.m in Sources */,
-				380F585D17173B07005ED397 /* CourtOverlayView.m in Sources */,
-				380F58611717418E005ED397 /* FancyMultipleButtonsView.m in Sources */,
-				38CD88B917271D420099A3EB /* DrawnStatViewController.m in Sources */,
 				38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */,
-				38E4A7FE17272C8100C7E1AF /* FullScreenChoiceViewController.m in Sources */,
 				38651F011729725700D99AB4 /* ScoreView.m in Sources */,
 				38651F0C1729CF3900D99AB4 /* StatAnalysisViewController.m in Sources */,
 				387C4CAC17301F5B0002CA0B /* Serializable.m in Sources */,
@@ -430,8 +402,9 @@
 				387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */,
 				387C4CBC17303AFD0002CA0B /* Play.m in Sources */,
 				F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */,
-				F170B4D0174EB27F00ED6597 /* LinesView.m in Sources */,
 				F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */,
+				F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */,
+				F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +414,6 @@
 			files = (
 				380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */,
 				380F58501717136B005ED397 /* CourtView.m in Sources */,
-				380F585E17173B07005ED397 /* CourtOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

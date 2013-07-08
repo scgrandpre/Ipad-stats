@@ -13,5 +13,6 @@
 - (id)initWithFrame:(CGRect)frame;
 - (NSString*)nextStateForLine:(NSArray*)line;
 @property NSMutableString* currentStateTest;
+@property (strong) NSMutableDictionary* currentPlay;
 
 @end

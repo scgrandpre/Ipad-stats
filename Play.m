@@ -12,7 +12,11 @@
 
 @implementation Play
 
-- initWithStats:(NSArray*)stats winner:(NSString*)winner rotation:(NSDictionary*)rotation gameID:(NSString*)gameID id:(NSString*)id {
+- init {
+    return [self initWithStats:[[NSMutableArray alloc] init] winner:nil rotation:nil gameID:nil id:nil];
+}
+
+- initWithStats:(NSMutableArray*)stats winner:(NSString*)winner rotation:(NSDictionary*)rotation gameID:(NSString*)gameID id:(NSString*)id {
     self = [super init];
     self.stats = stats;
     self.winner = winner;
@@ -23,7 +27,7 @@
 }
 
 + (Play*) fromDict: (NSDictionary*) dict {
-    NSArray *stats = map(dict[@"stats"], ^(NSDictionary* stat){
+    NSMutableArray *stats = map(dict[@"stats"], ^(NSDictionary* stat){
         return [Stat fromDict:stat];
     });
     
@@ -53,7 +57,7 @@
 }
 
 + (Play*)stub {
-    return [[Play alloc] initWithStats:@[[Stat stub]] winner:@"0" rotation:@{@"0":@0, @"1":@1} gameID:@"0" id:nil];
+    return [[Play alloc] initWithStats:[[NSMutableArray alloc] initWithArray:@[[Stat stub]]] winner:@"0" rotation:@{@"0":@0, @"1":@1} gameID:@"0" id:nil];
 }
 
 @end

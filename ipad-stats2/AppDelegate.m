@@ -6,14 +6,36 @@
 //  Copyright (c) 2013 RIPP Volleyball. All rights reserved.
 //
 /*
-~/redis/redis-2.6.13/src/redis-server
+Finish State Machine
+ 
+ 
+ add top menu
+ add buttons
+    Make a view that takes a list of strings, make a button with the string on it.
+    when you hit the button it will emit an event.
+ 
+    Each time the state changes, the buttons can change
+    use a property 
+    when you set the property, remove subviews (like jim did in playlistviewcell)
+    then go through and add buttons with the correct subviews
+ 
+    Can start with 4 buttons, and show or hide them
+ 
+ 
+ Add buttons work in playListMenu
+    make them work
+ 
+ 
+ 
+ ~/redis/redis-2.6.13/src/redis-server
 
-cd ~/Video Stats/ipad-stats2/server
+ 
+ 
+ cd ~/Video Stats/ipad-stats2/server
 cake go
 */
 #import "AppDelegate.h"
 #import "StatViewController.h"
-#import "DrawnStatViewController.h"
 #import "StatAnalysisViewController.h"
 #import "Game.h"
 #import "Play.h"
@@ -34,7 +56,7 @@ cake go
 
 - (void)openGame:(Game*) game {
     UIViewController *mainViewController = [[StatViewController alloc] initWithGame: game];
-    UIViewController *otherViewController = [[DrawnStatViewController alloc] initWithGame: game];
+    UIViewController *otherViewController = [[StatViewController alloc] initWithGame: game];
     UIViewController *analysisViewController = [[StatAnalysisViewController alloc] initWithGame: game];
     UITabBarController *tabBar = [[UITabBarController alloc] init];
     tabBar.viewControllers = @[mainViewController, otherViewController, analysisViewController];

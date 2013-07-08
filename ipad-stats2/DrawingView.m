@@ -13,23 +13,16 @@
 @interface DrawingView ()
 
 @property (strong) NSMutableArray *points;
-@property (strong) void (^choose)(NSArray*);
 
 @end
 
 @implementation DrawingView
 
 - (id)initWithFrame:(CGRect)frame {
-    return [self initWithFrame:frame choose:nil];
-}
-
-- (id)initWithFrame:(CGRect)frame choose:(void (^)(NSArray*))choose {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
         self.points = [[NSMutableArray alloc] init];
-        self.choose = choose;
     }
     return self;
 }
@@ -59,7 +52,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = touches.anyObject;
     [self processTouch:touch];
-    [self emit:@"drew_line" data:self.points];
+    [self emit:@"drew-line" data:self.points];
     self.points = [[NSMutableArray alloc] init];
 }
 
@@ -81,9 +74,6 @@
     if(self.points.count > 0) {
         CGPoint point = [self pointByExpandingPoint:[self.points[0] CGPointValue]];
         CGContextMoveToPoint(ctx, point.x, point.y);
-        [self.points emit:@"points" data:self.points];
-        //NSLog(@"testing if this prints");
-        //NSLog(@"%f", point.x);ct
     }
     for(NSValue *pointVal in self.points) {
         CGPoint point = [self pointByExpandingPoint:[pointVal CGPointValue]];

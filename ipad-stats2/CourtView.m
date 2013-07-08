@@ -7,12 +7,13 @@
 //
 
 #import "CourtView.h"
-#import "CourtOverlayView.h"
+#import "DrawingView.h"
 #import <EventEmitter.h>
 #import "Play.h"
 
+static float PADDING_RATIO = 1/8.f;
+
 @interface CourtView ()
-@property (strong) CourtOverlayView* overlay;
 
 @end
 
@@ -22,72 +23,59 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        //UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Pitt_center"]];
-        //background.frame = self.bounds;
-        //[self addSubview:background];
         self.backgroundColor = [UIColor clearColor];
-        self.overlay = [[CourtOverlayView alloc] initWithFrame:self.bounds];
-        [self addSubview:self.overlay];
         
-        [self.overlay on:@"end_play" callback:^(Play* play) {
-            [self emit:@"end_play" data:play];
+        DrawingView *drawingView = [[DrawingView alloc] initWithFrame:self.bounds];
+        [self addSubview:drawingView];
+        
+        [drawingView on:@"drew-line" callback:^(NSArray* line) {
+            NSMutableArray *normalized = [[NSMutableArray alloc] init];
+
+            
+            for (NSValue *pointValue in line) {
+                CGPoint point = [pointValue CGPointValue];
+                
+                point.x = (point.x*2 - 1) / (1 - 2*PADDING_RATIO);
+                point.y = (point.y - .5) / (1 - 2*PADDING_RATIO);
+                
+                [normalized addObject:[NSValue valueWithCGPoint:point]];
+            }
+            [self emit:@"drew-line" data:normalized];
         }];
-        
-        
     }
     return self;
-
-}
-
-- (void)rotateWithTeam:(NSString*)team increment:(int)increment {
-    [self.overlay rotateWithTeam:team increment:increment];
 }
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    float width = self.bounds.size.width/8;
-    float height = self.bounds.size.height/5;
+    float width = self.bounds.size.width;
+    float height = self.bounds.size.height;
     CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
     CGContextSetLineWidth(ctx, 4);
     
+    CGFloat left   =          PADDING_RATIO * width;
+    CGFloat top    =          PADDING_RATIO * height;
+    CGFloat right  = width -  PADDING_RATIO * width;
+    CGFloat bottom = height - PADDING_RATIO * height;
+    
     // BORDER
     CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, .2*width,   2*height);
-    CGContextAddLineToPoint(ctx,  6*width,   2*height);
-    CGContextAddLineToPoint(ctx,  6*width, 4.9*height);
-    CGContextAddLineToPoint(ctx, .2*width, 4.9*height);
+    CGContextMoveToPoint(   ctx, left,  top);
+    CGContextAddLineToPoint(ctx, left,  bottom);
+    CGContextAddLineToPoint(ctx, right, bottom);
+    CGContextAddLineToPoint(ctx, right, top);
     CGContextClosePath(ctx);
-    CGContextStrokePath(ctx);
+    
     // NET
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, 3.1*width,  2*height);
-    CGContextAddLineToPoint(ctx, 3.1*width, 4.9*height);
-    CGContextStrokePath(ctx);
+    CGFloat net_x = (left + right)/2;
+    CGContextMoveToPoint(   ctx, net_x, top);
+    CGContextAddLineToPoint(ctx, net_x, bottom);
     
-    //10 FT Line
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, 2.14*width,  2*height);
-    CGContextAddLineToPoint(ctx, 2.14*width, 4.9*height);
-    CGContextMoveToPoint(   ctx, 4.06*width,  2*height);
-    CGContextAddLineToPoint(ctx, 4.06*width, 4.9*height);
-    CGContextStrokePath(ctx);
-    
-    //sample table
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, .2*width, .25*height);
-    CGContextAddLineToPoint(ctx, 6*width, .25*height);
-    CGContextAddLineToPoint(ctx, 6*width, 1.25 *height);
-    CGContextAddLineToPoint(ctx, .2*width, 1.25 *height);
-    CGContextClosePath(ctx);
-    CGContextStrokePath(ctx);
-    
-    //sample pattern
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(   ctx, 6.5*width, .25*height);
-    CGContextAddLineToPoint(ctx, 6.5*width, 4.9*height);
-    CGContextAddLineToPoint(ctx, 7.9*width, 4.9*height);
-    CGContextAddLineToPoint(ctx, 7.9*width, .25*height);
-    CGContextClosePath(ctx);
+    //10 FT Lines
+    CGContextMoveToPoint(   ctx, left +   (right - left)/3.f,  top);
+    CGContextAddLineToPoint(ctx, left +   (right - left)/3.f,  bottom);
+    CGContextMoveToPoint(   ctx, left + 2*(right - left)/3.f,  top);
+    CGContextAddLineToPoint(ctx, left + 2*(right - left)/3.f,  bottom);
     CGContextStrokePath(ctx);
 
 }
