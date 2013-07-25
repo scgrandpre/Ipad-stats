@@ -13,7 +13,7 @@
 
 @property (strong) NSString* id;
 @property (strong) NSString* skill;
-@property (strong) NSDictionary* details;
+@property (strong) NSMutableDictionary* details;
 
 - (id)initWithSkill:(NSString*)skill details:(NSDictionary*)details id:(NSString*)id;
 

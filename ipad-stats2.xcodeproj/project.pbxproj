@@ -37,6 +37,8 @@
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
+		F1A07127178B7A9700FED04E /* StatEventButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07126178B7A9700FED04E /* StatEventButtonsView.m */; };
+		F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07129178B8BE600FED04E /* StatListViewCell.m */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 		F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B681770099F00D63DD8 /* PlayListView.m */; };
 		F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */; };
@@ -99,6 +101,10 @@
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
 		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
+		F1A07125178B7A9700FED04E /* StatEventButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEventButtonsView.h; sourceTree = "<group>"; };
+		F1A07126178B7A9700FED04E /* StatEventButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEventButtonsView.m; sourceTree = "<group>"; };
+		F1A07128178B8BE600FED04E /* StatListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatListViewCell.h; sourceTree = "<group>"; };
+		F1A07129178B8BE600FED04E /* StatListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatListViewCell.m; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
 		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
 		F1CE9B671770099F00D63DD8 /* PlayListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayListView.h; sourceTree = "<group>"; };
@@ -184,10 +190,14 @@
 				380F584E1717136B005ED397 /* CourtView.m */,
 				F170B4D11757B92400ED6597 /* StatEntryView.h */,
 				F170B4D21757B92400ED6597 /* StatEntryView.m */,
+				F1A07125178B7A9700FED04E /* StatEventButtonsView.h */,
+				F1A07126178B7A9700FED04E /* StatEventButtonsView.m */,
 				38CD88BA17271E0A0099A3EB /* DrawingView.h */,
 				38CD88BB17271E0A0099A3EB /* DrawingView.m */,
 				F1CE9B671770099F00D63DD8 /* PlayListView.h */,
 				F1CE9B681770099F00D63DD8 /* PlayListView.m */,
+				F1A07128178B8BE600FED04E /* StatListViewCell.h */,
+				F1A07129178B8BE600FED04E /* StatListViewCell.m */,
 				F1CE9B6A17700B0700D63DD8 /* PlayListViewCell.h */,
 				F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */,
 				387C4CAA17301F5B0002CA0B /* Serializable.h */,
@@ -405,6 +415,8 @@
 				F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */,
 				F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */,
 				F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */,
+				F1A07127178B7A9700FED04E /* StatEventButtonsView.m in Sources */,
+				F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

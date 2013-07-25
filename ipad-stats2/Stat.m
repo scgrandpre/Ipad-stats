@@ -10,7 +10,7 @@
 
 @implementation Stat
 
-- (id)initWithSkill:(NSString*)skill details:(NSDictionary*)details id:(NSString*)id {
+- (id)initWithSkill:(NSString*)skill details:(NSMutableDictionary*)details id:(NSString*)id {
     self = [super init];
     self.details = details;
     self.skill = skill;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class Play;
-@interface PlayListViewCell : UITableViewCell
+@interface PlayListViewCell : UITableViewCell <UITableViewDataSource, UITableViewDelegate>
 
 - (void)updateWithPlay:(Play*)play;
 

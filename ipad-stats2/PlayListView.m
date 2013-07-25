@@ -28,6 +28,7 @@
         
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.allowsSelection = NO;
     }
     return self;
 }
@@ -53,7 +54,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = ((Play*)self.game.plays[indexPath.row]).stats.count * 50 + 20;
+    NSIndexPath *selection = [tableView indexPathForSelectedRow];
+    CGFloat selected = 0;
+    if (selection == indexPath) {
+        selected = 300;
+    }
+    
+    CGFloat height = ((Play*)self.game.plays[indexPath.row]).stats.count * 50 + 40 + selected;
     if (indexPath.row == self.game.plays.count - 1) {
         return MAX(height, self.bounds.size.height);
     } else {
@@ -63,6 +70,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Selected row at %@!", indexPath);
+    [tableView beginUpdates];
+    [tableView endUpdates];
 }
 
 @end
