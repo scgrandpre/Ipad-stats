@@ -10,24 +10,32 @@
 
 @implementation Stat
 
-- (id)initWithSkill:(NSString*)skill details:(NSMutableDictionary*)details id:(NSString*)id {
+- (id)initWithSkill:(NSString*)skill details:(NSMutableDictionary*)details player:(NSString*)player id:(NSString*)id {
     self = [super init];
     self.details = details;
     self.skill = skill;
+    self.player = player;
+    self.timestamp = [NSDate date];
     self.id = id;
     return self;
 }
 
 + (Stat*) fromDict: (NSDictionary*) dict {
-    return [[Stat alloc] initWithSkill:dict[@"skill"]
+    Stat* stat = [[Stat alloc] initWithSkill:dict[@"skill"]
                                details:dict[@"details"]
+                                player:dict[@"player"]
                                     id:dict[@"id"]];
+    stat.timestamp = [NSDate dateWithTimeIntervalSince1970:[dict[@"timestamp"] doubleValue]];
+    return stat;
+    
 }
 
 - (NSDictionary*) asDict {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary: @{
                                  @"skill": self.skill,
-                                 @"details": self.details
+                                 @"details": self.details,
+                                 @"player": self.player,
+                                 @"timestamp": [NSNumber numberWithDouble:[self.timestamp timeIntervalSince1970]]
                                  }];
     
     if(self.id) {
@@ -43,6 +51,7 @@
 + (Stat*)stub {
     return [[Stat alloc] initWithSkill:@"HIT"
                                details:@{@"BLOCKERS":@"3", @"HANDS":@"HANDS", @"RESULT":@"KILL"}
+                                player:@"nobody"
                                     id:nil];
 }
 

@@ -41,10 +41,7 @@ module.exports = (app) ->
     {die_on_error, fail_on_error, arg_map} = require './util'
     {add_type, PREFIX: REST_PREFIX} = require './rest'
 
-    game_type = add_type app, 'game',
-        after_get: (game, callback) ->
-            game_type.load_child_list game, 'plays', play_type, callback
-
+    game_type = add_type app, 'game'
     play_type = add_type app, 'play',
         after_add: (play, callback) ->
             io.sockets.emit 'add-play', play

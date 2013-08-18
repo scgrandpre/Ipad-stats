@@ -57,11 +57,7 @@ module.exports = function(app) {
   _ref = require('./persist'), redis = _ref.redis, get_json = _ref.get_json;
   _ref1 = require('./util'), die_on_error = _ref1.die_on_error, fail_on_error = _ref1.fail_on_error, arg_map = _ref1.arg_map;
   _ref2 = require('./rest'), add_type = _ref2.add_type, REST_PREFIX = _ref2.PREFIX;
-  game_type = add_type(app, 'game', {
-    after_get: function(game, callback) {
-      return game_type.load_child_list(game, 'plays', play_type, callback);
-    }
-  });
+  game_type = add_type(app, 'game');
   play_type = add_type(app, 'play', {
     after_add: function(play, callback) {
       io.sockets.emit('add-play', play);

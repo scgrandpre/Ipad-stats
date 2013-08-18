@@ -91,7 +91,9 @@
         WriteData(url, dict, ^(NSURLResponse* response, NSData* result, NSError* error) {
             NSError *JSONReadingError;
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:result options:0 error:&JSONReadingError];
-            object.id = [dict objectForKey:@"id"];
+            if (dict != nil) {
+                object.id = [dict objectForKey:@"id"];
+            }
             callback(object);
             [self finishSaving: object];
         });

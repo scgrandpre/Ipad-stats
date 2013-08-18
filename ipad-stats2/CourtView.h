@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CourtView : UIView
-- (void)rotateWithTeam:(NSString*)team increment:(int)increment;
+
+- (void)rotateTeam:(int)team;
+- (void)subPlayer:(NSString*)player;
 @end

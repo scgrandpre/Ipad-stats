@@ -43,6 +43,7 @@ cake go
 #import "Serializable.h"
 #import <SocketIO.h>
 #import <SocketIOPacket.h>
+#import "CommonUtil.h"
 
 @interface AppDelegate ()
 
@@ -77,15 +78,22 @@ cake go
     self.navigationController = root;
     SerializableManager *manager = [SerializableManager manager];
     //[manager SaveSerializable:[Game stub] withCallback:^(NSObject<Serializable> *object) {}];
+    
     self.games = [[NSMutableDictionary alloc] init];
-    [manager GetAllSerializable:[Game class] callback:^(NSArray *games) {
+    
+    /*[manager GetAllSerializable:[Game class] callback:^(NSArray *games) {
         GamesMenuViewController *gamesMenu = [[GamesMenuViewController alloc] initWithGames:games];
         for(Game* game in games) {
             self.games[game.id] = game;
         }
+        
         [root pushViewController:gamesMenu animated:NO];
-    }];
-    
+    }];*/
+    Game *game = [Game stub];
+    NSArray *games = @[game];
+    game.id = generateRandomString(8);
+    GamesMenuViewController *gamesMenu = [[GamesMenuViewController alloc] initWithGames:games];
+    self.games[game.id] = game;
     
     [self.window setRootViewController:root];
     
@@ -93,7 +101,7 @@ cake go
     self.window.backgroundColor = [UIColor whiteColor];
 
     [self.window makeKeyAndVisible];
-    
+    [root pushViewController:gamesMenu animated:NO];
     
     SocketIO *socketIO = [[SocketIO alloc] initWithDelegate:self];
     [socketIO connectToHost:@"localhost" onPort:8338];

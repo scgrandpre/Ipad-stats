@@ -42,6 +42,7 @@
     UITouch *touch = touches.anyObject;
     [self processTouch:touch];
     [super touchesBegan:touches withEvent:event];
+    //[[self superview] touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {

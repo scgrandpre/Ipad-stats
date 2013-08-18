@@ -13,6 +13,7 @@
 #import "Play.h"
 #import "Stat.h"
 #import "PlayListView.h"
+#import "Serializable.h"
 
 @interface StatViewController ()
 @property Game* game;
@@ -39,14 +40,23 @@
     PlayListView *playListView = [[PlayListView alloc] initWithFrame:CGRectMake(700, 00, 324, 592) game:self.game];
     [self.view addSubview:playListView];
     
+    UILabel *gameIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,300, 50)];
+    [gameIdLabel setText:self.game.id];
+    [self.view addSubview:gameIdLabel];
+    
     [statEntryView on:@"play-added" callback:^(Play* play) {
         NSLog(@"Adding play");
+        
+        play.gameID = self.game.id;
         [self.game.plays addObject:play];
     }];
     
     [statEntryView on:@"stat-added" callback:^(Stat* stat) {
          NSLog(@"Adding stat");
         [playListView refresh];
+        [[SerializableManager manager] SaveSerializable:self.game withCallback:^(NSObject<Serializable> *object) {
+            [gameIdLabel setText:self.game.id];
+        }];
     }];
 
     self.view.backgroundColor = [UIColor clearColor];

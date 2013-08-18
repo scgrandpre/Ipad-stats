@@ -12,10 +12,10 @@
 @interface Play : NSObject <Serializable>
 
 @property (strong) NSMutableArray *stats;
-@property (strong) NSString *winner;
+@property NSUInteger winner;
 @property (strong) NSString *id;
 @property (strong) NSDictionary *rotation;
 @property (strong) NSString *gameID;
     
-- initWithStats:(NSMutableArray*)stats winner:(NSString*)winner rotation:(NSDictionary*)rotation gameID:(NSString*)gameID id:(NSString*)id;
+- initWithStats:(NSMutableArray*)stats winner:(NSUInteger)winner rotation:(NSDictionary*)rotation gameID:(NSString*)gameID id:(NSString*)id;
 @end

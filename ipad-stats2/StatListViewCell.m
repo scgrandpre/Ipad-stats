@@ -8,6 +8,8 @@
 
 #import "StatListViewCell.h"
 #import "Stat.h"
+#import "ToggleButtonView.h"
+
 
 @interface StatListViewCell ()
 
@@ -41,6 +43,9 @@
     //NSLog(@"%@", stat.skill);
     self.title.text = stat.skill;
     _detailsView.hidden = YES;
+    ToggleButtonView *buttonsview = [[ToggleButtonView alloc] initWithFrame:CGRectMake(0,0,100,100) buttonTitles: @[@"string1",@"string2"] currentSelection:@"string1"];
+    [self.detailsView addSubview:buttonsview];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

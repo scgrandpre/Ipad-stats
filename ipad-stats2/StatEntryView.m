@@ -13,6 +13,7 @@
 #import "CourtView.h"
 #import <EventEmitter.h>
 #import "StatEventButtonsView.h"
+#import "Serializable.h"
 
 static NSString *kSkillServe = @"Serve";
 static NSString *kSkillPass  = @"Pass";
@@ -28,8 +29,6 @@ static NSString *PlayStateOverPass = @"overpass";
 static NSString *PlayStateDig      = @"dig";
 static NSString *PlayStateHit      = @"hit";
 
-static NSString *CurrentSideLeft  = @"Left";
-static NSString *CurrentSideRight = @"Right";
 
 
 typedef enum CourtLocation : NSUInteger {
@@ -40,17 +39,17 @@ typedef enum CourtLocation : NSUInteger {
     CourtLocationOutWideLeft,
     CourtLocationOutWideRight,
 } CourtLocation;
-//
-//typedef enum CurrentSide : NSUInteger {
-//    CurrentSideLeft = 0,
-//    CurrentSideRIght
-//} CurrentSide;
+
+typedef enum CurrentSide : NSUInteger {
+    CurrentSideLeft = 0,
+    CurrentSideRight
+} CurrentSide;
 
 
 
 @interface StatEntryView ()
 @property NSString* state;
-@property NSString* currentSide;
+@property CurrentSide currentSide;
 @property CourtLocation lineZero;
 @property CourtLocation lineLast;
 @property Play *play;
@@ -58,6 +57,7 @@ typedef enum CourtLocation : NSUInteger {
 @property UILabel *stateLabel;
 @property StatEventButtonsView* buttonsView;
 @property NSDictionary *buttonsForState;
+@property CourtView *courtView;
 @end
 
 
@@ -92,25 +92,34 @@ typedef enum CourtLocation : NSUInteger {
             width = height * courtAspectRatio;
         }
         
-        CourtView *courtView = [[CourtView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y + 200, width, height)];
-        [self addSubview:courtView];
+        _courtView = [[CourtView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y + 200, width, height)];
+        [self addSubview:_courtView];
         
-        [courtView on:@"drew-line" callback:^(NSArray* line){
-            [self advanceStateForLine:line];
+        [_courtView on:@"drew-line" callback:^(NSDictionary* data){
+            [self advanceStateForLine:data[@"line"] player:data[@"player"]];
+            
         }];
         
         _stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,200, 50)];
         _stateLabel.text = _state;
         [self addSubview:_stateLabel];
         
-        _buttonsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 75, self.bounds.size.width, 50)];
+        _buttonsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 150, self.bounds.size.width, 50)];
         [self addSubview:_buttonsView];
         _buttonsView.buttonTitles = @[@"FOO:", @"BAR", @"BAZ"];
         
         [_buttonsView on:@"button-pressed" callback:^(NSString* buttonName) {
             [self advanceStateForButton:buttonName];
-            
         }];
+        
+        StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 75, self.bounds.size.width, 50)];
+        [self addSubview:subsView];
+        subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18"];
+        
+        [subsView on:@"button-pressed" callback:^(NSString* player) {
+            [_courtView subPlayer: player];
+        }];
+
         
         [self makeStateMachine];
         [self makeStateButtons];
@@ -131,14 +140,18 @@ typedef enum CourtLocation : NSUInteger {
 }
 
 - (void) makeStateMachine {
-    NSLog(@"%s%@","current side: ",self.currentSide);
+    NSLog(@"%s%u","current side: ",self.currentSide);
 
     self.stateMachine = @{
-        PlayStatePrePlay: ^(NSArray *line){
+        PlayStatePrePlay: ^(NSArray *line, NSString* player){
             self.play = [[Play alloc] init];
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] id:nil];
-            [self.play.stats addObject:stat];
+            self.play.rotation = @{};
             [self emit:@"play-added" data:self.play];
+            
+            [self.courtView rotateTeam:0];
+            Stat *stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
+            [self.play.stats addObject:stat];
+            
             [self emit:@"stat-added" data:stat];
             CGPoint pointZero = [line[0] CGPointValue];
             CGPoint pointLast = [line[[line count]-1] CGPointValue];
@@ -153,7 +166,7 @@ typedef enum CourtLocation : NSUInteger {
                 else{
                     self.state = PlayStateServe;
                     self.currentSide = CurrentSideLeft;
-                    NSLog(@"%s%@","currentSide: " ,self.currentSide);
+                    NSLog(@"%s%u","currentSide: " ,self.currentSide);
                 }
                     
             } else if (self.lineZero == 3){
@@ -171,19 +184,19 @@ typedef enum CourtLocation : NSUInteger {
             }
             
         },
-        PlayStateServe: ^(NSArray *line){
+        PlayStateServe: ^(NSArray *line, NSString* player){
                         CGPoint pointZero = [line[0] CGPointValue];
             CGPoint pointLast = [line[[line count]-1] CGPointValue];
             self.lineZero = [self locationInCourt:pointZero];
             self.lineLast = [self locationInCourt:pointLast];
-            if ([self.currentSide isEqual: @"Right"]){
+            if (self.currentSide == CurrentSideRight){
                 NSLog(@"passing from the left side");
             
                 if (self.lineLast == 0 || self.lineLast == 2 || self.lineLast == 4) {
                     NSLog(@"left team just passed on their own side");
                     self.state = PlayStatePass;
                     self.currentSide = CurrentSideLeft;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] id:nil];
+                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
                     [self.play.stats addObject:stat];
                     [self emit:@"stat-added" data:stat];
                     
@@ -191,7 +204,7 @@ typedef enum CourtLocation : NSUInteger {
                 else{
                     NSLog(@"Left side team just overpassed");
                     self.state = PlayStateOverPass;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] id:nil];
+                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
                     [self.play.stats addObject:stat];
                     [self emit:@"stat-added" data:stat];
                     self.currentSide = CurrentSideRight;
@@ -202,7 +215,7 @@ typedef enum CourtLocation : NSUInteger {
                 if (self.lineLast == 1 || self.lineLast == 3 || self.lineLast == 5){
                     NSLog(@"Right team just passed on their own side");
                     self.state = PlayStatePass;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] id:nil];
+                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
                     [self.play.stats addObject:stat];
                     [self emit:@"stat-added" data:stat];
                     
@@ -210,7 +223,7 @@ typedef enum CourtLocation : NSUInteger {
                 else{
                     NSLog(@"Right side team just overpassed");
                     self.state = PlayStateOverPass;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] id:nil];
+                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
                     [self.play.stats addObject:stat];
                     [self emit:@"stat-added" data:stat];
                     self.currentSide = CurrentSideLeft;
@@ -219,8 +232,8 @@ typedef enum CourtLocation : NSUInteger {
 
             }
         },
-        PlayStatePass: ^(NSArray *line) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] id:nil];
+        PlayStatePass: ^(NSArray *line, NSString* player) {
+            Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
             [self emit:@"stat-added" data:stat];
             if (self.currentSide == CurrentSideLeft){
@@ -243,8 +256,8 @@ typedef enum CourtLocation : NSUInteger {
             }
             //[self endPlayWithWinner:@"0"];
         },
-        PlayStateHit: ^(NSArray *line) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] id:nil];
+        PlayStateHit: ^(NSArray *line, NSString* player) {
+            Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
             [self emit:@"stat-added" data:stat];
             if (self.currentSide == CurrentSideLeft){
@@ -268,15 +281,15 @@ typedef enum CourtLocation : NSUInteger {
                 }
             }
         },
-        PlayStateOverPass: ^(NSArray *line) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] id:nil];
+        PlayStateOverPass: ^(NSArray *line, NSString* player) {
+            Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
             [self emit:@"stat-added" data:stat];
             self.state = PlayStateDig;
         },
-        PlayStateDig: ^(NSArray *line) {
+        PlayStateDig: ^(NSArray *line, NSString* player) {
             Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init]
-                                                  id:nil];
+                                                  player:player id:nil];
             [self.play.stats addObject:stat];
             [self emit:@"stat-added" data:stat];
             if (self.currentSide == CurrentSideLeft){
@@ -327,16 +340,13 @@ typedef enum CourtLocation : NSUInteger {
 }
 
 //This is where we change the state
-- (void)advanceStateForLine:(NSArray*)line {
-    NSLog(@"%s%@","current side: ",self.currentSide);
-    void (^advanceStateMachine)(NSArray*) = self.stateMachine[self.state];
-    advanceStateMachine(line);
+- (void)advanceStateForLine:(NSArray*)line player:(NSString*)player {
+    NSLog(@"%s%u","current side: ",self.currentSide);
+    void (^advanceStateMachine)(NSArray*, NSString*) = self.stateMachine[self.state];
+    advanceStateMachine(line, player);
 }
 
 - (void)advanceStateForButton:(NSString*)button {
-    // TODO: ADVANCE THE STATE MACHINE
-    NSLog(@"MadeItToAdvanceStateForButton!");
-    NSLog(@"%@",button);
     if (self.state == PlayStateServe){
         if ([button isEqual: @"Ace"]){
             NSLog(@"There was an ace!");
@@ -344,6 +354,7 @@ typedef enum CourtLocation : NSUInteger {
             Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
             NSLog(@"%@",CurrentStatPlay.details[@"result"]);
             [CurrentStatPlay.details setObject:@"Ace" forKey:@"Result"];
+            [self emit:@"stat-added" data:CurrentStatPlay];
             NSLog(@"%@",CurrentStatPlay.details);
             }
         }
@@ -355,6 +366,7 @@ typedef enum CourtLocation : NSUInteger {
             Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
             NSLog(@"%@",CurrentStatPlay.details[@"result"]);
             [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
+            [self emit:@"stat-added" data:CurrentStatPlay];
             NSLog(@"%@",CurrentStatPlay.details);
         }
     }
@@ -367,6 +379,7 @@ typedef enum CourtLocation : NSUInteger {
             Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
             NSLog(@"%@",CurrentStatPlay.details[@"result"]);
             [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
+            [self emit:@"stat-added" data:CurrentStatPlay];
             NSLog(@"%@",CurrentStatPlay.details);
         }
     }
@@ -377,6 +390,7 @@ typedef enum CourtLocation : NSUInteger {
             Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
             NSLog(@"%@",CurrentStatPlay.details[@"result"]);
             [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
+            [self emit:@"stat-added" data:CurrentStatPlay];
             NSLog(@"%@",CurrentStatPlay.details);
         }
     }
@@ -387,6 +401,7 @@ typedef enum CourtLocation : NSUInteger {
                 self.state = PlayStatePrePlay;
                 Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
                 [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
+                [self emit:@"stat-added" data:CurrentStatPlay];
                 NSLog(@"%@",CurrentStatPlay.details);
             }
         }
@@ -398,6 +413,7 @@ typedef enum CourtLocation : NSUInteger {
                 Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
                 NSLog(@"%@",CurrentStatPlay.details[@"result"]);
                 [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
+                [self emit:@"stat-added" data:CurrentStatPlay];
                 NSLog(@"%@",CurrentStatPlay.details);
             }
         }
@@ -409,7 +425,9 @@ typedef enum CourtLocation : NSUInteger {
                 Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
                 NSLog(@"%@",CurrentStatPlay.details[@"result"]);
                 [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
+                [self emit:@"stat-added" data:CurrentStatPlay];
                 NSLog(@"%@",CurrentStatPlay.details);
+                self.play.winner = self.currentSide;
             }
         }
     }

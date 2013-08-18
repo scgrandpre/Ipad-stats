@@ -9,7 +9,7 @@
 #import "StatEventButtonsView.h"
 #import <EventEmitter/EventEmitter.h>
 
-static const CGFloat BUTTON_WIDTH = 150;
+static const CGFloat MAX_BUTTON_WIDTH = 150;
 static const CGFloat BUTTON_PADDING = 10;
 
 @implementation StatEventButtonsView
@@ -24,9 +24,10 @@ static const CGFloat BUTTON_PADDING = 10;
         [view removeFromSuperview];
     }
     if (titles != nil) {
+        CGFloat buttonWidth = MIN(self.bounds.size.width/([titles count]) - BUTTON_PADDING, MAX_BUTTON_WIDTH);
         for (int i = 0; i < [titles count]; i++) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            button.frame = CGRectMake((BUTTON_PADDING + BUTTON_WIDTH) * i, 0, BUTTON_WIDTH, self.bounds.size.height);
+            button.frame = CGRectMake((BUTTON_PADDING + buttonWidth) * i, 0, buttonWidth, self.bounds.size.height);
             [button setTitle:titles[i] forState:UIControlStateNormal];
             [self addSubview:button];
             [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];

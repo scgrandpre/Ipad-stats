@@ -16,7 +16,7 @@
     return [self initWithStats:[[NSMutableArray alloc] init] winner:nil rotation:nil gameID:nil id:nil];
 }
 
-- initWithStats:(NSMutableArray*)stats winner:(NSString*)winner rotation:(NSDictionary*)rotation gameID:(NSString*)gameID id:(NSString*)id {
+- initWithStats:(NSMutableArray*)stats winner:(NSUInteger)winner rotation:(NSDictionary*)rotation gameID:(NSString*)gameID id:(NSString*)id {
     self = [super init];
     self.stats = stats;
     self.winner = winner;
@@ -32,7 +32,7 @@
     });
     
     return [[Play alloc] initWithStats:stats
-                                winner:dict[@"winner"]
+                                winner:[dict[@"winner"] unsignedIntegerValue]
                               rotation:dict[@"rotation"]
                                 gameID:dict[@"game"]
                                     id:dict[@"id"]];
@@ -42,7 +42,7 @@
     NSArray *stats = map([self stats], ^(Stat* stat){ return [stat asDict];});
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary: @{
              @"stats": stats,
-             @"winner":self.winner,
+             @"winner": [NSNumber numberWithUnsignedInteger: self.winner],
              @"rotation":self.rotation,
              @"game":self.gameID
                                  }];

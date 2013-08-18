@@ -37,8 +37,12 @@
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
+		F19E85D717BFD53B005F7FE7 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85D617BFD53B005F7FE7 /* Reveal.framework */; };
+		F19E85D917BFD580005F7FE7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85D817BFD580005F7FE7 /* CFNetwork.framework */; };
+		F19E85DB17BFD585005F7FE7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */; };
 		F1A07127178B7A9700FED04E /* StatEventButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07126178B7A9700FED04E /* StatEventButtonsView.m */; };
 		F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07129178B8BE600FED04E /* StatListViewCell.m */; };
+		F1A8DC8C17A0C85900B62DA6 /* ToggleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 		F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B681770099F00D63DD8 /* PlayListView.m */; };
 		F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */; };
@@ -101,10 +105,15 @@
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
 		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
+		F19E85D617BFD53B005F7FE7 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		F19E85D817BFD580005F7FE7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F1A07125178B7A9700FED04E /* StatEventButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEventButtonsView.h; sourceTree = "<group>"; };
 		F1A07126178B7A9700FED04E /* StatEventButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEventButtonsView.m; sourceTree = "<group>"; };
 		F1A07128178B8BE600FED04E /* StatListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatListViewCell.h; sourceTree = "<group>"; };
 		F1A07129178B8BE600FED04E /* StatListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatListViewCell.m; sourceTree = "<group>"; };
+		F1A8DC8A17A0C85800B62DA6 /* ToggleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleButtonView.h; sourceTree = "<group>"; };
+		F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleButtonView.m; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
 		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
 		F1CE9B671770099F00D63DD8 /* PlayListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayListView.h; sourceTree = "<group>"; };
@@ -118,10 +127,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19E85DB17BFD585005F7FE7 /* QuartzCore.framework in Frameworks */,
+				F19E85D917BFD580005F7FE7 /* CFNetwork.framework in Frameworks */,
 				380F5816171711CE005ED397 /* UIKit.framework in Frameworks */,
 				380F5818171711CE005ED397 /* Foundation.framework in Frameworks */,
 				380F581A171711CE005ED397 /* CoreGraphics.framework in Frameworks */,
 				9182738118B549FFAA38C230 /* libPods.a in Frameworks */,
+				F19E85D717BFD53B005F7FE7 /* Reveal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +153,8 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */,
+				F19E85D817BFD580005F7FE7 /* CFNetwork.framework */,
 				387C4CB7173033970002CA0B /* GamesMenuViewController.h */,
 				387C4CB8173033970002CA0B /* GamesMenuViewController.m */,
 				38651F0A1729CF3900D99AB4 /* StatAnalysisViewController.h */,
@@ -167,6 +181,7 @@
 		380F5814171711CE005ED397 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F19E85D617BFD53B005F7FE7 /* Reveal.framework */,
 				380F5815171711CE005ED397 /* UIKit.framework */,
 				380F5817171711CE005ED397 /* Foundation.framework */,
 				380F5819171711CE005ED397 /* CoreGraphics.framework */,
@@ -192,6 +207,8 @@
 				F170B4D21757B92400ED6597 /* StatEntryView.m */,
 				F1A07125178B7A9700FED04E /* StatEventButtonsView.h */,
 				F1A07126178B7A9700FED04E /* StatEventButtonsView.m */,
+				F1A8DC8A17A0C85800B62DA6 /* ToggleButtonView.h */,
+				F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */,
 				38CD88BA17271E0A0099A3EB /* DrawingView.h */,
 				38CD88BB17271E0A0099A3EB /* DrawingView.m */,
 				F1CE9B671770099F00D63DD8 /* PlayListView.h */,
@@ -417,6 +434,7 @@
 				F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */,
 				F1A07127178B7A9700FED04E /* StatEventButtonsView.m in Sources */,
 				F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */,
+				F1A8DC8C17A0C85900B62DA6 /* ToggleButtonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +540,10 @@
 			baseConfigurationReference = 9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Grandpre (34C46883AH)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ipad-stats2/ipad-stats2-Prefix.pch";
 				INFOPLIST_FILE = "ipad-stats2/ipad-stats2-Info.plist";
@@ -536,6 +558,10 @@
 			baseConfigurationReference = 9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Grandpre (34C46883AH)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ipad-stats2/ipad-stats2-Prefix.pch";
 				INFOPLIST_FILE = "ipad-stats2/ipad-stats2-Info.plist";
