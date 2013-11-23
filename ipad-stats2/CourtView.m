@@ -199,7 +199,7 @@ int _rotation[2];
                     }
                     CGFloat x = (team * 2 - 1) * ((1 - front)*.5 + .5 - team * .5);
                     CGFloat y = team - (team*2 - 1)*position/3.f - team * 1.f/3.f;
-                    [player drawAtPoint:CGPointMake(left + (right - left) * (x + 1)/2, top + (bottom - top) * y) withFont:[UIFont boldSystemFontOfSize:36.0f]];
+                    [player drawAtPoint:CGPointMake(5 + left + (right - left) * (x + 1)/2, top + (bottom - top) * y) withFont:[UIFont boldSystemFontOfSize:36.0f]];
                     
                 }
             }

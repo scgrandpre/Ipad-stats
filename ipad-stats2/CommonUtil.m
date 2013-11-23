@@ -191,7 +191,7 @@ void GetJSON(NSURL* url, void (^callback)(id, NSError*)) {
 }
 
 NSURL* BackendURL(NSString* endpoint) {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.2.100:8228/%@", endpoint]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"http://ipad-stats.herokuapp.com/%@", endpoint]];
 }
 
 NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

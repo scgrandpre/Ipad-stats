@@ -33,11 +33,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    StatEntryView *statEntryView = [[StatEntryView alloc] initWithFrame:CGRectMake(0,0,700,592)]; //we have 324 to work with on the right side
+    StatEntryView *statEntryView = [[StatEntryView alloc] initWithFrame:CGRectMake(0,0,700,700)]; //we have 324 to work with on the right side
     [self.view addSubview:statEntryView];
 
     
-    PlayListView *playListView = [[PlayListView alloc] initWithFrame:CGRectMake(700, 00, 324, 592) game:self.game];
+    PlayListView *playListView = [[PlayListView alloc] initWithFrame:CGRectMake(700, 00, 324, 700) game:self.game];
     [self.view addSubview:playListView];
     
     UILabel *gameIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,300, 50)];

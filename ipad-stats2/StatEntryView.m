@@ -26,32 +26,30 @@ static NSString *PlayStatePrePlay  = @"pre-play";
 static NSString *PlayStateServe    = @"serve";
 static NSString *PlayStatePass     = @"pass";
 static NSString *PlayStateOverPass = @"overpass";
+static NSString *PlayStateOverPassHit = @"overpass-hit";
 static NSString *PlayStateDig      = @"dig";
 static NSString *PlayStateHit      = @"hit";
 
 
 
-typedef enum CourtLocation : NSUInteger {
-    CourtLocationLeftSide = 0,
-    CourtLocationRightSide,
-    CourtLocationLeftServeZone,
-    CourtLocationRightServeZone,
-    CourtLocationOutWideLeft,
-    CourtLocationOutWideRight,
-} CourtLocation;
 
-typedef enum CurrentSide : NSUInteger {
-    CurrentSideLeft = 0,
-    CurrentSideRight
-} CurrentSide;
 
+typedef enum CourtArea : NSUInteger {
+    CourtAreaIn = 0,
+    CourtAreaOutWide,
+    CourtAreaServeZone
+} CourtArea;
+
+typedef enum CourtSide : NSUInteger {
+    CourtSideLeft = 0,
+    CourtSideRight
+} CourtSide;
 
 
 @interface StatEntryView ()
 @property NSString* state;
-@property CurrentSide currentSide;
-@property CourtLocation lineZero;
-@property CourtLocation lineLast;
+@property CourtSide currentSide;
+@property CourtSide servingTeam;
 @property Play *play;
 @property NSDictionary *stateMachine;
 @property UILabel *stateLabel;
@@ -78,9 +76,6 @@ typedef enum CurrentSide : NSUInteger {
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        _currentSide = CurrentSideLeft;
-        
         CGFloat courtAspectRatio = 8/5.f;
         
         CGFloat height = self.bounds.size.height - 200;
@@ -100,7 +95,7 @@ typedef enum CurrentSide : NSUInteger {
             
         }];
         
-        _stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,200, 50)];
+        _stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,40,200, 50)];
         _stateLabel.text = _state;
         [self addSubview:_stateLabel];
         
@@ -120,6 +115,37 @@ typedef enum CurrentSide : NSUInteger {
             [_courtView subPlayer: player];
         }];
 
+        for(int team = 0; team < 2; team++) {
+            StatEventButtonsView *rotationButtons = [[StatEventButtonsView alloc]
+                                                     initWithFrame:CGRectMake(85 + 450*team, self.bounds.size.height - 55,
+                                                                              100, 50)];
+            [self addSubview:rotationButtons];
+            rotationButtons.buttonTitles = @[@"<--", @"-->"];
+            
+            [rotationButtons on:@"button-pressed" callback:^(NSString* buttonName) {
+                if ([buttonName isEqualToString:@"<--"]) {
+                    [self.courtView unrotateTeam:team];
+                } else {
+                    [self.courtView rotateTeam:team];
+                }
+            }];
+        }
+        
+        StatEventButtonsView *changeStateView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(350, 0, self.bounds.size.width, 50)];
+        [self addSubview:changeStateView];
+        changeStateView.buttonTitles = @[@"Hit Left",@"Hit Right"];
+        
+        [changeStateView on:@"button-pressed" callback:^(NSString* buttonName) {
+            if ([buttonName isEqualToString:@"Hit Left"]) {
+                self.state = PlayStateDig;
+                self.currentSide = CourtSideLeft;
+            }
+            else {
+                self.state = PlayStateDig;
+                self.currentSide = CourtSideRight;
+            }
+        }];
+        
         
         [self makeStateMachine];
         [self makeStateButtons];
@@ -132,10 +158,11 @@ typedef enum CurrentSide : NSUInteger {
 - (void) makeStateButtons {
     self.buttonsForState = @{
                              PlayStateServe: @[@"Ace", @"Serve Error"],
-                             PlayStatePass: @[@"Pass Error"],
+                             PlayStatePass: @[@"Ace",@"0",@"1",@"2",@"3",@"4",],
                              PlayStateDig: @[@"Dig Error"],
-                             PlayStateHit: @[@"Kill", @"Hit Error"],
-                             PlayStateOverPass: @[@"FB Error"]
+                             PlayStateHit: @[@"Hands", @"Kill", @"Hit Error"],
+                             PlayStateOverPass: @[@"FB Error", @"Overpass Attacked"],
+                             PlayStateOverPassHit: @[],
                              };
 }
 
@@ -147,195 +174,133 @@ typedef enum CurrentSide : NSUInteger {
             self.play = [[Play alloc] init];
             self.play.rotation = @{};
             [self emit:@"play-added" data:self.play];
-            
-            [self.courtView rotateTeam:0];
+
             Stat *stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
             
             [self emit:@"stat-added" data:stat];
-            CGPoint pointZero = [line[0] CGPointValue];
-            CGPoint pointLast = [line[[line count]-1] CGPointValue];
-            self.lineZero = [self locationInCourt:pointZero];
-            self.lineLast = [self locationInCourt:pointLast];
-            if (self.lineZero == 2){
-                NSLog(@"left team just served");
-                if (self.lineLast != 1){
-                    NSLog(@"Missed Serve");
-                    self.State = PlayStatePrePlay;
-                }
-                else{
-                    self.state = PlayStateServe;
-                    self.currentSide = CurrentSideLeft;
-                    NSLog(@"%s%u","currentSide: " ,self.currentSide);
-                }
-                    
-            } else if (self.lineZero == 3){
-                NSLog(@"Right team just served");
-                if (self.lineLast != 0){
-                    NSLog(@"Missed Serve");
-                    self.State = PlayStatePrePlay;
-                }
-                else{
-                    self.state = PlayStateServe;
-                    self.currentSide = CurrentSideRight;
-                }
-            } else{
+            
+            
+            CourtSide startSide, endSide;
+            CourtArea startArea, endArea;
+            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
+            
+            if (startArea == CourtAreaServeZone) {
+                self.currentSide = startSide;
+                self.state = PlayStateServe;
+                self.servingTeam = self.currentSide;
+            } else {
                 NSLog(@"why aren't you serving?");
             }
-            
         },
         PlayStateServe: ^(NSArray *line, NSString* player){
-                        CGPoint pointZero = [line[0] CGPointValue];
-            CGPoint pointLast = [line[[line count]-1] CGPointValue];
-            self.lineZero = [self locationInCourt:pointZero];
-            self.lineLast = [self locationInCourt:pointLast];
-            if (self.currentSide == CurrentSideRight){
-                NSLog(@"passing from the left side");
+            CourtSide startSide, endSide;
+            CourtArea startArea, endArea;
+            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
             
-                if (self.lineLast == 0 || self.lineLast == 2 || self.lineLast == 4) {
-                    NSLog(@"left team just passed on their own side");
-                    self.state = PlayStatePass;
-                    self.currentSide = CurrentSideLeft;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
-                    [self.play.stats addObject:stat];
-                    [self emit:@"stat-added" data:stat];
-                    
-                }
-                else{
-                    NSLog(@"Left side team just overpassed");
-                    self.state = PlayStateOverPass;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
-                    [self.play.stats addObject:stat];
-                    [self emit:@"stat-added" data:stat];
-                    self.currentSide = CurrentSideRight;
-                    
-                }
+            self.currentSide = 1 - self.currentSide;
+            
+            if (endSide == self.currentSide) {
+                self.state = PlayStatePass;
+            } else {
+                self.state = PlayStateOverPass;
             }
-            else{
-                if (self.lineLast == 1 || self.lineLast == 3 || self.lineLast == 5){
-                    NSLog(@"Right team just passed on their own side");
-                    self.state = PlayStatePass;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
-                    [self.play.stats addObject:stat];
-                    [self emit:@"stat-added" data:stat];
-                    
-                }
-                else{
-                    NSLog(@"Right side team just overpassed");
-                    self.state = PlayStateOverPass;
-                    Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
-                    [self.play.stats addObject:stat];
-                    [self emit:@"stat-added" data:stat];
-                    self.currentSide = CurrentSideLeft;
-                    
-                }
-
-            }
+            
+            Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
+            [self.play.stats addObject:stat];
+            [self emit:@"stat-added" data:stat];
         },
         PlayStatePass: ^(NSArray *line, NSString* player) {
             Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
+            [stat.details setObject:@"no hands" forKey:@"hands"];
             [self emit:@"stat-added" data:stat];
-            if (self.currentSide == CurrentSideLeft){
-                if (self.lineLast == 1){
-                    self.state = PlayStateHit;
-                    self.currentSide = CurrentSideRight;
-                }
-                else{
-                   [self endPlayWithWinner:@"0"];
-                }
-            }
-            else{
-                if (self.lineLast == 0){
-                    self.state = PlayStateHit;
-                    self.currentSide = CurrentSideLeft;
-                }
-                else{
-                    [self endPlayWithWinner:@"1"];
-                }
-            }
-            //[self endPlayWithWinner:@"0"];
+            self.state = PlayStateHit;
         },
         PlayStateHit: ^(NSArray *line, NSString* player) {
             Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
+
             [self emit:@"stat-added" data:stat];
-            if (self.currentSide == CurrentSideLeft){
-                if (self.lineLast == 0 || self.lineLast == 2 || self.lineLast == 4){
-                    self.currentSide = CurrentSideLeft;
-                    self.state = PlayStateDig;
-                }
-                else{
-                    self.currentSide = CurrentSideRight;
-                    self.state = PlayStateOverPass;
-                }
+            
+            CourtSide startSide, endSide;
+            CourtArea startArea, endArea;
+            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
+            
+            if (self.currentSide == startSide) {
+                NSLog(@"Blocked!");
+            } else {
+                self.currentSide = 1 - self.currentSide;
             }
-            else{
-                if (self.lineLast == 1 || self.lineLast == 3 || self.lineLast == 5){
-                    self.currentSide = CurrentSideRight;
-                    self.state = PlayStateDig;
-                }
-                else{
-                    self.currentSide = CurrentSideLeft;
-                    self.state = PlayStateOverPass;
-                }
+            
+            if (self.currentSide == endSide) {
+                self.state = PlayStateDig;
+            } else {
+                self.state = PlayStateOverPass;
             }
         },
         PlayStateOverPass: ^(NSArray *line, NSString* player) {
             Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] player:player id:nil];
             [self.play.stats addObject:stat];
             [self emit:@"stat-added" data:stat];
-            self.state = PlayStateDig;
+            
+            CourtSide startSide, endSide;
+            CourtArea startArea, endArea;
+            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
+            
+            self.currentSide = 1 - self.currentSide;
+            if (self.currentSide == endSide) {
+                self.state = PlayStateDig;
+            } else {
+                self.state = PlayStateOverPass;
+            };
+        },
+        PlayStateOverPassHit: ^(NSArray *line, NSString* player) {
+            Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
+            [self.play.stats addObject:stat];
+            [self emit:@"stat-added" data:stat];
+            self.state = PlayStateHit;
+            self.currentSide = 1 - self.currentSide;
+            Stat* currentStat = self.play.stats[self.play.stats.count-1];
+            [currentStat.details setObject:@"no hands" forKey:@"hands"];
+            
         },
         PlayStateDig: ^(NSArray *line, NSString* player) {
             Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init]
                                                   player:player id:nil];
             [self.play.stats addObject:stat];
             [self emit:@"stat-added" data:stat];
-            if (self.currentSide == CurrentSideLeft){
-                if (self.lineLast == 1){
-                    self.state = PlayStateHit;
-                    self.currentSide = CurrentSideRight;
-                }
-                else{
-                    [self endPlayWithWinner:@"0"];
-                }
-            }
-            else{
-                if (self.lineLast == 0){
-                    self.state = PlayStateHit;
-                    self.currentSide = CurrentSideLeft;
-                }
-                else{
-                    [self endPlayWithWinner:@"1"];
-                }
-            }
+            self.state = PlayStateHit;
         }
 
         
       };
 }
 
+- (void)locationsForLine:(NSArray*)line
+               startSide:(CourtSide*)startSide
+               startArea:(CourtArea*)startArea
+                 endSide:(CourtSide*)endSide
+                 endArea:(CourtArea*)endArea {
+    CGPoint startPoint = [line[0] CGPointValue];
+    CGPoint endPoint = [line[[line count]-1] CGPointValue];
+    [self locationInCourt:startPoint Side:startSide Area:startArea];
+    [self locationInCourt:endPoint Side:endSide Area:endArea];
+}
 
-- (CourtLocation) locationInCourt:(CGPoint)point {
-    if (point.x < -1){
-        return CourtLocationLeftServeZone;
-    } else if (point.x > 1){
-        return CourtLocationRightServeZone;
-    } else if (point.y > .5 && point.x > 0){
-        return CourtLocationOutWideRight;
-    } else if (point.y < -.5 && point.x > 0){
-        return CourtLocationOutWideRight;
-    } else if (point.y > .5 && point.x < 0){
-        return CourtLocationOutWideLeft;
-    } else if (point.y < -.5 && point.x < 0){
-        return CourtLocationOutWideLeft;
-    } else if ((point.x < 1) && (point.x > 0)){
-        return CourtLocationRightSide;
-    } else if ((point.x > -1) && (point.x < 0)){
-        return CourtLocationLeftSide;
+- (void) locationInCourt:(CGPoint)point Side:(CourtSide*)side Area:(CourtArea*)area {
+    if (point.x < 0) {
+        *side = CourtSideLeft;
     } else {
-        return CourtLocationLeftServeZone;
+        *side = CourtSideRight;
+    }
+    
+    if (fabs(point.x) > 1) {
+        *area = CourtAreaServeZone;
+    } else if (fabs(point.y) > .5f) {
+        *area = CourtAreaOutWide;
+    } else {
+        *area = CourtAreaIn;
     }
 }
 
@@ -349,109 +314,63 @@ typedef enum CurrentSide : NSUInteger {
 - (void)advanceStateForButton:(NSString*)button {
     if (self.state == PlayStateServe){
         if ([button isEqual: @"Ace"]){
-            NSLog(@"There was an ace!");
-            self.state = PlayStatePrePlay;
-            Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-            NSLog(@"%@",CurrentStatPlay.details[@"result"]);
-            [CurrentStatPlay.details setObject:@"Ace" forKey:@"Result"];
-            [self emit:@"stat-added" data:CurrentStatPlay];
-            NSLog(@"%@",CurrentStatPlay.details);
-            }
+            [self endPointWithResult:@"ace" winner:self.currentSide];
+        } else if ([button isEqual: @"Serve Error"]){
+            [self endPointWithResult:@"error" winner:1 - self.currentSide];
         }
+    }
     
     if (self.state == PlayStatePass){
-        if ([button isEqual: @"Pass Error"]){
-            NSLog(@"There was an Error!");
-            self.state = PlayStatePrePlay;
-            Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-            NSLog(@"%@",CurrentStatPlay.details[@"result"]);
-            [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
-            [self emit:@"stat-added" data:CurrentStatPlay];
-            NSLog(@"%@",CurrentStatPlay.details);
+        if ([button isEqual: @"Ace"]){
+            [self endPointWithResult:@"error" winner:1 - self.currentSide];
+        } else{
+            Stat* currentStat = self.play.stats[self.play.stats.count-1];
+            [currentStat.details setObject:button forKey:@"result"];
+            
         }
     }
 
-    
     if (self.state == PlayStateOverPass){
         if ([button isEqual: @"FB Error"]){
-            NSLog(@"There was an Overpass FB Error!");
-            self.state = PlayStatePrePlay;
-            Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-            NSLog(@"%@",CurrentStatPlay.details[@"result"]);
-            [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
-            [self emit:@"stat-added" data:CurrentStatPlay];
-            NSLog(@"%@",CurrentStatPlay.details);
+            [self endPointWithResult:@"error" winner:self.currentSide];
+        } else if ([button isEqual: @"Overpass Attacked"]){
+            self.state = PlayStateOverPassHit;
         }
     }
     if (self.state == PlayStateDig){
         if ([button isEqual: @"Dig Error"]){
-            NSLog(@"There was an Error!");
-            self.state = PlayStatePrePlay;
-            Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-            NSLog(@"%@",CurrentStatPlay.details[@"result"]);
-            [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
-            [self emit:@"stat-added" data:CurrentStatPlay];
-            NSLog(@"%@",CurrentStatPlay.details);
+            [self endPointWithResult:@"error" winner:1 - self.currentSide];
         }
     }
     
-        if (self.state == PlayStateServe){
-            if ([button isEqual: @"Serve Error"]){
-                NSLog(@"There was Serving Error!");
-                self.state = PlayStatePrePlay;
-                Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-                [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
-                [self emit:@"stat-added" data:CurrentStatPlay];
-                NSLog(@"%@",CurrentStatPlay.details);
-            }
+    if (self.state == PlayStateHit){
+        if ([button isEqual: @"Hit Error"]){
+            [self endPointWithResult:@"error" winner:1 - self.currentSide];
+        } else if ([button isEqual: @"Kill"]){
+            [self endPointWithResult:@"kill" winner:self.currentSide];
+        } else if ([button isEqual: @"Hands"]){
+            Stat* currentStat = self.play.stats[self.play.stats.count-1];
+            [currentStat.details setObject:@"hands" forKey:@"hands"];
+            
         }
         
-        if (self.state == PlayStateHit){
-            if ([button isEqual: @"Hit Error"]){
-                NSLog(@"There was a Hitting Error!");
-                self.state = PlayStatePrePlay;
-                Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-                NSLog(@"%@",CurrentStatPlay.details[@"result"]);
-                [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
-                [self emit:@"stat-added" data:CurrentStatPlay];
-                NSLog(@"%@",CurrentStatPlay.details);
-            }
-        }
     
-        if (self.state == PlayStateHit){
-            if ([button isEqual: @"Kill"]){
-                NSLog(@"There was a Kill!");
-                self.state = PlayStatePrePlay;
-                Stat* CurrentStatPlay = self.play.stats[self.play.stats.count-1];
-                NSLog(@"%@",CurrentStatPlay.details[@"result"]);
-                [CurrentStatPlay.details setObject:@"Error" forKey:@"Result"];
-                [self emit:@"stat-added" data:CurrentStatPlay];
-                NSLog(@"%@",CurrentStatPlay.details);
-                self.play.winner = self.currentSide;
-            }
-        }
+    }
+}
+
+- (void) endPointWithResult:(NSString*)result winner:(CourtSide)winner {
+    Stat* currentStat = self.play.stats[self.play.stats.count-1];
+    [currentStat.details setObject:result forKey:@"result"];
+    
+    self.play.winner = winner;
+    self.state = PlayStatePrePlay;
+    [self emit:@"stat-added" data:currentStat];
+    
+    if (winner != self.servingTeam) {
+        self.servingTeam = winner;
+        [self.courtView rotateTeam:winner];
     }
     
-    
-//    self.stateMachine = @{
-//    PlayStatePass: ^(NSArray *button) {
-//        Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] id:nil];
-//        [self.play.stats addObject:stat];
-//        [self emit:@"stat-added" data:stat];
-//        NSLog(@"%s%@","which button?: ", button);
-//        
-//
-//    
-//    }
-//    };
-
-
-
-- (void)endPlayWithWinner:(NSString*)winner {
-    self.state = PlayStatePrePlay;
-    self.play.winner = winner;
-    //[self emit:@"play-ended" data:self.play];
-    self.play = nil;
 }
 
 @end
