@@ -133,6 +133,10 @@ int _rotation[2];
     }
 }
 
+- (CGRect)courtRect {
+    return CGRectInset(self.frame, PADDING_RATIO * self.bounds.size.width, PADDING_RATIO * self.bounds.size.height);
+}
+
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     float width = self.bounds.size.width;
@@ -180,32 +184,10 @@ int _rotation[2];
         CGContextMoveToPoint(   ctx, left,  top + (bottom - top)*2.f/3.f);
         CGContextAddLineToPoint(ctx, right, top + (bottom - top)*2.f/3.f);
         
-        CGContextMoveToPoint(   ctx, left + (right-left)/4, top);
-        CGContextAddLineToPoint(ctx, left + (right-left)/4, bottom);
-        CGContextMoveToPoint(   ctx, left + (right-left)*3.f/4.f, top);
-        CGContextAddLineToPoint(ctx, left + (right-left)*3.f/4.f, bottom);
-        
-        for(int team = 0; team < 2; team++) {
-            for(int front = 0; front < 2; front++) {
-                for(int position = 0; position < 3; position++) {
-                    NSString *player = [self playerForTeam:team position:position front:front];
-                    
-                    if ([self hashPositionWithTeam:team position:position front:front] == self.selectedPlayer) {
-                        CGContextSetStrokeColorWithColor(ctx, [UIColor greenColor].CGColor);
-                        CGContextSetFillColorWithColor(ctx, [UIColor greenColor].CGColor);
-                    } else {
-                        CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithWhite:.6 alpha:1].CGColor);
-                        CGContextSetFillColorWithColor(ctx, [UIColor colorWithWhite:.6 alpha:1].CGColor);
-                    }
-                    CGFloat x = (team * 2 - 1) * ((1 - front)*.5 + .5 - team * .5);
-                    CGFloat y = team - (team*2 - 1)*position/3.f - team * 1.f/3.f;
-                    [player drawAtPoint:CGPointMake(5 + left + (right - left) * (x + 1)/2, top + (bottom - top) * y) withFont:[UIFont boldSystemFontOfSize:36.0f]];
-                    
-                }
-            }
-        
-        }
-        
+        CGContextMoveToPoint(   ctx, left + (right-left)/6, top);
+        CGContextAddLineToPoint(ctx, left + (right-left)/6, bottom);
+        CGContextMoveToPoint(   ctx, left + (right-left)*5.f/6.f, top);
+        CGContextAddLineToPoint(ctx, left + (right-left)*5.f/6.f, bottom);
         
         CGContextStrokePath(ctx);
     }

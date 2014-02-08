@@ -36,12 +36,15 @@
 		387C4CBC17303AFD0002CA0B /* Play.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CBB17303AFD0002CA0B /* Play.m */; };
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
+		F1467888184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
+		F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
 		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
 		F19E85D717BFD53B005F7FE7 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85D617BFD53B005F7FE7 /* Reveal.framework */; };
 		F19E85D917BFD580005F7FE7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85D817BFD580005F7FE7 /* CFNetwork.framework */; };
 		F19E85DB17BFD585005F7FE7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */; };
 		F1A07127178B7A9700FED04E /* StatEventButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07126178B7A9700FED04E /* StatEventButtonsView.m */; };
 		F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07129178B8BE600FED04E /* StatListViewCell.m */; };
+		F1A078491895792C006D54ED /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A078481895792C006D54ED /* MediaPlayer.framework */; };
 		F1A8DC8C17A0C85900B62DA6 /* ToggleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 		F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B681770099F00D63DD8 /* PlayListView.m */; };
@@ -103,6 +106,8 @@
 		38CD88BB17271E0A0099A3EB /* DrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		F1467886184089FE00A6F792 /* AnalysisLinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisLinesView.h; sourceTree = "<group>"; };
+		F1467887184089FE00A6F792 /* AnalysisLinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisLinesView.m; sourceTree = "<group>"; };
 		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
 		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
 		F19E85D617BFD53B005F7FE7 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
@@ -112,6 +117,7 @@
 		F1A07126178B7A9700FED04E /* StatEventButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEventButtonsView.m; sourceTree = "<group>"; };
 		F1A07128178B8BE600FED04E /* StatListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatListViewCell.h; sourceTree = "<group>"; };
 		F1A07129178B8BE600FED04E /* StatListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatListViewCell.m; sourceTree = "<group>"; };
+		F1A078481895792C006D54ED /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F1A8DC8A17A0C85800B62DA6 /* ToggleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleButtonView.h; sourceTree = "<group>"; };
 		F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleButtonView.m; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
@@ -127,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1A078491895792C006D54ED /* MediaPlayer.framework in Frameworks */,
 				F19E85DB17BFD585005F7FE7 /* QuartzCore.framework in Frameworks */,
 				F19E85D917BFD580005F7FE7 /* CFNetwork.framework in Frameworks */,
 				380F5816171711CE005ED397 /* UIKit.framework in Frameworks */,
@@ -153,6 +160,8 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				F1467886184089FE00A6F792 /* AnalysisLinesView.h */,
+				F1467887184089FE00A6F792 /* AnalysisLinesView.m */,
 				F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */,
 				F19E85D817BFD580005F7FE7 /* CFNetwork.framework */,
 				387C4CB7173033970002CA0B /* GamesMenuViewController.h */,
@@ -181,6 +190,7 @@
 		380F5814171711CE005ED397 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F1A078481895792C006D54ED /* MediaPlayer.framework */,
 				F19E85D617BFD53B005F7FE7 /* Reveal.framework */,
 				380F5815171711CE005ED397 /* UIKit.framework */,
 				380F5817171711CE005ED397 /* Foundation.framework */,
@@ -435,6 +445,7 @@
 				F1A07127178B7A9700FED04E /* StatEventButtonsView.m in Sources */,
 				F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */,
 				F1A8DC8C17A0C85900B62DA6 /* ToggleButtonView.m in Sources */,
+				F1467888184089FF00A6F792 /* AnalysisLinesView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +455,7 @@
 			files = (
 				380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */,
 				380F58501717136B005ED397 /* CourtView.m in Sources */,
+				F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

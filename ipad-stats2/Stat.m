@@ -20,7 +20,19 @@
     return self;
 }
 
-+ (Stat*) fromDict: (NSDictionary*) dict {
++ (Stat*) fromDict:(NSDictionary*) dict {
+    if (dict[@"details"][@"line"]) {
+        NSMutableDictionary *mdict = [dict mutableCopy];
+        dict = mdict;
+        NSMutableArray *line = [[NSMutableArray alloc] init];
+        for (NSString *point in dict[@"details"][@"line"]) {
+            CGPoint p = CGPointFromString(point);
+            [line addObject:[NSValue valueWithCGPoint:p]];
+        }
+        mdict[@"details"] = [mdict[@"details"] mutableCopy];
+        mdict[@"details"][@"line"] = line;
+    }
+
     Stat* stat = [[Stat alloc] initWithSkill:dict[@"skill"]
                                details:dict[@"details"]
                                 player:dict[@"player"]
@@ -31,9 +43,18 @@
 }
 
 - (NSDictionary*) asDict {
+    NSMutableDictionary *details = [self.details mutableCopy];
+    if (details[@"line"]) {
+        NSMutableArray *line = [[NSMutableArray alloc] init];
+        for (NSValue *point in details[@"line"]) {
+            CGPoint p = [point CGPointValue];
+            [line addObject:NSStringFromCGPoint(p)];
+        }
+        details[@"line"] = line;
+    }
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary: @{
                                  @"skill": self.skill,
-                                 @"details": self.details,
+                                 @"details": details,
                                  @"player": self.player,
                                  @"timestamp": [NSNumber numberWithDouble:[self.timestamp timeIntervalSince1970]]
                                  }];

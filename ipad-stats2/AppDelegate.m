@@ -44,6 +44,7 @@ cake go
 #import <SocketIO.h>
 #import <SocketIOPacket.h>
 #import "CommonUtil.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface AppDelegate ()
 
@@ -57,14 +58,18 @@ cake go
 
 - (void)openGame:(Game*) game {
     UIViewController *mainViewController = [[StatViewController alloc] initWithGame: game];
-    UIViewController *otherViewController = [[StatViewController alloc] initWithGame: game];
     UIViewController *analysisViewController = [[StatAnalysisViewController alloc] initWithGame: game];
     UITabBarController *tabBar = [[UITabBarController alloc] init];
-    tabBar.viewControllers = @[mainViewController, otherViewController, analysisViewController];
+
+    
+    
+    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[[NSURL alloc] initWithString:@"http://acsvolleyball.com/videos/villanova_Lehigh.mp4"]];
+    
+    tabBar.viewControllers = @[mainViewController, analysisViewController, mp];
     tabBar.selectedViewController = mainViewController;
     mainViewController.title = @"Main View";
-    otherViewController.title = @"Other View";
     analysisViewController.title = @"Analysis";
+    mp.title = @"Video";
     
     [self.navigationController pushViewController:tabBar animated:YES];
 }

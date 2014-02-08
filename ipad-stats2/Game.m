@@ -80,6 +80,9 @@
     NSString* filter_skill = filter[@"skill"];
     if(filter_skill != nil && [filter_skill compare:stat.skill] != NSOrderedSame) return NO;
     
+    NSString* filter_player = filter[@"player"];
+    if(filter_player != nil && [filter_player compare:stat.player] != NSOrderedSame) return NO;
+
     if(filter[@"details"] != nil) {
         for(NSString* detail in [filter[@"details"] allKeys]) {
             NSString* filter_detail = filter[@"details"][detail];

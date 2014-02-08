@@ -89,6 +89,10 @@
     
     [object uploadsCompleted: ^{
         WriteData(url, dict, ^(NSURLResponse* response, NSData* result, NSError* error) {
+            if (error != nil) {
+                NSLog(@"%@", error);
+                return;
+            }
             NSError *JSONReadingError;
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:result options:0 error:&JSONReadingError];
             if (dict != nil) {

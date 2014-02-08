@@ -27,7 +27,7 @@
 
 - (void)loadView {
     [super loadView];
-    UITableView *table = [[UITableView alloc] initWithFrame:self.view.bounds];
+    UITableView *table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.width)];
     [self.view addSubview:table];
     table.delegate = self;
     table.dataSource = self;

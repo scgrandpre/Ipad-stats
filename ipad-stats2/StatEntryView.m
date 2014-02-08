@@ -20,8 +20,6 @@ static NSString *kSkillPass  = @"Pass";
 static NSString *kSkillDig   = @"Dig";
 static NSString *kSkillHit   = @"Hit";
 
-
-
 static NSString *PlayStatePrePlay  = @"pre-play";
 static NSString *PlayStateServe    = @"serve";
 static NSString *PlayStatePass     = @"pass";
@@ -29,10 +27,6 @@ static NSString *PlayStateOverPass = @"overpass";
 static NSString *PlayStateOverPassHit = @"overpass-hit";
 static NSString *PlayStateDig      = @"dig";
 static NSString *PlayStateHit      = @"hit";
-
-
-
-
 
 typedef enum CourtArea : NSUInteger {
     CourtAreaIn = 0,
@@ -56,6 +50,9 @@ typedef enum CourtSide : NSUInteger {
 @property StatEventButtonsView* buttonsView;
 @property NSDictionary *buttonsForState;
 @property CourtView *courtView;
+@property UIView *addResultView;
+@property StatEventButtonsView *addResultButtons;
+@property NSString* selectedPlayer;
 @end
 
 
@@ -78,7 +75,18 @@ typedef enum CourtSide : NSUInteger {
     if (self) {
         CGFloat courtAspectRatio = 8/5.f;
         
-        CGFloat height = self.bounds.size.height - 200;
+        
+        StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
+        [self addSubview:subsView];
+        subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20"];
+        subsView.selectedButton = subsView.buttonTitles[0];
+        self.selectedPlayer = subsView.buttonTitles[0];
+        [subsView on:@"button-pressed" callback:^(NSString* player) {
+            subsView.selectedButton = player;
+            self.selectedPlayer = player;
+        }];
+        
+        CGFloat height = self.bounds.size.height - subsView.frame.size.height;
         CGFloat width = self.bounds.size.width;
         
         if (height * courtAspectRatio > width) {
@@ -87,7 +95,8 @@ typedef enum CourtSide : NSUInteger {
             width = height * courtAspectRatio;
         }
         
-        _courtView = [[CourtView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y + 200, width, height)];
+        _courtView = [[CourtView alloc] initWithFrame:CGRectMake(self.bounds.origin.x + self.bounds.size.width/2 - width/2,
+                                                                 CGRectGetMaxY(subsView.frame) + (self.bounds.size.height - subsView.frame.size.height)/2 - height/2, width, height)];
         [self addSubview:_courtView];
         
         [_courtView on:@"drew-line" callback:^(NSDictionary* data){
@@ -95,62 +104,13 @@ typedef enum CourtSide : NSUInteger {
             
         }];
         
-        _stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,40,200, 50)];
-        _stateLabel.text = _state;
-        [self addSubview:_stateLabel];
+        _addResultView = [[UIView alloc] initWithFrame:_courtView.frame];
+        [self addSubview:_addResultView];
+        _addResultView.hidden = YES;
+        _addResultView.backgroundColor = [UIColor whiteColor];
         
-        _buttonsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 150, self.bounds.size.width, 50)];
-        [self addSubview:_buttonsView];
-        _buttonsView.buttonTitles = @[@"FOO:", @"BAR", @"BAZ"];
-        
-        [_buttonsView on:@"button-pressed" callback:^(NSString* buttonName) {
-            [self advanceStateForButton:buttonName];
-        }];
-        
-        StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 75, self.bounds.size.width, 50)];
-        [self addSubview:subsView];
-        subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18"];
-        
-        [subsView on:@"button-pressed" callback:^(NSString* player) {
-            [_courtView subPlayer: player];
-        }];
-
-        for(int team = 0; team < 2; team++) {
-            StatEventButtonsView *rotationButtons = [[StatEventButtonsView alloc]
-                                                     initWithFrame:CGRectMake(85 + 450*team, self.bounds.size.height - 55,
-                                                                              100, 50)];
-            [self addSubview:rotationButtons];
-            rotationButtons.buttonTitles = @[@"<--", @"-->"];
-            
-            [rotationButtons on:@"button-pressed" callback:^(NSString* buttonName) {
-                if ([buttonName isEqualToString:@"<--"]) {
-                    [self.courtView unrotateTeam:team];
-                } else {
-                    [self.courtView rotateTeam:team];
-                }
-            }];
-        }
-        
-        StatEventButtonsView *changeStateView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(350, 0, self.bounds.size.width, 50)];
-        [self addSubview:changeStateView];
-        changeStateView.buttonTitles = @[@"Hit Left",@"Hit Right"];
-        
-        [changeStateView on:@"button-pressed" callback:^(NSString* buttonName) {
-            if ([buttonName isEqualToString:@"Hit Left"]) {
-                self.state = PlayStateDig;
-                self.currentSide = CourtSideLeft;
-            }
-            else {
-                self.state = PlayStateDig;
-                self.currentSide = CourtSideRight;
-            }
-        }];
-        
-        
-        [self makeStateMachine];
-        [self makeStateButtons];
-        
-        self.state = PlayStatePrePlay;
+        _addResultButtons = [[StatEventButtonsView alloc] initWithFrame:_addResultView.bounds];
+        [_addResultView addSubview:_addResultButtons];
     }
     return self;
 }
@@ -306,9 +266,45 @@ typedef enum CourtSide : NSUInteger {
 
 //This is where we change the state
 - (void)advanceStateForLine:(NSArray*)line player:(NSString*)player {
-    NSLog(@"%s%u","current side: ",self.currentSide);
-    void (^advanceStateMachine)(NSArray*, NSString*) = self.stateMachine[self.state];
-    advanceStateMachine(line, player);
+    
+    CourtSide startSide, endSide;
+    CourtArea startArea, endArea;
+    [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
+    
+    self.play = [[Play alloc] init];
+    self.play.rotation = @{};
+    [self emit:@"play-added" data:self.play];
+    
+    Stat *stat;
+    if (startArea == CourtAreaServeZone) {
+        // Serve
+        stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
+    } else {
+        //Hit
+        stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
+    }
+    stat.details[@"line"] = line;
+    [self.play.stats addObject:stat];
+
+    [self addResultForStat:stat];
+}
+
+- (void)addResultForStat:(Stat *)stat {
+    if (stat.skill == kSkillServe) {
+        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
+    } else {
+        self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
+    }
+    self.addResultView.hidden = NO;
+    
+    [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
+        stat.details[@"result"] = result;
+        stat.player = self.selectedPlayer;
+        self.addResultView.hidden = YES;
+        
+        [self emit:@"stat-added" data:stat];
+        
+    }];
 }
 
 - (void)advanceStateForButton:(NSString*)button {
@@ -353,8 +349,6 @@ typedef enum CourtSide : NSUInteger {
             [currentStat.details setObject:@"hands" forKey:@"hands"];
             
         }
-        
-    
     }
 }
 

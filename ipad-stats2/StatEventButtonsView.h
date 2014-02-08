@@ -12,4 +12,6 @@
 
 @property NSArray* buttonTitles;
 
+@property NSString *selectedButton;
+
 @end

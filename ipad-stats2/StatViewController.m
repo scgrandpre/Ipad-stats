@@ -12,7 +12,6 @@
 #import "Game.h"
 #import "Play.h"
 #import "Stat.h"
-#import "PlayListView.h"
 #import "Serializable.h"
 
 @interface StatViewController ()
@@ -33,16 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    StatEntryView *statEntryView = [[StatEntryView alloc] initWithFrame:CGRectMake(0,0,700,700)]; //we have 324 to work with on the right side
+    StatEntryView *statEntryView = [[StatEntryView alloc] initWithFrame:CGRectMake(0,0,1024,700)];
     [self.view addSubview:statEntryView];
-
-    
-    PlayListView *playListView = [[PlayListView alloc] initWithFrame:CGRectMake(700, 00, 324, 700) game:self.game];
-    [self.view addSubview:playListView];
-    
-    UILabel *gameIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,300, 50)];
-    [gameIdLabel setText:self.game.id];
-    [self.view addSubview:gameIdLabel];
     
     [statEntryView on:@"play-added" callback:^(Play* play) {
         NSLog(@"Adding play");
@@ -53,22 +44,12 @@
     
     [statEntryView on:@"stat-added" callback:^(Stat* stat) {
          NSLog(@"Adding stat");
-        [playListView refresh];
         [[SerializableManager manager] SaveSerializable:self.game withCallback:^(NSObject<Serializable> *object) {
-            [gameIdLabel setText:self.game.id];
+ 
         }];
     }];
 
     self.view.backgroundColor = [UIColor clearColor];
-    
-    
-
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -13,4 +13,6 @@
 - (void)rotateTeam:(int)team;
 - (void)unrotateTeam:(int)team;
 - (void)subPlayer:(NSString*)player;
+
+- (CGRect)courtRect;
 @end

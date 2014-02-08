@@ -9,7 +9,7 @@
 #import "StatEventButtonsView.h"
 #import <EventEmitter/EventEmitter.h>
 
-static const CGFloat MAX_BUTTON_WIDTH = 150;
+static const CGFloat MAX_BUTTON_WIDTH = 1500;
 static const CGFloat BUTTON_PADDING = 10;
 
 @implementation StatEventButtonsView
@@ -24,16 +24,36 @@ static const CGFloat BUTTON_PADDING = 10;
         [view removeFromSuperview];
     }
     if (titles != nil) {
-        CGFloat buttonWidth = MIN(self.bounds.size.width/([titles count]) - BUTTON_PADDING, MAX_BUTTON_WIDTH);
-        for (int i = 0; i < [titles count]; i++) {
+        CGFloat buttonWidth = MIN((self.bounds.size.width/([titles count]/2) - BUTTON_PADDING), MAX_BUTTON_WIDTH);
+        for (int j = 0; j < [titles count]; j++) {
+            int i = j % ([titles count]/2);
+            CGFloat heightOffset = 0;
+            if (j >= [titles count]/2) {
+                heightOffset = self.bounds.size.height/2;
+            }
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            button.frame = CGRectMake((BUTTON_PADDING + buttonWidth) * i, 0, buttonWidth, self.bounds.size.height);
-            [button setTitle:titles[i] forState:UIControlStateNormal];
+            button.frame = CGRectMake((BUTTON_PADDING + buttonWidth) * i, heightOffset, buttonWidth, self.bounds.size.height/2 - BUTTON_PADDING/2);
+            [button setTitle:titles[j] forState:UIControlStateNormal];
             [self addSubview:button];
             [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
     _buttonTitles = titles;
+}
+
+- (void) setSelectedButton:(NSString *)selectedButton {
+    for (UIView *view in self.subviews) {
+        UIButton *button = (UIButton*)view;
+        if([button.titleLabel.text isEqualToString:selectedButton]) {
+            [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+        } else {
+            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (NSString *)selectedButton {
+    return @"";
 }
 
 - (void) buttonPressed:(UIButton*)button {
