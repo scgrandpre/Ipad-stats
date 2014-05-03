@@ -74,8 +74,11 @@
     [self.view addSubview:_linesView];
     [_linesView on:@"selected-stat" callback:^(Stat *stat) {
         NSLog(@"%@", stat);
+        Stat *firstStat = [self.game.plays[0] stats][0];
+        NSDate *firstStatTime = firstStat.timestamp;
+        NSTimeInterval offset = [stat.timestamp timeIntervalSinceDate:firstStatTime];
         // TODO(jim): Figure out the right time from stat.timestamp
-        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(0, 1)];
+        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(offset, 1)];
         [self.videoPlayer play];
     }];
     
