@@ -11,6 +11,7 @@
 #import "Play.h"
 #import "CommonUtil.h"
 #import "Stat.h"
+#import <EventEmitter/EventEmitter.h>
 
 @implementation Game
 
@@ -32,6 +33,7 @@
     [[SerializableManager manager] SaveSerializable:play withCallback:^(NSObject<Serializable> *object) {
         NSLog(@"SAVED A PLAY");
     }];
+    [self emit:@"play-added" data:play];
 }
 
 + (Game*) fromDict: (NSDictionary*) dict {

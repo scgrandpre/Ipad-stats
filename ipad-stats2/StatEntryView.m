@@ -273,7 +273,7 @@ typedef enum CourtSide : NSUInteger {
     
     self.play = [[Play alloc] init];
     self.play.rotation = @{};
-    [self emit:@"play-added" data:self.play];
+
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
@@ -302,6 +302,7 @@ typedef enum CourtSide : NSUInteger {
         stat.player = self.selectedPlayer;
         self.addResultView.hidden = YES;
         
+        [self emit:@"play-added" data:self.play];
         [self emit:@"stat-added" data:stat];
         
     }];

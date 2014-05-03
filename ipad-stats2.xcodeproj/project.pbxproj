@@ -39,6 +39,10 @@
 		F1467888184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
 		F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
 		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
+		F19772FE18B9079900C9A677 /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F19772FD18B9079900C9A677 /* AVPlayerView.m */; };
+		F19772FF18B9079900C9A677 /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F19772FD18B9079900C9A677 /* AVPlayerView.m */; };
+		F197730118B9087F00C9A677 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F197730018B9087F00C9A677 /* AVFoundation.framework */; };
+		F197730318B90CFC00C9A677 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F197730218B90CFC00C9A677 /* CoreMedia.framework */; };
 		F19E85D717BFD53B005F7FE7 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85D617BFD53B005F7FE7 /* Reveal.framework */; };
 		F19E85D917BFD580005F7FE7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85D817BFD580005F7FE7 /* CFNetwork.framework */; };
 		F19E85DB17BFD585005F7FE7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */; };
@@ -110,6 +114,10 @@
 		F1467887184089FE00A6F792 /* AnalysisLinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisLinesView.m; sourceTree = "<group>"; };
 		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
 		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
+		F19772FC18B9079900C9A677 /* AVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerView.h; sourceTree = "<group>"; };
+		F19772FD18B9079900C9A677 /* AVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerView.m; sourceTree = "<group>"; };
+		F197730018B9087F00C9A677 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F197730218B90CFC00C9A677 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		F19E85D617BFD53B005F7FE7 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		F19E85D817BFD580005F7FE7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -133,6 +141,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F197730318B90CFC00C9A677 /* CoreMedia.framework in Frameworks */,
+				F197730118B9087F00C9A677 /* AVFoundation.framework in Frameworks */,
 				F1A078491895792C006D54ED /* MediaPlayer.framework in Frameworks */,
 				F19E85DB17BFD585005F7FE7 /* QuartzCore.framework in Frameworks */,
 				F19E85D917BFD580005F7FE7 /* CFNetwork.framework in Frameworks */,
@@ -160,6 +170,8 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				F19772FC18B9079900C9A677 /* AVPlayerView.h */,
+				F19772FD18B9079900C9A677 /* AVPlayerView.m */,
 				F1467886184089FE00A6F792 /* AnalysisLinesView.h */,
 				F1467887184089FE00A6F792 /* AnalysisLinesView.m */,
 				F19E85DA17BFD585005F7FE7 /* QuartzCore.framework */,
@@ -190,6 +202,8 @@
 		380F5814171711CE005ED397 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F197730218B90CFC00C9A677 /* CoreMedia.framework */,
+				F197730018B9087F00C9A677 /* AVFoundation.framework */,
 				F1A078481895792C006D54ED /* MediaPlayer.framework */,
 				F19E85D617BFD53B005F7FE7 /* Reveal.framework */,
 				380F5815171711CE005ED397 /* UIKit.framework */,
@@ -345,8 +359,14 @@
 		380F580A171711CE005ED397 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "RIPP Volleyball";
+				TargetAttributes = {
+					380F5811171711CE005ED397 = {
+						DevelopmentTeam = P3RR5ZSF22;
+					};
+				};
 			};
 			buildConfigurationList = 380F580D171711CE005ED397 /* Build configuration list for PBXProject "ipad-stats2" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -435,6 +455,7 @@
 				387C4CAC17301F5B0002CA0B /* Serializable.m in Sources */,
 				387C4CAF17301F970002CA0B /* CommonUtil.m in Sources */,
 				387C4CB3173020E60002CA0B /* Game.m in Sources */,
+				F19772FE18B9079900C9A677 /* AVPlayerView.m in Sources */,
 				387C4CB6173028D30002CA0B /* Stat.m in Sources */,
 				387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */,
 				387C4CBC17303AFD0002CA0B /* Play.m in Sources */,
@@ -453,6 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19772FF18B9079900C9A677 /* AVPlayerView.m in Sources */,
 				380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */,
 				380F58501717136B005ED397 /* CourtView.m in Sources */,
 				F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */,
@@ -551,7 +573,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Grandpre (34C46883AH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -560,7 +583,7 @@
 				GCC_PREFIX_HEADER = "ipad-stats2/ipad-stats2-Prefix.pch";
 				INFOPLIST_FILE = "ipad-stats2/ipad-stats2-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9F74004E-64EB-4005-A8D5-A81B2AEB167D";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -569,7 +592,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Grandpre (34C46883AH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -578,7 +602,7 @@
 				GCC_PREFIX_HEADER = "ipad-stats2/ipad-stats2-Prefix.pch";
 				INFOPLIST_FILE = "ipad-stats2/ipad-stats2-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9F74004E-64EB-4005-A8D5-A81B2AEB167D";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

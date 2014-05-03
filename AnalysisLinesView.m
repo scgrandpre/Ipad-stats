@@ -7,21 +7,24 @@
 //
 
 #import "AnalysisLinesView.h"
+#import <EventEmitter.h>
 
 @interface AnalysisLinesView ()
 
 @property NSMutableDictionary *highlights;
+@property Stat *selectedStat;
 
 @end
 
 @implementation AnalysisLinesView
-@synthesize lines = _lines;
+@synthesize stats = _stats;
+@synthesize selectedStat = _selectedStat;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _lines = [[NSArray alloc] init];
+        _stats = [[NSArray alloc] init];
         _highlights = [[NSMutableDictionary alloc] init];
         self.backgroundColor = [UIColor clearColor];
     }
@@ -39,13 +42,18 @@
                        (point.y - self.bounds.origin.y)/self.bounds.size.height - .5);
 }
 
-- (void)setLines:(NSArray *)lines {
-    _lines = lines;
+- (void)setLines:(NSArray *)stats {
+    _stats = stats;
     [self setNeedsDisplay];
 }
 
-- (NSArray *)lines {
-    return _lines;
+- (void)setStats:(NSArray *)stats {
+    [self setLines:stats];
+    _stats = stats;
+}
+
+- (NSArray *)stats {
+    return _stats;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -66,12 +74,15 @@
 }
 
 - (void)processTouch:(UITouch*)touch {
+    if ([self.stats count] == 0) {
+        return;
+    }
     CGPoint location = [touch locationInView:self];
     location = [self pointByNormalizingPoint:location];
     int closest = 0;
     float closeDist = 1111111;
-    for (int i = 0; i < [self.lines count]; i++) {
-        NSDictionary *lineDict = self.lines[i];
+    for (int i = 0; i < [self.stats count]; i++) {
+        NSDictionary *lineDict = [self lineDictForStat:self.stats[i]];;
         NSArray *line = lineDict[@"line"];
         if(line.count > 0) {
             CGPoint point = [line[0] CGPointValue];
@@ -80,13 +91,34 @@
             if (dist2 < closeDist) {
                 closeDist = dist2;
                 closest = i;
+                
             }
             self.highlights[[NSNumber numberWithInteger:i]] = [UIColor colorWithWhite:.7 alpha:1];
         }
     }
     self.highlights[[NSNumber numberWithInteger:closest]] = [UIColor colorWithWhite:0 alpha:1];
+    self.selectedStat = self.stats[closest];
+
 
     [self setNeedsDisplay];
+}
+
+- (NSDictionary*)lineDictForStat:(Stat*)stat {
+    NSDictionary *resultColor = @{@"kill":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
+                                  @"error": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
+                                  @"err": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
+                                  
+                                  @"ace":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
+                                  @"us": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  @"them": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.2],
+                                  @"0": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  @"1": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  @"2": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  @"3": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  @"4": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  };
+    return @{@"line":stat.details[@"line"] ? stat.details[@"line"] : @[] ,
+             @"color": resultColor[stat.details[@"result"] ? stat.details[@"result"] : @"kill"]};
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -96,15 +128,15 @@
     
     
     CGContextSetLineWidth(ctx, 2);
-    for (int i = 0; i < [self.lines count]; i++) {
-        NSDictionary *lineDict = self.lines[i];
+    for (int i = 0; i < [self.stats count]; i++) {
+        NSDictionary *lineDict = [self lineDictForStat:self.stats[i]];
         if (lineDict[@"color"]) {
             CGContextSetStrokeColorWithColor(ctx, [lineDict[@"color"] CGColor]);
         } else {
             CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
         }
         //Show the highlights so we can see what we're selecting
-        //CGContextSetStrokeColorWithColor(ctx, [self.highlights[[NSNumber numberWithInteger:i]] CGColor]);
+        CGContextSetStrokeColorWithColor(ctx, [self.highlights[[NSNumber numberWithInteger:i]] CGColor]);
         CGContextBeginPath(ctx);
         NSArray *line = lineDict[@"line"];
         if(line.count > 0) {
@@ -120,6 +152,16 @@
     }
 }
 
+- (Stat *)selectedStat {
+    return _selectedStat;
+}
 
+- (void)setSelectedStat:(Stat *)selectedStat {
+    if (selectedStat == _selectedStat) {
+        return;
+    }
+    _selectedStat = selectedStat;
+    [self emit:@"selected-stat" data:selectedStat];
+}
 
 @end

@@ -32,10 +32,10 @@
     if (self) {
         self.didIncrement = didIncrement;
         float width = self.bounds.size.width/3.f;
-        float (^flip)(float, float) = ^(float x, float w) {
+        float (^flip)(float, float) =  ^(float x, float w) {
             if(flipped) {
                 NSLog(@"%f, %f, %f", x, w, self.bounds.size.width - x - w);
-                return self.bounds.size.width - x - w;
+                return (float)(self.bounds.size.width - x - w);
             } else {
                 return x;
             }

@@ -39,7 +39,7 @@
         NSLog(@"Adding play");
         
         play.gameID = self.game.id;
-        [self.game.plays addObject:play];
+        [self.game addPlay:play];
     }];
     
     [statEntryView on:@"stat-added" callback:^(Stat* stat) {

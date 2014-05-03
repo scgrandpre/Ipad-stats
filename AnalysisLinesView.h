@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Stat.h"
 
 @interface AnalysisLinesView : UIView
 
-@property NSArray *lines;
+@property NSArray *stats;
 @property NSString *selectedPlayer;
 
 @end

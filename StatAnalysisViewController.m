@@ -15,6 +15,10 @@
 #import "AnalysisLinesView.h"
 #import "StatEventButtonsView.h"
 #import <EventEmitter/EventEmitter.h>
+#import <MediaPlayer/MediaPlayer.h>
+
+#import <AVFoundation/AVFoundation.h>
+#import "AVPlayerView.h"
 
 @interface StatAnalysisViewController ()
 @property UITextView *text;
@@ -23,6 +27,8 @@
 @property AnalysisLinesView *linesView;
 @property NSString *selectedPlayer;
 @property NSString *skill;
+@property AVPlayer *video;
+@property AVPlayerView *videoPlayer;
 @end
 
 @implementation StatAnalysisViewController
@@ -35,12 +41,16 @@
     self.StatAnalyzer = [[StatAnalyzer alloc] initWithGame: game];
     _skill = @"Hit";
     
+    [game on:@"play-added" callback:^(id arg0) {
+        [self updateLines];
+    }];
+    
     return self;
 }
 
 -(void)loadView {
     [super loadView];
-    self.text = [[UITextView alloc] initWithFrame:self.view.bounds];
+    self.text = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxY(self.view.bounds) - 300, CGRectGetMaxX(self.view.bounds) -400, 300, 400)];
     self.text.editable = NO;
 
     [self.view addSubview: self.text];
@@ -62,6 +72,12 @@
     
     _linesView = [[AnalysisLinesView alloc] initWithFrame:[courtView courtRect]];
     [self.view addSubview:_linesView];
+    [_linesView on:@"selected-stat" callback:^(Stat *stat) {
+        NSLog(@"%@", stat);
+        // TODO(jim): Figure out the right time from stat.timestamp
+        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(0, 1)];
+        [self.videoPlayer play];
+    }];
     
     StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 200)];
     [self.view addSubview:subsView];
@@ -87,24 +103,41 @@
         self.skill = skill;
     }];
     skillsView.selectedButton = self.skill;
+    
+    _video = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/villanova_Lehigh.mp4"]];
+    _videoPlayer = [[AVPlayerView alloc] initWithFrame:CGRectMake(500, 0, 400, 300)];
+    [_videoPlayer setPlayer:_video];
+    [self.view addSubview:self.videoPlayer];
 
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    //self.text.text = [self basicStats];
+    self.text.text = [self basicStats];
 }
 
 
 - (NSString*)basicStats {
     ///kills by team 0
-    int kills = [self.game filterEventsBy:@{@"skill": @"HIT"}].count;
-    int hittingAttempts = [self.game filterEventsBy:@{@"skill": @"HIT"}].count;
-    int hittingErrors = [self.game filterEventsBy:@{@"skill": @"HIT", @"details": @{@"RESULT":@"ERROR"}}].count;
+    NSString *playerFilter = self.selectedPlayer;
+    //if (playerFilter == nil){
+      //  playerFilter = nil;
+    //}
+    
+    
+    NSLog(@"%s%@","playerFilter: ",playerFilter);
+    
+    
+    NSUInteger kills = [self.game filterEventsBy:@{@"skill": @"Hit",@"player": playerFilter, @"details": @{@"result":@"kill"}}].count;
+    
+    //NSUInteger killsTeam0 = [self.game filterEventsBy:@{@"skill": @"Hit", @"details": @{@"result":@"kill", @"details": @{@"team":@"0"}}}].count;
+    
+    NSUInteger hittingAttempts = [self.game filterEventsBy:@{@"skill": @"Hit"}].count;
+    NSUInteger hittingErrors = [self.game filterEventsBy:@{@"skill": @"Hit", @"details": @{@"result":@"error"}}].count;
     
     ///passing stat team 0
-    int passingAttempts = [self.game filterEventsBy:@{@"skill": @"SERVE"}].count;
-    int pass4 = [self.game filterEventsBy:@{@"skill": @"SERVE", @"details": @{@"RESULT":@"4"}}].count;
-    int countPasses = 0;
+    NSUInteger passingAttempts = [self.game filterEventsBy:@{@"skill": @"Serve"}].count;
+    NSUInteger pass4 = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"4"}}].count;
+    //NSUInteger countPasses = 0;
     //for (i in [self filterEventsBy:@{@"skill": @"SERVE"}]){
     //    countPasses += i
     
@@ -112,39 +145,21 @@
     //NSString *passStat = countPasses
     
     
-    NSLog(@"%d\n%d", passingAttempts, pass4);
     
     
-    return [NSString stringWithFormat:@"Attempts: %i\nKills: %i\nErrors: %i\nHitting Average: %f\n4 Passes: %i", hittingAttempts, kills, hittingErrors, ((float)kills - hittingErrors)/hittingAttempts, pass4];
+    NSLog(@"%lu\n%lu", (unsigned long)passingAttempts, (unsigned long)pass4);
+    
+    
+    return [NSString stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting Average: %f\nCurrent Player: %@\n4 Passes: %lu", (unsigned long)hittingAttempts, (unsigned long)kills, (unsigned long)hittingErrors, ((float)kills - hittingErrors)/hittingAttempts,  self.selectedPlayer,  (unsigned long)pass4];
 }
 
 - (void)updateLines {
-    NSDictionary *resultColor = @{@"kill":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
-                                  @"error": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
-                                  @"err": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
-
-                                  @"ace":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
-                                  @"us": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
-                                  @"them": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.2],
-                                  @"0": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
-                                  @"1": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
-                                  @"2": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
-                                  @"3": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
-                                  @"4": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
-                                  };
-
-    NSMutableArray *lines = [[NSMutableArray alloc] init];
     NSMutableDictionary *filter = [[NSMutableDictionary alloc] initWithDictionary:@{@"skill": self.skill}];
     if (self.selectedPlayer != nil) {
         filter[@"player"] = self.selectedPlayer;
     }
-    for (Stat *stat in [self.game filterEventsBy:filter]) {
-        if (stat.details[@"line"]) {
-            [lines addObject:@{@"line":stat.details[@"line"],
-                               @"color": resultColor[stat.details[@"result"]]}];
-        }
-    }
-    self.linesView.lines = lines;
+    self.linesView.stats = [self.game filterEventsBy:filter];
+    self.text.text = [self basicStats];
 }
 
 - (void)setSelectedPlayer:(NSString *)selectedPlayer {

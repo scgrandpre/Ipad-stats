@@ -56,17 +56,41 @@ cake go
 
 @implementation AppDelegate
 
+
 - (void)openGame:(Game*) game {
     UIViewController *mainViewController = [[StatViewController alloc] initWithGame: game];
     UIViewController *analysisViewController = [[StatAnalysisViewController alloc] initWithGame: game];
     UITabBarController *tabBar = [[UITabBarController alloc] init];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%%d.ts",documentsDirectory];
+    NSFileManager *filemanager = [NSFileManager defaultManager];
+    [filemanager createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
 
     
-    
-    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[[NSURL alloc] initWithString:@"http://acsvolleyball.com/videos/villanova_Lehigh.mp4"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        void (^getFrame)(int, int) = ^void(int name, int frame) {
+        NSString *path = [NSString stringWithFormat:filePath, name];
+        NSData *frameData = [NSData dataWithContentsOfURL:
+                             [NSURL URLWithString:
+                              [NSString stringWithFormat:@"http://10.5.5.9:8080/live/amba_hls-%d.ts", frame]]];
+        [filemanager createFileAtPath:path contents:frameData attributes:nil];
+        };
+        
+        getFrame(0,1);
+    });
+
+
+    NSString *path = [NSString stringWithFormat:filePath, 0];
+    NSLog(@"%hhd",[filemanager fileExistsAtPath:path]);
+    NSLog(@"%@", path);
+    NSLog(@"%@", [NSData dataWithContentsOfFile:path]);
+    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/villanova_Lehigh.mp4"]];
     
     tabBar.viewControllers = @[mainViewController, analysisViewController, mp];
-    tabBar.selectedViewController = mainViewController;
+    tabBar.selectedViewController = mp;
     mainViewController.title = @"Main View";
     analysisViewController.title = @"Analysis";
     mp.title = @"Video";
