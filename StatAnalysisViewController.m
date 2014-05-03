@@ -127,7 +127,7 @@
     NSLog(@"%s%@","playerFilter: ",playerFilter);
     
     
-    NSUInteger kills = [self.game filterEventsBy:@{@"skill": @"Hit",@"player": playerFilter, @"details": @{@"result":@"kill"}}].count;
+    NSUInteger kills = [self.game filterEventsBy:@{@"skill": @"Hit", @"details": @{@"result":@"kill"}}].count;
     
     //NSUInteger killsTeam0 = [self.game filterEventsBy:@{@"skill": @"Hit", @"details": @{@"result":@"kill", @"details": @{@"team":@"0"}}}].count;
     
