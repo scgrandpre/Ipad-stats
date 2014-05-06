@@ -21,7 +21,7 @@
 #import "AVPlayerView.h"
 
 @interface StatAnalysisViewController ()
-@property UITextView *text;
+@property UITextView *statsTextView;
 @property Game *game;
 @property StatAnalyzer *StatAnalyzer;
 @property AnalysisLinesView *linesView;
@@ -29,6 +29,8 @@
 @property NSString *skill;
 @property AVPlayer *video;
 @property AVPlayerView *videoPlayer;
+@property UITextField *field;
+@property UITextView *offset;
 @end
 
 @implementation StatAnalysisViewController
@@ -50,10 +52,24 @@
 
 -(void)loadView {
     [super loadView];
-    self.text = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxY(self.view.bounds) - 300, CGRectGetMaxX(self.view.bounds) -400, 300, 400)];
-    self.text.editable = NO;
+    self.statsTextView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxY(self.view.bounds) - 300, CGRectGetMaxX(self.view.bounds) -400, 300, 400)];
+    self.statsTextView.editable = NO;
 
-    [self.view addSubview: self.text];
+    [self.view addSubview: self.statsTextView];
+    
+    
+    self.field = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxY(self.view.bounds) - 200, CGRectGetMaxX(self.view.bounds) -600, 200, 50)];
+    //self.field.editable = NO;
+    
+    [self.view addSubview: self.field];
+    self.field.backgroundColor = [UIColor redColor];
+    
+    self.offset = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxY(self.view.bounds) - 250, CGRectGetMaxX(self.view.bounds) -600, 50, 50)];
+    self.offset.text = @"Offset:";
+    self.offset.editable = NO;
+    
+    [self.view addSubview: self.offset];
+    
     
     CGFloat courtAspectRatio = 8/5.f;
     CGFloat height = self.view.bounds.size.height;
@@ -77,8 +93,10 @@
         Stat *firstStat = [self.game.plays[0] stats][0];
         NSDate *firstStatTime = firstStat.timestamp;
         NSTimeInterval offset = [stat.timestamp timeIntervalSinceDate:firstStatTime];
+        int manualOffset = [self.field.text intValue];
+        
         // TODO(jim): Figure out the right time from stat.timestamp
-        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(offset, 1)];
+        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(offset + manualOffset, 1)];
         [self.videoPlayer play];
     }];
     
@@ -115,7 +133,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    self.text.text = [self basicStats];
+    self.statsTextView.text = [self basicStats];
 }
 
 
@@ -162,7 +180,7 @@
         filter[@"player"] = self.selectedPlayer;
     }
     self.linesView.stats = [self.game filterEventsBy:filter];
-    self.text.text = [self basicStats];
+    self.statsTextView.text = [self basicStats];
 }
 
 - (void)setSelectedPlayer:(NSString *)selectedPlayer {

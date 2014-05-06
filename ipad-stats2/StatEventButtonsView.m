@@ -32,6 +32,8 @@ static const CGFloat BUTTON_PADDING = 10;
                 heightOffset = self.bounds.size.height/2;
             }
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            button.layer.backgroundColor = [UIColor colorWithRed:150.0/255.0 green:0.0 blue:0.0 alpha:1.0].CGColor;
+            
             button.frame = CGRectMake((BUTTON_PADDING + buttonWidth) * i, heightOffset, buttonWidth, self.bounds.size.height/2 - BUTTON_PADDING/2);
             [button setTitle:titles[j] forState:UIControlStateNormal];
             [self addSubview:button];
