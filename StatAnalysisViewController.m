@@ -78,7 +78,7 @@
         NSDate *firstStatTime = firstStat.timestamp;
         NSTimeInterval offset = [stat.timestamp timeIntervalSinceDate:firstStatTime];
         // TODO(jim): Figure out the right time from stat.timestamp
-        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(offset, 1)];
+        [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(offset + 1637, 1)];
         [self.videoPlayer play];
     }];
     
@@ -107,7 +107,7 @@
     }];
     skillsView.selectedButton = self.skill;
     
-    _video = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/villanova_Lehigh.mp4"]];
+    _video = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/shu_liu_a.mp4"]];
     _videoPlayer = [[AVPlayerView alloc] initWithFrame:CGRectMake(500, 0, 400, 300)];
     [_videoPlayer setPlayer:_video];
     [self.view addSubview:self.videoPlayer];
