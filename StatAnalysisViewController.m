@@ -138,8 +138,23 @@
     NSUInteger hittingErrors = [self.game filterEventsBy:@{@"skill": @"Hit", @"details": @{@"result":@"error"}}].count;
     
     ///passing stat team 0
+    
+    NSLog(@"here I am");
     NSUInteger passingAttempts = [self.game filterEventsBy:@{@"skill": @"Serve"}].count;
     NSUInteger pass4 = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"4"}}].count;
+    NSUInteger pass3 = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"3"}}].count;
+    NSUInteger pass2 = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"2"}}].count;
+    NSUInteger pass1 = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"1"}}].count;
+    NSUInteger pass0 = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"0"}}].count;
+    NSUInteger passAce = [self.game filterEventsBy:@{@"skill": @"Serve", @"details": @{@"result":@"ace"}}].count;
+    NSUInteger passStat = 0;
+    if ((pass4+pass3+pass2+pass1+pass0+passAce) > 0){
+        passStat = (pass4*4+pass3*3+pass2*2+pass1*1)/(pass4+pass3+pass2+pass1+pass0+passAce);
+    }   
+    
+    
+    
+    
     //NSUInteger countPasses = 0;
     //for (i in [self filterEventsBy:@{@"skill": @"SERVE"}]){
     //    countPasses += i
@@ -153,7 +168,7 @@
     NSLog(@"%lu\n%lu", (unsigned long)passingAttempts, (unsigned long)pass4);
     
     
-    return [NSString stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting Average: %f\nCurrent Player: %@\n4 Passes: %lu", (unsigned long)hittingAttempts, (unsigned long)kills, (unsigned long)hittingErrors, ((float)kills - hittingErrors)/hittingAttempts,  self.selectedPlayer,  (unsigned long)pass4];
+    return [NSString stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting Average: %f\nCurrent Player: %@\nPass Stat: %lu", (unsigned long)hittingAttempts, (unsigned long)kills, (unsigned long)hittingErrors, ((float)kills - hittingErrors)/hittingAttempts,  self.selectedPlayer,  (unsigned long)passStat];
 }
 
 - (void)updateLines {
