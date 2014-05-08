@@ -87,7 +87,7 @@ cake go
     NSLog(@"%hhd",[filemanager fileExistsAtPath:path]);
     NSLog(@"%@", path);
     NSLog(@"%@", [NSData dataWithContentsOfFile:path]);
-    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/villanova_Lehigh.mp4"]];
+    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/shu_liu_a.mp"]];
     
     tabBar.viewControllers = @[mainViewController, analysisViewController, mp];
     tabBar.selectedViewController = mp;
