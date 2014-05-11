@@ -11,6 +11,7 @@
 #import "Play.h"
 #import "Stat.h"
 #import "StatAnalyzer.h"
+#import "StatFilterView.h"
 #import "CourtView.h"
 #import "AnalysisLinesView.h"
 #import "StatEventButtonsView.h"
@@ -31,6 +32,7 @@
 @property AVPlayerView *videoPlayer;
 @property UITextField *field;
 @property UITextView *offset;
+@property StatFilterView *filters;
 @end
 
 @implementation StatAnalysisViewController
@@ -45,6 +47,7 @@
     
     [game on:@"play-added" callback:^(id arg0) {
         [self updateLines];
+        self.filters.stats = [[self game] allStats];
     }];
     
     return self;
@@ -52,6 +55,7 @@
 
 -(void)loadView {
     [super loadView];
+    /*
     self.statsTextView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxY(self.view.bounds) - 300, CGRectGetMaxX(self.view.bounds) -400, 300, 400)];
     self.statsTextView.editable = NO;
 
@@ -69,21 +73,21 @@
     self.offset.editable = NO;
     
     [self.view addSubview: self.offset];
-    
+    */
     
     CGFloat courtAspectRatio = 8/5.f;
-    CGFloat height = self.view.bounds.size.height;
     CGFloat width = self.view.bounds.size.width;
+    CGFloat height = width/courtAspectRatio;
     
-    if (height * courtAspectRatio > width) {
-        height = width/courtAspectRatio;
-    } else {
-        width = height * courtAspectRatio;
-    }
-
-    
-    CourtView *courtView = [[CourtView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x + self.view.bounds.size.width/2 - width/2,
-                                                                    self.view.bounds.origin.y + (self.view.bounds.size.height)/2 - height/2, width, height)];
+    self.filters = [[StatFilterView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, 100, 100)];
+    self.filters.stats = [[self game] allStats];
+    [self.view addSubview:self.filters];
+    [self.filters on:@"filtered-stats" callback:^(NSArray *stats) {
+        NSLog(@"%@", stats);
+    }];
+     
+    CourtView *courtView = [[CourtView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x,
+                                                                    CGRectGetMaxY(self.view.bounds) - height- 20, width, height)];
     [self.view addSubview:courtView];
     
     _linesView = [[AnalysisLinesView alloc] initWithFrame:[courtView courtRect]];
@@ -99,7 +103,7 @@
         [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(offset + manualOffset, 1)];
         [self.videoPlayer play];
     }];
-    
+    /*
     StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 200)];
     [self.view addSubview:subsView];
     subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20"];
@@ -129,7 +133,7 @@
     _videoPlayer = [[AVPlayerView alloc] initWithFrame:CGRectMake(500, 0, 400, 300)];
     [_videoPlayer setPlayer:_video];
     [self.view addSubview:self.videoPlayer];
-
+    */
 }
 
 -(void)viewDidAppear:(BOOL)animated {

@@ -21,6 +21,7 @@
 - (void)addPlay:(Play*)play;
 + (Game*)stub;
 - (id)initWithPlays:(NSMutableArray*)plays date:(NSDate*)date id:(NSString*)id;
--(NSArray*)filterEventsBy:(NSDictionary*) filter;
+- (NSArray*)filterEventsBy:(NSDictionary*) filter;
+- (NSArray*)allStats;
 
 @end

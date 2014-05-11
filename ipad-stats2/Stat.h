@@ -20,4 +20,5 @@
 - (id)initWithSkill:(NSString*)skill details:(NSDictionary*)details player:(NSString*)player id:(NSString*)id;
 
 + (Stat*)stub;
++ (NSArray *)filterStats:(NSArray*)stats withFilters:(NSDictionary*)filters;
 @end

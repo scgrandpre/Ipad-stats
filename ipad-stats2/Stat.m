@@ -69,6 +69,32 @@
     completion();
 }
 
+-(BOOL) matchesFilter:(NSDictionary*)filter {
+    NSString* filter_skill = filter[@"skill"];
+    if(filter_skill != nil && [filter_skill compare:self.skill] != NSOrderedSame) return NO;
+    
+    NSString* filter_player = filter[@"player"];
+    if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
+    
+    if(filter[@"details"] != nil) {
+        for(NSString* detail in [filter[@"details"] allKeys]) {
+            NSString* filter_detail = filter[@"details"][detail];
+            if([filter_detail compare:self.details[detail]] != NSOrderedSame) return NO;
+        }
+    }
+    return YES;
+}
+
++ (NSArray *)filterStats:(NSArray*)stats withFilters:(NSDictionary*)filter {
+    NSMutableArray *filtered = [[NSMutableArray alloc] init];
+    for(Stat *stat in stats) {
+       if([stat matchesFilter:filter]) {
+            [filtered addObject: stat];
+        }
+    }
+    return filtered;
+}
+
 + (Stat*)stub {
     return [[Stat alloc] initWithSkill:@"HIT"
                                details:@{@"BLOCKERS":@"3", @"HANDS":@"HANDS", @"RESULT":@"KILL"}

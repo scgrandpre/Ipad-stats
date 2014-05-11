@@ -38,6 +38,8 @@
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 		F1467888184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
 		F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
+		F170415C191DBF9C00D74882 /* StatFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170415B191DBF9C00D74882 /* StatFilterView.m */; };
+		F170415D191DBF9C00D74882 /* StatFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170415B191DBF9C00D74882 /* StatFilterView.m */; };
 		F170B4D31757B92500ED6597 /* StatEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F170B4D21757B92400ED6597 /* StatEntryView.m */; };
 		F19772FE18B9079900C9A677 /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F19772FD18B9079900C9A677 /* AVPlayerView.m */; };
 		F19772FF18B9079900C9A677 /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F19772FD18B9079900C9A677 /* AVPlayerView.m */; };
@@ -112,6 +114,8 @@
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F1467886184089FE00A6F792 /* AnalysisLinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisLinesView.h; sourceTree = "<group>"; };
 		F1467887184089FE00A6F792 /* AnalysisLinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisLinesView.m; sourceTree = "<group>"; };
+		F170415A191DBF9C00D74882 /* StatFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatFilterView.h; sourceTree = "<group>"; };
+		F170415B191DBF9C00D74882 /* StatFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatFilterView.m; sourceTree = "<group>"; };
 		F170B4D11757B92400ED6597 /* StatEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatEntryView.h; sourceTree = "<group>"; };
 		F170B4D21757B92400ED6597 /* StatEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatEntryView.m; sourceTree = "<group>"; };
 		F19772FC18B9079900C9A677 /* AVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerView.h; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				F170415A191DBF9C00D74882 /* StatFilterView.h */,
+				F170415B191DBF9C00D74882 /* StatFilterView.m */,
 				F19772FC18B9079900C9A677 /* AVPlayerView.h */,
 				F19772FD18B9079900C9A677 /* AVPlayerView.m */,
 				F1467886184089FE00A6F792 /* AnalysisLinesView.h */,
@@ -446,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				380F5822171711CF005ED397 /* main.m in Sources */,
+				F170415C191DBF9C00D74882 /* StatFilterView.m in Sources */,
 				380F5826171711CF005ED397 /* AppDelegate.m in Sources */,
 				380F584C171712F8005ED397 /* StatViewController.m in Sources */,
 				380F584F1717136B005ED397 /* CourtView.m in Sources */,
@@ -475,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F19772FF18B9079900C9A677 /* AVPlayerView.m in Sources */,
+				F170415D191DBF9C00D74882 /* StatFilterView.m in Sources */,
 				380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */,
 				380F58501717136B005ED397 /* CourtView.m in Sources */,
 				F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */,

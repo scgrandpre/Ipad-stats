@@ -105,7 +105,13 @@
     return filtered;
 }
 
-
+-(NSArray*)allStats {
+    NSMutableArray *stats = [[NSMutableArray alloc] init];
+    [self forEachEvent:^(Stat* stat){
+        [stats addObject: stat];
+    }];
+    return stats;
+}
 
 
 @end

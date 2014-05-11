@@ -81,25 +81,16 @@ cake go
         
         getFrame(0,1);
     });
-
-
-    NSString *path = [NSString stringWithFormat:filePath, 0];
-    NSLog(@"%hhd",[filemanager fileExistsAtPath:path]);
-    NSLog(@"%@", path);
-    NSLog(@"%@", [NSData dataWithContentsOfFile:path]);
-    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/videos/shu_liu_a.mp"]];
     
-    tabBar.viewControllers = @[mainViewController, analysisViewController, mp];
-    tabBar.selectedViewController = mp;
+    tabBar.viewControllers = @[mainViewController, analysisViewController];
+    tabBar.selectedViewController = analysisViewController;
     mainViewController.title = @"Main View";
     analysisViewController.title = @"Analysis";
-    mp.title = @"Video";
     
     [self.navigationController pushViewController:tabBar animated:YES];
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     UINavigationController *root = [[UINavigationController alloc] init];
