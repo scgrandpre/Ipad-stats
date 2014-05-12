@@ -63,4 +63,8 @@ static const CGFloat BUTTON_PADDING = 10;
     [self emit:@"button-pressed" data:button.titleLabel.text];
 }
 
+- (void)layoutSubviews {
+
+}
+
 @end

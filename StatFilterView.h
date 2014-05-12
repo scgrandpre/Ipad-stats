@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Stat.h"
 
-@interface StatFilterView : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface StatFilterView : UIView<UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property NSArray *stats;
-@property (readonly) NSArray *filteredStats;
+@property(readonly) NSArray *filteredStats;
 
 @end
