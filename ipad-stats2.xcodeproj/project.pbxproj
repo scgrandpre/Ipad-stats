@@ -35,6 +35,7 @@
 		387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB8173033970002CA0B /* GamesMenuViewController.m */; };
 		387C4CBC17303AFD0002CA0B /* Play.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CBB17303AFD0002CA0B /* Play.m */; };
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
+		90EF6051192ECDE70064392A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90EF6050192ECDE70064392A /* Default.png */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 		F1467888184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
 		F1467889184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
@@ -111,6 +112,7 @@
 		38CD88BA17271E0A0099A3EB /* DrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
 		38CD88BB17271E0A0099A3EB /* DrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		90EF6050192ECDE70064392A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../../../Downloads/Default.png; sourceTree = "<group>"; };
 		9D70FECAF87B406C9EFE0B41 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		F1467886184089FE00A6F792 /* AnalysisLinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisLinesView.h; sourceTree = "<group>"; };
 		F1467887184089FE00A6F792 /* AnalysisLinesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisLinesView.m; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 		380F585117172EC5005ED397 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				90EF6050192ECDE70064392A /* Default.png */,
 				380F585817173845005ED397 /* Pitt_center.png */,
 			);
 			name = images;
@@ -398,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				380F5820171711CF005ED397 /* InfoPlist.strings in Resources */,
+				90EF6051192ECDE70064392A /* Default.png in Resources */,
 				380F5828171711CF005ED397 /* Default.png in Resources */,
 				380F582A171711CF005ED397 /* Default@2x.png in Resources */,
 				380F582C171711CF005ED397 /* Default-568h@2x.png in Resources */,
