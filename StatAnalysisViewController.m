@@ -43,6 +43,7 @@
 @synthesize offset = _offset;
 @synthesize filters = _filters;
 
+
 - (id)initWithGame:(Game *)game {
   self = [super init];
   self.game = game;
@@ -82,19 +83,25 @@
                  self.view.bounds.size.width / 2,
                  self.view.bounds.size.height - courtHeight - 20);
 
-  self.videoPlayer.frame =
-      CGRectMake(CGRectGetMaxX(self.filters.frame), self.view.bounds.origin.y,
-                 self.view.bounds.size.width / 2,
-                 self.view.bounds.size.height - courtHeight - 20);
+//  self.videoPlayer.frame =
+//      CGRectMake(CGRectGetMaxX(self.filters.frame), self.view.bounds.origin.y,
+//                 self.view.bounds.size.width / 2,
+//                 self.view.bounds.size.height - courtHeight - 20);
+//
 }
 
 - (UITextView *)statsTextView {
+    CGFloat courtAspectRatio = 8 / 5.f;
+    CGFloat courtWidth = self.view.bounds.size.width;
+    CGFloat courtHeight = courtWidth / courtAspectRatio;
   if (_statsTextView == nil) {
-    _statsTextView = [[UITextView alloc] init];
+    _statsTextView = [[UITextView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2, self.view.bounds.origin.y,
+                                                                self.view.bounds.size.width / 2,self.view.bounds.size.height - courtHeight - 20)];
     _statsTextView.editable = NO;
   }
   return _statsTextView;
 }
+
 
 - (UITextField *)field {
   if (_field == nil) {
@@ -136,7 +143,7 @@
     _linesView = [[AnalysisLinesView alloc] init];
     [_linesView on:@"selected-stat"
           callback:^(Stat *stat) {
-              NSLog(@"%@", stat);
+              //NSLog(@"%@", stat);
               Stat *firstStat = [self.game.plays[0] stats][0];
               NSDate *firstStatTime = firstStat.timestamp;
               NSTimeInterval offset =
@@ -170,25 +177,48 @@
 }
 
 - (NSString *)basicStats {
-  NSUInteger kills = [Stat filterStats:self.filters.stats
+  NSUInteger kills = [Stat filterStats:self.filters.filteredStats
                            withFilters:@{
                                          @"skill" : @"Hit",
                                          @"details" : @{@"result" : @"kill"}
                                        }].count;
 
-  NSUInteger hittingAttempts =
-      [self.game filterEventsBy:@{@"skill" : @"Hit"}].count;
-  NSUInteger hittingErrors =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Hit",
-                                  @"details" : @{@"result" : @"error"}
-                                }].count;
+    NSUInteger hittingAttempts = [Stat filterStats:self.filters.filteredStats
+                                       withFilters:@{@"skill" : @"Hit"}].count;
+    
+    NSUInteger hittingErrors =[Stat filterStats:self.filters.filteredStats
+                                    withFilters:@{
+                                                  @"skill" : @"Hit",
+                                                  @"details" : @{@"result" : @"error"}
+                                                  }].count;
 
   /// passing stat team 0
 
-  NSLog(@"here I am");
+NSArray *passingOptions = [NSArray arrayWithObjects:@"4", @"3", @"2",@"1", @"0", @"ace",@"error", nil];
+    NSString *currentPassingOption;
+    NSMutableDictionary *passValue = [[NSMutableDictionary alloc] init];
+    
+    for (currentPassingOption in passingOptions){
+        NSLog(@"%@",currentPassingOption);
+
+        NSUInteger pass =
+        [self.game filterEventsBy:@{
+                                    @"skill" : @"Serve",
+                                    @"details" : @{@"result" : currentPassingOption}
+                                    }].count;
+
+        passValue[currentPassingOption]= [NSNumber numberWithUnsignedInt:pass];
+        
+    }
+    
+    
+          //NSLog(@"here I am");
   NSUInteger passingAttempts =
-      [self.game filterEventsBy:@{@"skill" : @"Serve"}].count;
+    [Stat filterStats:self.filters.filteredStats
+          withFilters:@{@"skill" : @"Serve"}].count;
+    
+    
+    // passValue ["passValue @['4']]
   NSUInteger pass4 =
       [self.game filterEventsBy:@{
                                   @"skill" : @"Serve",
@@ -220,9 +250,12 @@
                                   @"details" : @{@"result" : @"ace"}
                                 }].count;
   NSUInteger passStat = 0;
-  if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
-    passStat = (pass4 * 4 + pass3 * 3 + pass2 * 2 + pass1 * 1) /
-               (pass4 + pass3 + pass2 + pass1 + pass0 + passAce);
+ //need to get values from the dict, will look like: passValue[0]
+    
+    
+    if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
+    passStat = ((float)pass4 * 4 + pass3 * 3 + pass2 * 2 + pass1 * 1) /
+               ((float)pass4 + pass3 + pass2 + pass1 + pass0 + passAce);
   }
 
   // NSUInteger countPasses = 0;
@@ -232,20 +265,21 @@
   //}
   // NSString *passStat = countPasses
 
-  NSLog(@"%lu\n%lu", (unsigned long)passingAttempts, (unsigned long)pass4);
+  NSLog(@"%lu\n%lu", (unsigned long)passingAttempts, (unsigned long)passValue[passingOptions[1]]);
 
   return [NSString
       stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting "
-                       @"Average: %f\nPass Stat: %lu",
+                       @"Average: %f\nPass Stat: %f",
                        (unsigned long)hittingAttempts, (unsigned long)kills,
                        (unsigned long)hittingErrors,
                        ((float)kills - hittingErrors) / hittingAttempts,
-                       (unsigned long)passStat];
+                       (float)passStat];
 }
 
 - (void)updateStats {
   self.linesView.stats = self.filters.filteredStats;
   self.statsTextView.text = [self basicStats];
+    
 }
 
 @end

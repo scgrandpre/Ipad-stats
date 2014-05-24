@@ -12,9 +12,11 @@
 
 @interface GamesMenuViewController ()
 @property (strong) NSArray* games;
+@property(readonly) UITextView *newGame;
 @end
 
 @implementation GamesMenuViewController
+@synthesize newGame = _newGame;
 
 - (id)initWithGames:(NSArray*) games {
     self = [super init];
@@ -27,10 +29,36 @@
 
 - (void)loadView {
     [super loadView];
-    UITableView *table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.width)];
+    UITableView *table = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.height, self.view.bounds.size.width)];
     [self.view addSubview:table];
     table.delegate = self;
     table.dataSource = self;
+    [self.view addSubview:self.newGame];
+
+
+UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect]; //3
+[button setFrame:CGRectMake(self.view.bounds.size.width/2-50, 0, 100,100 )];
+[button setTitle:@"New Game" forState:UIControlStateNormal];
+[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];//2
+[self.view addSubview:button]; //1
+}
+
+- (UITextView *)newGame {
+    if (_newGame == nil) {
+        _newGame= [[UITextView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-50, 100, 100,100)];
+        _newGame.text = @"New Game:";
+        _newGame.editable = NO;
+        NSLog(@"inside of newGame");
+    }
+    return _newGame;
+}
+
+- (void)buttonPressed:(UIButton *)sender{
+    
+    self.newGame;
+    [sender setTitle:@"PressMe!. Again" forState:UIControlStateNormal];
+    
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
