@@ -12,7 +12,6 @@
 @interface StatAnalysisVideoPlayer : UIView
 
 @property NSArray *playlist;
-@property CGFloat offset;
 
 - (void)seekTo:(Stat *)stat;
 

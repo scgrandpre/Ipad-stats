@@ -8,46 +8,48 @@
 
 #import "StatAnalysisVideoPlayer.h"
 
-#import <AVFoundation/AVFoundation.h>
-#import "AVPlayerView.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface StatAnalysisVideoPlayer ()
-@property(readonly) AVPlayer *video;
-@property(readonly) AVPlayerView *videoPlayer;
+@property(readonly) MPMoviePlayerController *videoPlayer;
 @property(readonly) UIButton *previous;
 @property(readonly) UIButton *replay;
 @property(readonly) UIButton *next;
 @property(readonly) UIButton *done;
+@property(readonly) UIButton *sync;
+@property CGFloat offset;
 @end
 
 @implementation StatAnalysisVideoPlayer
-@synthesize video = _video;
 @synthesize videoPlayer = _videoPlayer;
 @synthesize previous = _previous;
 @synthesize replay = _replay;
 @synthesize next = _next;
 @synthesize done = _done;
+@synthesize sync = _sync;
 
 - (id)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
   if (self) {
-    [self addSubview:self.videoPlayer];
+    [self addSubview:self.videoPlayer.view];
     [self addSubview:self.previous];
     [self addSubview:self.next];
     [self addSubview:self.replay];
     [self addSubview:self.done];
+    [self addSubview:self.sync];
+    self.backgroundColor = [UIColor blackColor];
   }
   return self;
 }
 
 - (void)layoutSubviews {
-  self.videoPlayer.frame = self.bounds;
-
+  CGRect buttonsRect, videoRect;
   CGFloat buttonHeight = 50;
-  CGRect buttonsRect = CGRectMake(self.bounds.origin.x,
-                                  CGRectGetMaxY(self.bounds) - buttonHeight,
-                                  self.bounds.size.width, buttonHeight);
-  CGFloat buttonWidth = buttonsRect.size.width / 5;
+  CGRectDivide(self.bounds, &buttonsRect, &videoRect, buttonHeight,
+               CGRectMaxYEdge);
+  self.videoPlayer.view.frame = videoRect;
+
+  CGFloat buttonWidth = buttonsRect.size.width / 6;
 
   self.previous.frame = CGRectMake(buttonsRect.origin.x, buttonsRect.origin.y,
                                    buttonWidth, buttonHeight);
@@ -57,6 +59,8 @@
   self.next.frame = CGRectMake(buttonsRect.origin.x + 2 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
   self.done.frame = CGRectMake(buttonsRect.origin.x + 4 * buttonWidth,
+                               buttonsRect.origin.y, buttonWidth, buttonHeight);
+  self.sync.frame = CGRectMake(buttonsRect.origin.x + 5 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
 }
 
@@ -95,9 +99,20 @@
   return _done;
 }
 
+- (UIButton *)sync {
+  if (_sync == nil) {
+    _sync = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_sync setTitle:@"Sync" forState:UIControlStateNormal];
+    [_sync addTarget:self
+                  action:@selector(doSync)
+        forControlEvents:UIControlEventTouchUpInside];
+  }
+  return _sync;
+}
+
 - (void)seekTo:(Stat *)stat {
   CGFloat seconds = [self secondsForStat:stat];
-  [self.videoPlayer seekToTime:CMTimeMakeWithSeconds(seconds, 1)];
+  self.videoPlayer.currentPlaybackTime = seconds;
   [self.videoPlayer play];
 }
 
@@ -115,7 +130,7 @@
 }
 
 - (NSInteger)currentStatIndex {
-  return [self statIndexForTime:CMTimeGetSeconds(self.video.currentTime)];
+  return [self statIndexForTime:self.videoPlayer.currentPlaybackTime];
 }
 
 - (void)seekToNext {
@@ -134,17 +149,11 @@
   [self seekTo:stat];
 }
 
-- (AVPlayerView *)videoPlayer {
+- (MPMoviePlayerController *)videoPlayer {
   if (_videoPlayer == nil) {
-    _video = [[AVPlayer alloc]
-        initWithURL:[NSURL
-                        URLWithString:
-                            @"http://acsvolleyball.com/videos/shu_liu_a.mp4"]];
-    _video.muted = YES;
-    _videoPlayer = [[AVPlayerView alloc] init];
-    _videoPlayer.backgroundColor =
-        [UIColor colorWithRed:0 green:0 blue:0 alpha:.8];
-    [_videoPlayer setPlayer:_video];
+    _videoPlayer = [[MPMoviePlayerController alloc]
+        initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/"
+                                  @"videos/shu_liu_a.mp4"]];
   }
   return _videoPlayer;
 }
@@ -152,6 +161,11 @@
 - (void)close {
   [self.videoPlayer pause];
   self.hidden = YES;
+}
+
+- (void)doSync {
+  self.offset = self.videoPlayer.currentPlaybackTime -
+                [self secondsForStat:self.playlist[0]];
 }
 
 @end
