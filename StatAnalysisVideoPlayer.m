@@ -8,46 +8,57 @@
 
 #import "StatAnalysisVideoPlayer.h"
 
-#import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
+#import "AVPlayerView.h"
 
 @interface StatAnalysisVideoPlayer ()
-@property(readonly) MPMoviePlayerController *videoPlayer;
+@property(readonly) AVPlayerView *videoPlayer;
+@property(readonly) AVPlayer *video;
 @property(readonly) UIButton *previous;
 @property(readonly) UIButton *replay;
 @property(readonly) UIButton *next;
 @property(readonly) UIButton *done;
 @property(readonly) UIButton *sync;
+@property(readonly) UISlider *seek;
 @property CGFloat offset;
+@property NSInteger index;
 @end
 
 @implementation StatAnalysisVideoPlayer
 @synthesize videoPlayer = _videoPlayer;
+@synthesize video = _video;
 @synthesize previous = _previous;
 @synthesize replay = _replay;
 @synthesize next = _next;
 @synthesize done = _done;
 @synthesize sync = _sync;
+@synthesize index = _index;
+@synthesize seek = _seek;
 
 - (id)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
   if (self) {
-    [self addSubview:self.videoPlayer.view];
+    [self addSubview:self.videoPlayer];
     [self addSubview:self.previous];
     [self addSubview:self.next];
     [self addSubview:self.replay];
     [self addSubview:self.done];
     [self addSubview:self.sync];
+      [self addSubview:self.seek];
+      _offset = -1000000000000;
     self.backgroundColor = [UIColor blackColor];
   }
   return self;
 }
 
 - (void)layoutSubviews {
-  CGRect buttonsRect, videoRect;
+  CGRect buttonsRect, videoRect, seekRect;
   CGFloat buttonHeight = 50;
   CGRectDivide(self.bounds, &buttonsRect, &videoRect, buttonHeight,
                CGRectMaxYEdge);
-  self.videoPlayer.view.frame = videoRect;
+  CGRectDivide(videoRect, &seekRect, &videoRect, 20,
+               CGRectMaxYEdge);
+  self.videoPlayer.frame = videoRect;
 
   CGFloat buttonWidth = buttonsRect.size.width / 6;
 
@@ -62,6 +73,8 @@
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
   self.sync.frame = CGRectMake(buttonsRect.origin.x + 4 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
+    
+  self.seek.frame = seekRect;
 }
 
 - (UIButton *)previous {
@@ -119,48 +132,51 @@
   return _sync;
 }
 
+- (UISlider *)seek {
+    if (_seek == nil) {
+        _seek = [[UISlider alloc] init];
+        _seek.minimumValue = 0;
+        _seek.maximumValue = 1;
+        _seek.continuous = NO;
+        [_seek addTarget:self action:@selector(seekSliderChanged) forControlEvents:UIControlEventValueChanged];
+    }
+    return _seek;
+}
+
 - (void)seekTo:(Stat *)stat {
-  CGFloat seconds = [self secondsForStat:stat];
-  self.videoPlayer.currentPlaybackTime = seconds;
-  [self.videoPlayer play];
+    self.index = 0;
+    for (NSInteger i = 0; i < self.playlist.count; i++) {
+        if (self.playlist[i] == stat) {
+            self.index = i;
+        }
+    }
+  CGFloat seconds = MAX(0, [self secondsForStat:stat]);
+  [self.video seekToTime:CMTimeMake(seconds, 1) toleranceBefore:CMTimeMake(0,1) toleranceAfter: CMTimeMake(0,1)];
+  [self.video play];
 }
 
 - (CGFloat)secondsForStat:(Stat *)stat {
   return [stat.timestamp timeIntervalSinceReferenceDate] + self.offset;
 }
 
-- (NSInteger)statIndexForTime:(CGFloat)seconds {
-  for (int i = 1; i < [self.playlist count]; i++) {
-    if ([self secondsForStat:self.playlist[i]] > seconds) {
-      return i - 1;
-    }
-  }
-  return self.playlist.count - 1;
-}
-
-- (NSInteger)currentStatIndex {
-  return [self statIndexForTime:self.videoPlayer.currentPlaybackTime];
-}
-
 - (void)seekToNext {
-  NSInteger index = [self currentStatIndex] + 1;
-  if (index >= [self.playlist count]) {
-    index = 0;
+  self.index += 1;
+  if (self.index >= [self.playlist count]) {
+    self.index = 0;
   }
-  [self seekToStatAtIndex:index];
+  [self seekToStatAtIndex:self.index];
 }
 
 - (void)seekToPrevious {
-  NSInteger index = [self currentStatIndex] - 1;
-  if (index < 0) {
-    index = [self.playlist count] - 1;
+  self.index  -= 1;
+  if (self.index < 0) {
+    self.index = [self.playlist count] - 1;
   }
-  [self seekToStatAtIndex:index];
+  [self seekToStatAtIndex:self.index];
 }
 
 - (void)seekToReplay {
-  NSInteger index = [self currentStatIndex];
-  [self seekToStatAtIndex:index];
+  [self seekToStatAtIndex:self.index];
 }
 
 - (void)seekToStatAtIndex:(int)index {
@@ -171,12 +187,18 @@
   [self seekTo:stat];
 }
 
-- (MPMoviePlayerController *)videoPlayer {
+- (AVPlayerView *)videoPlayer {
   if (_videoPlayer == nil) {
-    _videoPlayer = [[MPMoviePlayerController alloc]
-        initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/"
+    _video = [[AVPlayer alloc]
+        initWithURL:[NSURL URLWithString:@"http://acsvolleyball.com/"
                                   @"videos/shu_liu_a.mp4"]];
-    [_videoPlayer prepareToPlay];
+    _videoPlayer = [[AVPlayerView alloc] init];
+    _videoPlayer.player = _video;
+      
+    __weak StatAnalysisVideoPlayer *weakSelf = self;
+    [_video addPeriodicTimeObserverForInterval:CMTimeMake(5,1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+          weakSelf.seek.value = CMTimeGetSeconds(time)/CMTimeGetSeconds(weakSelf.video.currentItem.asset.duration);
+    }];
   }
   return _videoPlayer;
 }
@@ -188,8 +210,13 @@
 
 - (void)doSync {
   self.offset =
-      self.videoPlayer.currentPlaybackTime -
+      CMTimeGetSeconds(self.video.currentTime) -
       [((Stat *)self.playlist[0]).timestamp timeIntervalSinceReferenceDate];
+}
+
+- (void)seekSliderChanged {
+    CMTime time = CMTimeMultiplyByFloat64(self.video.currentItem.asset.duration, self.seek.value);
+    [self.videoPlayer seekToTime:time];
 }
 
 @end

@@ -142,11 +142,6 @@
     [_linesView on:@"selected-stat"
           callback:^(Stat *stat) {
               // NSLog(@"%@", stat);
-              Stat *firstStat = [self.game.plays[0] stats][0];
-              NSDate *firstStatTime = firstStat.timestamp;
-              NSTimeInterval offset =
-                  [stat.timestamp timeIntervalSinceDate:firstStatTime];
-              int manualOffset = [self.field.text intValue];
               self.videoPlayer.hidden = NO;
               [self.videoPlayer seekTo:stat];
           }];
