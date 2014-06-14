@@ -58,9 +58,9 @@
                  buttonWidth, buttonHeight);
   self.next.frame = CGRectMake(buttonsRect.origin.x + 2 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
-  self.done.frame = CGRectMake(buttonsRect.origin.x + 4 * buttonWidth,
+  self.done.frame = CGRectMake(buttonsRect.origin.x + 5 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
-  self.sync.frame = CGRectMake(buttonsRect.origin.x + 5 * buttonWidth,
+  self.sync.frame = CGRectMake(buttonsRect.origin.x + 4 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
 }
 
@@ -68,6 +68,9 @@
   if (_previous == nil) {
     _previous = [UIButton buttonWithType:UIButtonTypeCustom];
     [_previous setTitle:@"Previous" forState:UIControlStateNormal];
+    [_previous addTarget:self
+                  action:@selector(seekToPrevious)
+        forControlEvents:UIControlEventTouchUpInside];
   }
   return _previous;
 }
@@ -76,6 +79,9 @@
   if (_next == nil) {
     _next = [UIButton buttonWithType:UIButtonTypeCustom];
     [_next setTitle:@"Next" forState:UIControlStateNormal];
+    [_next addTarget:self
+                  action:@selector(seekToNext)
+        forControlEvents:UIControlEventTouchUpInside];
   }
   return _next;
 }
@@ -84,6 +90,9 @@
   if (_replay == nil) {
     _replay = [UIButton buttonWithType:UIButtonTypeCustom];
     [_replay setTitle:@"Replay" forState:UIControlStateNormal];
+    [_replay addTarget:self
+                  action:@selector(seekToReplay)
+        forControlEvents:UIControlEventTouchUpInside];
   }
   return _replay;
 }
@@ -117,16 +126,16 @@
 }
 
 - (CGFloat)secondsForStat:(Stat *)stat {
-  return [stat.timestamp timeIntervalSinceReferenceDate] - self.offset;
+  return [stat.timestamp timeIntervalSinceReferenceDate] + self.offset;
 }
 
 - (NSInteger)statIndexForTime:(CGFloat)seconds {
-  for (int i = 0; i < [self.playlist count]; i++) {
+  for (int i = 1; i < [self.playlist count]; i++) {
     if ([self secondsForStat:self.playlist[i]] > seconds) {
-      return i;
+      return i - 1;
     }
   }
-  return -1;
+  return self.playlist.count - 1;
 }
 
 - (NSInteger)currentStatIndex {
@@ -138,6 +147,19 @@
   if (index >= [self.playlist count]) {
     index = 0;
   }
+  [self seekToStatAtIndex:index];
+}
+
+- (void)seekToPrevious {
+  NSInteger index = [self currentStatIndex] - 1;
+  if (index < 0) {
+    index = [self.playlist count] - 1;
+  }
+  [self seekToStatAtIndex:index];
+}
+
+- (void)seekToReplay {
+  NSInteger index = [self currentStatIndex];
   [self seekToStatAtIndex:index];
 }
 
@@ -154,6 +176,7 @@
     _videoPlayer = [[MPMoviePlayerController alloc]
         initWithContentURL:[NSURL URLWithString:@"http://acsvolleyball.com/"
                                   @"videos/shu_liu_a.mp4"]];
+    [_videoPlayer prepareToPlay];
   }
   return _videoPlayer;
 }
@@ -164,8 +187,9 @@
 }
 
 - (void)doSync {
-  self.offset = self.videoPlayer.currentPlaybackTime -
-                [self secondsForStat:self.playlist[0]];
+  self.offset =
+      self.videoPlayer.currentPlaybackTime -
+      [((Stat *)self.playlist[0]).timestamp timeIntervalSinceReferenceDate];
 }
 
 @end
