@@ -34,6 +34,8 @@
 		387C4CB6173028D30002CA0B /* Stat.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB5173028D30002CA0B /* Stat.m */; };
 		387C4CB9173033970002CA0B /* GamesMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CB8173033970002CA0B /* GamesMenuViewController.m */; };
 		387C4CBC17303AFD0002CA0B /* Play.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C4CBB17303AFD0002CA0B /* Play.m */; };
+		3897495E194BD20D001B13E6 /* StatAnalysisVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3897495D194BD20D001B13E6 /* StatAnalysisVideoPlayer.m */; };
+		3897495F194BD20D001B13E6 /* StatAnalysisVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3897495D194BD20D001B13E6 /* StatAnalysisVideoPlayer.m */; };
 		38CD88BC17271E0A0099A3EB /* DrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38CD88BB17271E0A0099A3EB /* DrawingView.m */; };
 		9182738118B549FFAA38C230 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137AC22AF1A4BF591EC415D /* libPods.a */; };
 		F1467888184089FF00A6F792 /* AnalysisLinesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1467887184089FE00A6F792 /* AnalysisLinesView.m */; };
@@ -110,6 +112,8 @@
 		387C4CB8173033970002CA0B /* GamesMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMenuViewController.m; sourceTree = "<group>"; };
 		387C4CBA17303AFC0002CA0B /* Play.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Play.h; path = ../Play.h; sourceTree = "<group>"; };
 		387C4CBB17303AFD0002CA0B /* Play.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Play.m; path = ../Play.m; sourceTree = "<group>"; };
+		3897495C194BD20D001B13E6 /* StatAnalysisVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalysisVideoPlayer.h; sourceTree = "<group>"; };
+		3897495D194BD20D001B13E6 /* StatAnalysisVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalysisVideoPlayer.m; sourceTree = "<group>"; };
 		38CD88BA17271E0A0099A3EB /* DrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingView.h; sourceTree = "<group>"; };
 		38CD88BB17271E0A0099A3EB /* DrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingView.m; sourceTree = "<group>"; };
 		8137AC22AF1A4BF591EC415D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +182,8 @@
 		380F5809171711CE005ED397 = {
 			isa = PBXGroup;
 			children = (
+				3897495C194BD20D001B13E6 /* StatAnalysisVideoPlayer.h */,
+				3897495D194BD20D001B13E6 /* StatAnalysisVideoPlayer.m */,
 				F170415A191DBF9C00D74882 /* StatFilterView.h */,
 				F170415B191DBF9C00D74882 /* StatFilterView.m */,
 				F19772FC18B9079900C9A677 /* AVPlayerView.h */,
@@ -459,6 +465,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3897495E194BD20D001B13E6 /* StatAnalysisVideoPlayer.m in Sources */,
 				380F5822171711CF005ED397 /* main.m in Sources */,
 				F170415C191DBF9C00D74882 /* StatFilterView.m in Sources */,
 				380F5826171711CF005ED397 /* AppDelegate.m in Sources */,
@@ -489,6 +496,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3897495F194BD20D001B13E6 /* StatAnalysisVideoPlayer.m in Sources */,
 				F19772FF18B9079900C9A677 /* AVPlayerView.m in Sources */,
 				F170415D191DBF9C00D74882 /* StatFilterView.m in Sources */,
 				380F5841171711CF005ED397 /* ipad_stats2Tests.m in Sources */,

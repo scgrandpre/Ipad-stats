@@ -14,11 +14,9 @@
 #import "CourtView.h"
 #import "AnalysisLinesView.h"
 #import "StatEventButtonsView.h"
+#import "StatAnalysisVideoPlayer.h"
 #import <EventEmitter/EventEmitter.h>
 #import <MediaPlayer/MediaPlayer.h>
-
-#import <AVFoundation/AVFoundation.h>
-#import "AVPlayerView.h"
 
 @interface StatAnalysisViewController ()
 @property Game *game;
@@ -26,23 +24,20 @@
 @property(readonly) UITextView *statsTextView;
 @property(readonly) AnalysisLinesView *linesView;
 @property(readonly) CourtView *courtView;
-@property(readonly) AVPlayer *video;
-@property(readonly) AVPlayerView *videoPlayer;
 @property(readonly) UITextField *field;
 @property(readonly) UITextView *offset;
 @property(readonly) StatFilterView *filters;
+@property(readonly) StatAnalysisVideoPlayer *videoPlayer;
 @end
 
 @implementation StatAnalysisViewController
 @synthesize statsTextView = _statsTextView;
 @synthesize linesView = _linesView;
 @synthesize courtView = _courtView;
-@synthesize video = _video;
-@synthesize videoPlayer = _videoPlayer;
 @synthesize field = _field;
 @synthesize offset = _offset;
+@synthesize videoPlayer = _videoPlayer;
 @synthesize filters = _filters;
-
 
 - (id)initWithGame:(Game *)game {
   self = [super init];
@@ -66,6 +61,7 @@
   [self.view addSubview:self.courtView];
   [self.view addSubview:self.videoPlayer];
   [self.view addSubview:self.linesView];
+  self.videoPlayer.hidden = YES;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -83,25 +79,27 @@
                  self.view.bounds.size.width / 2,
                  self.view.bounds.size.height - courtHeight - 20);
 
-//  self.videoPlayer.frame =
-//      CGRectMake(CGRectGetMaxX(self.filters.frame), self.view.bounds.origin.y,
-//                 self.view.bounds.size.width / 2,
-//                 self.view.bounds.size.height - courtHeight - 20);
-//
+  self.videoPlayer.frame =
+      CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y,
+                 self.view.bounds.size.width,
+                 self.view.bounds.size.height - courtHeight - 20);
 }
 
 - (UITextView *)statsTextView {
-    CGFloat courtAspectRatio = 8 / 5.f;
-    CGFloat courtWidth = self.view.bounds.size.width;
-    CGFloat courtHeight = courtWidth / courtAspectRatio;
+  CGFloat courtAspectRatio = 8 / 5.f;
+  CGFloat courtWidth = self.view.bounds.size.width;
+  CGFloat courtHeight = courtWidth / courtAspectRatio;
   if (_statsTextView == nil) {
-    _statsTextView = [[UITextView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2, self.view.bounds.origin.y,
-                                                                self.view.bounds.size.width / 2,self.view.bounds.size.height - courtHeight - 20)];
+    _statsTextView = [[UITextView alloc]
+        initWithFrame:CGRectMake(
+                          self.view.bounds.size.width / 2,
+                          self.view.bounds.origin.y,
+                          self.view.bounds.size.width / 2,
+                          self.view.bounds.size.height - courtHeight - 20)];
     _statsTextView.editable = NO;
   }
   return _statsTextView;
 }
-
 
 - (UITextField *)field {
   if (_field == nil) {
@@ -143,31 +141,22 @@
     _linesView = [[AnalysisLinesView alloc] init];
     [_linesView on:@"selected-stat"
           callback:^(Stat *stat) {
-              //NSLog(@"%@", stat);
+              // NSLog(@"%@", stat);
               Stat *firstStat = [self.game.plays[0] stats][0];
               NSDate *firstStatTime = firstStat.timestamp;
               NSTimeInterval offset =
                   [stat.timestamp timeIntervalSinceDate:firstStatTime];
               int manualOffset = [self.field.text intValue];
-
-              [self.videoPlayer
-                  seekToTime:CMTimeMakeWithSeconds(offset + manualOffset, 1)];
-              [self.videoPlayer play];
+              self.videoPlayer.hidden = NO;
+              [self.videoPlayer seekTo:stat];
           }];
   }
   return _linesView;
 }
 
-- (AVPlayerView *)videoPlayer {
+- (StatAnalysisVideoPlayer *)videoPlayer {
   if (_videoPlayer == nil) {
-    _video = [[AVPlayer alloc]
-        initWithURL:[NSURL
-                        URLWithString:
-                            @"http://acsvolleyball.com/videos/shu_liu_a.mp4"]];
-    _videoPlayer = [[AVPlayerView alloc] init];
-    _videoPlayer.backgroundColor =
-        [UIColor colorWithRed:0 green:0 blue:0 alpha:.8];
-    [_videoPlayer setPlayer:_video];
+    _videoPlayer = [[StatAnalysisVideoPlayer alloc] init];
   }
   return _videoPlayer;
 }
@@ -183,42 +172,41 @@
                                          @"details" : @{@"result" : @"kill"}
                                        }].count;
 
-    NSUInteger hittingAttempts = [Stat filterStats:self.filters.filteredStats
-                                       withFilters:@{@"skill" : @"Hit"}].count;
-    
-    NSUInteger hittingErrors =[Stat filterStats:self.filters.filteredStats
-                                    withFilters:@{
-                                                  @"skill" : @"Hit",
-                                                  @"details" : @{@"result" : @"error"}
-                                                  }].count;
+  NSUInteger hittingAttempts = [Stat filterStats:self.filters.filteredStats
+                                     withFilters:@{@"skill" : @"Hit"}].count;
+
+  NSUInteger hittingErrors =
+      [Stat filterStats:self.filters.filteredStats
+            withFilters:@{
+                          @"skill" : @"Hit",
+                          @"details" : @{@"result" : @"error"}
+                        }].count;
 
   /// passing stat team 0
 
-NSArray *passingOptions = [NSArray arrayWithObjects:@"4", @"3", @"2",@"1", @"0", @"ace",@"error", nil];
-    NSString *currentPassingOption;
-    NSMutableDictionary *passValue = [[NSMutableDictionary alloc] init];
-    
-    for (currentPassingOption in passingOptions){
-        NSLog(@"%@",currentPassingOption);
+  NSArray *passingOptions = [NSArray
+      arrayWithObjects:@"4", @"3", @"2", @"1", @"0", @"ace", @"error", nil];
+  NSString *currentPassingOption;
+  NSMutableDictionary *passValue = [[NSMutableDictionary alloc] init];
 
-        NSUInteger pass =
-        [self.game filterEventsBy:@{
-                                    @"skill" : @"Serve",
-                                    @"details" : @{@"result" : currentPassingOption}
-                                    }].count;
+  for (currentPassingOption in passingOptions) {
+    NSLog(@"%@", currentPassingOption);
 
-        passValue[currentPassingOption]= [NSNumber numberWithUnsignedInt:pass];
-        
-    }
-    
-    
-          //NSLog(@"here I am");
-  NSUInteger passingAttempts =
-    [Stat filterStats:self.filters.filteredStats
-          withFilters:@{@"skill" : @"Serve"}].count;
-    
-    
-    // passValue ["passValue @['4']]
+    NSUInteger pass =
+        [self.game
+            filterEventsBy:@{
+                             @"skill" : @"Serve",
+                             @"details" : @{@"result" : currentPassingOption}
+                           }].count;
+
+    passValue[currentPassingOption] = [NSNumber numberWithUnsignedInt:pass];
+  }
+
+  // NSLog(@"here I am");
+  NSUInteger passingAttempts = [Stat filterStats:self.filters.filteredStats
+                                     withFilters:@{@"skill" : @"Serve"}].count;
+
+  // passValue ["passValue @['4']]
   NSUInteger pass4 =
       [self.game filterEventsBy:@{
                                   @"skill" : @"Serve",
@@ -250,10 +238,9 @@ NSArray *passingOptions = [NSArray arrayWithObjects:@"4", @"3", @"2",@"1", @"0",
                                   @"details" : @{@"result" : @"ace"}
                                 }].count;
   NSUInteger passStat = 0;
- //need to get values from the dict, will look like: passValue[0]
-    
-    
-    if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
+  // need to get values from the dict, will look like: passValue[0]
+
+  if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
     passStat = ((float)pass4 * 4 + pass3 * 3 + pass2 * 2 + pass1 * 1) /
                ((float)pass4 + pass3 + pass2 + pass1 + pass0 + passAce);
   }
@@ -265,7 +252,8 @@ NSArray *passingOptions = [NSArray arrayWithObjects:@"4", @"3", @"2",@"1", @"0",
   //}
   // NSString *passStat = countPasses
 
-  NSLog(@"%lu\n%lu", (unsigned long)passingAttempts, (unsigned long)passValue[passingOptions[1]]);
+  NSLog(@"%lu\n%lu", (unsigned long)passingAttempts,
+        (unsigned long)passValue[passingOptions[1]]);
 
   return [NSString
       stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting "
@@ -279,7 +267,7 @@ NSArray *passingOptions = [NSArray arrayWithObjects:@"4", @"3", @"2",@"1", @"0",
 - (void)updateStats {
   self.linesView.stats = self.filters.filteredStats;
   self.statsTextView.text = [self basicStats];
-    
+  self.videoPlayer.playlist = self.filters.filteredStats;
 }
 
 @end
