@@ -12,11 +12,18 @@
 
 static NSInteger kPlayerComponent = 0;
 static NSInteger kSkillComponent = 1;
+static NSInteger kResultHitComponent = 2;
+static NSInteger kResultServeComponent = 3;
+
 
 @interface StatFilterView ()
 
 @property(readonly) UIPickerView *picker;
 @property(readonly) NSArray *skills;
+@property(readonly) NSArray *resultHit;
+@property(readonly) NSArray *resultServe;
+@property NSMutableDictionary *filter;
+
 
 @end
 
@@ -25,10 +32,12 @@ static NSInteger kSkillComponent = 1;
 @synthesize stats = _stats;
 @synthesize filteredStats = _filteredStats;
 @synthesize skills = _skills;
+@synthesize resultHit = _resultHit;
+@synthesize resultServe = _resultServe;
 
 - (void)layoutSubviews {
   self.picker.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y,
-                                 200, self.bounds.size.height);
+                                 300, self.bounds.size.height);
 }
 
 - (NSArray *)skills {
@@ -36,6 +45,21 @@ static NSInteger kSkillComponent = 1;
     _skills = @[ @"Hit", @"Serve" ];
   }
   return _skills;
+}
+
+
+- (NSArray *)resultHit {
+    if (_resultHit == nil) {
+        _resultHit = @[ @"Kill", @"Error", @"Attempt" ];
+    }
+    return _resultHit;
+}
+
+- (NSArray *)resultServe {
+    if (_resultServe == nil) {
+        _resultServe = @[ @"0", @"1", @"2", @"3", @"4", @"ace", @"error" ];
+    }
+    return _resultServe;
 }
 
 - (UIPickerView *)picker {
@@ -59,19 +83,30 @@ static NSInteger kSkillComponent = 1;
 }
 
 - (void)recomputeFilteredStats {
-  NSMutableDictionary *filter = [@{} mutableCopy];
-  NSInteger player = [self.picker selectedRowInComponent:0];
+    _filter = [@{} mutableCopy];
+    NSInteger player = [self.picker selectedRowInComponent:0];
   if (player != 0) {
-    filter[@"player"] = [self players][player - 1];
+    _filter[@"player"] = [self players][player - 1];
   }
 
-  NSInteger skill = [self.picker selectedRowInComponent:1];
-  if (skill != 0) {
-    filter[@"skill"] = self.skills[skill - 1];
-  }
+//currentSkill:(NSMutableDictionary) _filter);
+    [self currentSkill:_filter];
+    
+//This is where current skill was, I need to call it here somehow to make the filter work
 
-  _filteredStats = [Stat filterStats:self.stats withFilters:filter];
+
+  _filteredStats = [Stat filterStats:self.stats withFilters:_filter];
   [self emit:@"filtered-stats" data:_filteredStats];
+}
+//current skill was made to determine what the current skill is.
+-(NSString*)currentSkill:(NSMutableDictionary*)currentSkillDict {
+    NSInteger skill = [self.picker selectedRowInComponent:1];
+    if (skill != 0) {
+        return _filter[@"skill"] = self.skills[skill - 1];
+        NSLog(@"skill: %@",self.skills[skill - 1]);
+    }else{
+        return NULL;
+    }
 }
 
 - (NSArray *)players {
@@ -92,13 +127,21 @@ static NSInteger kSkillComponent = 1;
     return [[self players] count] + 1;
   } else if (component == kSkillComponent) {
     return [[self skills] count] + 1;
+  } else if (component == kResultHitComponent) {
+      return [[self resultHit] count] + 1;
+  } else if (component == kResultServeComponent) {
+      return [[self resultServe] count] + 1;
   } else {
     return 0;
   }
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-  return 2;
+   // if ([self.filter objectForKey:@"skill"] == @"Hit"){
+     //   return 3;
+    //}else{
+    return 2;
+    //}
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView
@@ -111,6 +154,10 @@ static NSInteger kSkillComponent = 1;
     return [self players][row - 1];
   } else if (component == kSkillComponent) {
     return [self skills][row - 1];
+  } else if (component == kResultHitComponent) {
+      return [self resultHit][row - 1];
+  } else if (component == kResultServeComponent) {
+      return [self resultServe][row - 1];
   } else {
     return @"";
   }
@@ -120,6 +167,7 @@ static NSInteger kSkillComponent = 1;
       didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component {
   [self recomputeFilteredStats];
+    [self.picker reloadAllComponents];
 }
 
 @end

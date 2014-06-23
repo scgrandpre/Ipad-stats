@@ -185,7 +185,7 @@
   NSMutableDictionary *passValue = [[NSMutableDictionary alloc] init];
 
   for (currentPassingOption in passingOptions) {
-    NSLog(@"%@", currentPassingOption);
+//    NSLog(@"%@", currentPassingOption);
 
     NSUInteger pass =
         [self.game
@@ -200,65 +200,29 @@
   // NSLog(@"here I am");
   NSUInteger passingAttempts = [Stat filterStats:self.filters.filteredStats
                                      withFilters:@{@"skill" : @"Serve"}].count;
-
-  // passValue ["passValue @['4']]
-  NSUInteger pass4 =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Serve",
-                                  @"details" : @{@"result" : @"4"}
-                                }].count;
-  NSUInteger pass3 =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Serve",
-                                  @"details" : @{@"result" : @"3"}
-                                }].count;
-  NSUInteger pass2 =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Serve",
-                                  @"details" : @{@"result" : @"2"}
-                                }].count;
-  NSUInteger pass1 =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Serve",
-                                  @"details" : @{@"result" : @"1"}
-                                }].count;
-  NSUInteger pass0 =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Serve",
-                                  @"details" : @{@"result" : @"0"}
-                                }].count;
-  NSUInteger passAce =
-      [self.game filterEventsBy:@{
-                                  @"skill" : @"Serve",
-                                  @"details" : @{@"result" : @"ace"}
-                                }].count;
-  NSUInteger passStat = 0;
-  // need to get values from the dict, will look like: passValue[0]
-
-  if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
-    passStat = ((float)pass4 * 4 + pass3 * 3 + pass2 * 2 + pass1 * 1) /
-               ((float)pass4 + pass3 + pass2 + pass1 + pass0 + passAce);
-  }
+//  if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
+//    passStat = ((float)pass4 * 4 + pass3 * 3 + pass2 * 2 + pass1 * 1) /
+//               ((float)pass4 + pass3 + pass2 + pass1 + pass0 + passAce);
+//  }
 
   // NSUInteger countPasses = 0;
   // for (i in [self filterEventsBy:@{@"skill": @"SERVE"}]){
   //    countPasses += i
 
-  //}
-  // NSString *passStat = countPasses
 
-  NSLog(@"%lu\n%lu", (unsigned long)passingAttempts,
+
+  NSLog(@"passingattempts: %lu\n%lu", (unsigned long)passingAttempts,
         (unsigned long)passValue[passingOptions[1]]);
 
   return [NSString
       stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting "
-                       @"Average: %f\nPass Stat: %f",
+                       @"Average: %f",
                        (unsigned long)hittingAttempts, (unsigned long)kills,
                        (unsigned long)hittingErrors,
-                       ((float)kills - hittingErrors) / hittingAttempts,
-                       (float)passStat];
+                       ((float)kills - hittingErrors) / hittingAttempts];
+          
 }
-
+    
 - (void)updateStats {
   self.linesView.stats = self.filters.filteredStats;
   self.statsTextView.text = [self basicStats];
