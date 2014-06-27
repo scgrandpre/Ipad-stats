@@ -48,14 +48,14 @@ static NSInteger kResultComponent = 2;
 
 - (NSArray *)resultHit {
     if (_resultHit == nil) {
-        _resultHit = @[ @"Kill", @"Error", @"Attempt" ];
+        _resultHit = @[ @"kill", @"error", @"us", @"them" ];
     }
     return _resultHit;
 }
 
 - (NSArray *)resultServe {
     if (_resultServe == nil) {
-        _resultServe = @[ @"0", @"1", @"2", @"3", @"4", @"ace", @"error" ];
+        _resultServe = @[ @"ace", @"0", @"1", @"2", @"3", @"4", @"err" ];
     }
     return _resultServe;
 }
@@ -82,16 +82,17 @@ static NSInteger kResultComponent = 2;
 }
 
 - (void)recomputeFilteredStats {
-    NSMutableDictionary *filter = [@{} mutableCopy];
+    //NSMutableDictionary *filter = [@{} mutableCopy];
     NSInteger player = [self.picker selectedRowInComponent:kPlayerComponent];
   if (player != 0) {
     _filter[@"player"] = [self players][player - 1];
   }
+    NSInteger result = [self.picker selectedRowInComponent:kResultComponent];
+    if (result != 0) {
+        _filter[@"result"] = [self resultHit][result- 1];
+    }
 
-//currentSkill:(NSMutableDictionary) _filter);
-
-//This is where current skill was, I need to call it here somehow to make the filter work
-
+    
 
   _filteredStats = [Stat filterStats:self.stats withFilters:_filter];
   [self emit:@"filtered-stats" data:_filteredStats];

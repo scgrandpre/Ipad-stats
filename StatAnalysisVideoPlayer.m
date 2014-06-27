@@ -191,7 +191,7 @@
   if (_videoPlayer == nil) {
     _video = [[AVPlayer alloc]
         initWithURL:[NSURL URLWithString:@"http://acsvolleyball.com/"
-                                  @"videos/shu_liu_a.mp4"]];
+                                  @"videos/shu_uconn_a.mp4"]];
     _videoPlayer = [[AVPlayerView alloc] init];
     _videoPlayer.player = _video;
       
