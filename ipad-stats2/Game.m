@@ -23,6 +23,8 @@
     self = [super init];
     self.plays = plays;
     self.date = date;
+
+    
     self.id = id;
     return self;
 }
@@ -48,10 +50,12 @@
 }
 
 - (NSDictionary*) asDict {
+    NSString *homeTeam = @"homeTeam";
     NSArray *plays = map([self plays], ^(Play* play){ return [play asDict];});
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithDictionary: @{
                                  @"date": [[SerializableManager manager] SerializeNSDate:self.date],
-                                 @"plays": plays
+                                 @"plays": plays,
+                                 @"homeTeam": homeTeam
                                  }];
     if(self.id) {
         dict[@"id"] = self.id;

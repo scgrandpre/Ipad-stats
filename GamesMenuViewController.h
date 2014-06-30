@@ -10,5 +10,6 @@
 
 @interface GamesMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+
 - (id)initWithGames:(NSArray*) games;
 @end

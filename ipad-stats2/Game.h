@@ -17,11 +17,15 @@
 @property (strong) NSDate* date;
 @property (strong) NSString* id;
 @property (strong) NSMutableArray* plays;
+@property (strong) NSString* homeTeam;
+
+
 
 - (void)addPlay:(Play*)play;
 + (Game*)stub;
 - (id)initWithPlays:(NSMutableArray*)plays date:(NSDate*)date id:(NSString*)id;
 - (NSArray*)filterEventsBy:(NSDictionary*) filter;
 - (NSArray*)allStats;
+
 
 @end
