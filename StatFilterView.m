@@ -86,14 +86,15 @@ static NSInteger kResultComponent = 2;
     NSInteger player = [self.picker selectedRowInComponent:kPlayerComponent];
   if (player != 0) {
     _filter[@"player"] = [self players][player - 1];
+      NSLog(@"selected player: %@",[self players][player - 1]);
   }
+    NSLog(@"Please enter the value of a");
+    double a;
+    scanf("%lf", &a);
     NSInteger result = [self.picker selectedRowInComponent:kResultComponent];
     if (result != 0) {
         _filter[@"result"] = [self resultHit][result- 1];
     }
-
-    
-
   _filteredStats = [Stat filterStats:self.stats withFilters:_filter];
   [self emit:@"filtered-stats" data:_filteredStats];
 }
