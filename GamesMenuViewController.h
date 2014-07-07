@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GamesMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface GamesMenuViewController
+    : UIViewController <UITableViewDataSource, UITableViewDelegate,
+                        UITextFieldDelegate>
 
-
-- (id)initWithGames:(NSArray*) games;
+- (id)initWithGames:(NSArray *)games;
 @end
