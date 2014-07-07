@@ -114,7 +114,8 @@ UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect]; //3
     
     // sets the delegate to the current class
     textField.delegate = self;
-    return self.addTextField.text;
+    NSLog(@"this is self: %@",self);
+    return self;
 }
 
 -(void)addTextField1{
@@ -180,7 +181,7 @@ UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect]; //3
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Game* game = self.games[indexPath.row];
     AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    
+  
     [delegate openGame:game];}
 
 
