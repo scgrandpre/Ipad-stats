@@ -54,6 +54,9 @@ typedef enum CourtSide : NSUInteger {
 @property StatEventButtonsView *addResultButtons;
 
 @property NSString* selectedPlayer;
+@property StatEventButtonsView *addDetailButtons;
+@property UIButton *toughButton;
+@property UIButton *passiveButton;
 @end
 
 
@@ -291,8 +294,33 @@ typedef enum CourtSide : NSUInteger {
 
     [self addResultForStat:stat];
 }
+-(IBAction)toughButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Tough Button Tapped!");
+    _toughButton.hidden = YES;
+    
+}
 
 - (void)addResultForStat:(Stat *)stat {
+    if (stat.skill == kSkillServe) {
+        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
+    } else {
+        self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
+    }
+    self.addResultView.hidden = NO;
+    
+    [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
+        stat.details[@"result"] = result;
+        stat.player = self.selectedPlayer;
+        self.addResultView.hidden = YES;
+        
+        [self emit:@"play-added" data:self.play];
+        [self emit:@"stat-added" data:stat];
+        
+    }];
+}
+
+- (void)addDetailForStat:(Stat *)stat {
     if (stat.skill == kSkillServe) {
         self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
     } else {

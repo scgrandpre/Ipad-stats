@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface GamesMenuViewController
+
     : UIViewController <UITableViewDataSource, UITableViewDelegate,
                         UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *label;
+
 
 - (id)initWithGames:(NSArray *)games;
 @end

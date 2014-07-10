@@ -14,5 +14,6 @@
 - (NSString*)nextStateForLine:(NSArray*)line;
 @property NSMutableString* currentStateTest;
 @property (strong) NSMutableDictionary* currentPlay;
+-(IBAction)toughButtonTapped:(UIButton*)sender;
 
 @end
