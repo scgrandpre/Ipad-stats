@@ -31,6 +31,7 @@
         }
         mdict[@"details"] = [mdict[@"details"] mutableCopy];
         mdict[@"details"][@"line"] = line;
+        
     }
 
     Stat* stat = [[Stat alloc] initWithSkill:dict[@"skill"]

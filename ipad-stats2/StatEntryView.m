@@ -52,6 +52,7 @@ typedef enum CourtSide : NSUInteger {
 @property CourtView *courtView;
 @property UIView *addResultView;
 @property StatEventButtonsView *addResultButtons;
+
 @property NSString* selectedPlayer;
 @end
 
@@ -279,6 +280,8 @@ typedef enum CourtSide : NSUInteger {
     if (startArea == CourtAreaServeZone) {
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
+        NSLog(@"just entered a serve");
+        
     } else {
         //Hit
         stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
