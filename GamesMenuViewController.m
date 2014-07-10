@@ -22,6 +22,9 @@
 @synthesize homeTeam = _homeTeam;
 @synthesize awayTeam = _awayTeam;
 @synthesize newGame = _newGame;
+@synthesize label;
+
+
 
 - (id)initWithGames:(NSArray *)games {
   self = [super init];
@@ -140,8 +143,10 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   if (textField == self.homeTeam) {
     [self.awayTeam becomeFirstResponder];
+      NSLog(@"%@",self.homeTeam.text);
   } else if (textField == self.awayTeam) {
     [self.awayTeam resignFirstResponder];
+      NSLog(@"%@", self.awayTeam.text);
 
     // create game
     Game *game = [[Game alloc] init];

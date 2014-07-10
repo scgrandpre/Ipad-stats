@@ -53,6 +53,9 @@ typedef enum CourtSide : NSUInteger {
 @property UIView *addResultView;
 @property StatEventButtonsView *addResultButtons;
 @property NSString* selectedPlayer;
+@property StatEventButtonsView *addDetailButtons;
+@property UIButton *toughButton;
+@property UIButton *passiveButton;
 @end
 
 
@@ -279,6 +282,24 @@ typedef enum CourtSide : NSUInteger {
     if (startArea == CourtAreaServeZone) {
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
+        UIButton *toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [toughButton addTarget:self
+                   action:@selector(toughButtonTapped:)
+         forControlEvents:UIControlEventTouchUpInside];
+        [toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
+        [self addSubview:toughButton];
+        
+        
+        UIButton *passiveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [passiveButton addTarget:self
+                        action:@selector(aMethod:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
+        passiveButton.frame = CGRectMake(250,self.bounds.size.height - 20 , 160.0, 40.0);
+        [self addSubview:passiveButton];
+        
+        
     } else {
         //Hit
         stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
@@ -288,8 +309,33 @@ typedef enum CourtSide : NSUInteger {
 
     [self addResultForStat:stat];
 }
+-(IBAction)toughButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Tough Button Tapped!");
+    _toughButton.hidden = YES;
+    
+}
 
 - (void)addResultForStat:(Stat *)stat {
+    if (stat.skill == kSkillServe) {
+        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
+    } else {
+        self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
+    }
+    self.addResultView.hidden = NO;
+    
+    [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
+        stat.details[@"result"] = result;
+        stat.player = self.selectedPlayer;
+        self.addResultView.hidden = YES;
+        
+        [self emit:@"play-added" data:self.play];
+        [self emit:@"stat-added" data:stat];
+        
+    }];
+}
+
+- (void)addDetailForStat:(Stat *)stat {
     if (stat.skill == kSkillServe) {
         self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
     } else {
