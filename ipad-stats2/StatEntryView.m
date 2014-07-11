@@ -55,13 +55,16 @@ typedef enum CourtSide : NSUInteger {
 
 @property NSString* selectedPlayer;
 @property StatEventButtonsView *addDetailButtons;
-@property UIButton *toughButton;
-@property UIButton *passiveButton;
+@property(readonly) UIButton *toughButton;
+@property(readonly) UIButton *passiveButton;
 @end
 
 
 @implementation StatEntryView
 @synthesize state = _state;
+@synthesize toughButton = _toughButton;
+@synthesize passiveButton = _passiveButton;
+
 
 - (NSString*) state {
     return _state;
@@ -270,6 +273,7 @@ typedef enum CourtSide : NSUInteger {
 
 //This is where we change the state
 - (void)advanceStateForLine:(NSArray*)line player:(NSString*)player {
+    self.toughButton.hidden = YES;
     
     CourtSide startSide, endSide;
     CourtArea startArea, endArea;
@@ -281,9 +285,29 @@ typedef enum CourtSide : NSUInteger {
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
+        self.toughButton.hidden = YES;
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        NSLog(@"just entered a serve");
+        UIButton *toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [toughButton addTarget:self
+                   action:@selector(toughButtonTapped:)
+         forControlEvents:UIControlEventTouchUpInside];
+        [toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
+        [self addSubview:toughButton];
+        
+            
+        
+        
+        
+        UIButton *passiveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [passiveButton addTarget:self
+                        action:@selector(aMethod:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
+        passiveButton.frame = CGRectMake(250,self.bounds.size.height - 20 , 160.0, 40.0);
+        [self addSubview:passiveButton];
+        
         
     } else {
         //Hit
@@ -297,7 +321,11 @@ typedef enum CourtSide : NSUInteger {
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
     NSLog(@"Tough Button Tapped!");
-    _toughButton.hidden = YES;
+    self.toughButton.hidden = YES;
+    [_toughButton setHidden:YES];
+    //sender.hidden = YES;
+    
+    
     
 }
 
@@ -307,7 +335,7 @@ typedef enum CourtSide : NSUInteger {
     } else {
         self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
     }
-    self.addResultView.hidden = NO;
+    self.addResultView.hidden = YES;
     
     [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
         stat.details[@"result"] = result;
