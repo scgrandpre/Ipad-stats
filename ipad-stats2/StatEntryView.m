@@ -56,15 +56,53 @@ typedef enum CourtSide : NSUInteger {
 @property StatEventButtonsView *addDetailButtons;
 @property UIButton *toughButton;
 @property UIButton *passiveButton;
+@property UIButton *handsButton;
+@property UIButton *nohandsButton;
 @end
 
 
 @implementation StatEntryView
 @synthesize state = _state;
+@synthesize toughButton = _toughButton;
+@synthesize passiveButton = _passiveButton;
 
 - (NSString*) state {
     return _state;
 }
+-(UIButton *)toughButton {
+    
+    if (_toughButton == nil){
+        UIButton *toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [toughButton addTarget:self
+                        action:@selector(toughButtonTapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
+        [self addSubview:toughButton];
+        
+        return _toughButton;
+        
+    }
+    
+    else{
+        
+        return nil;
+    }
+}
+-(UIButton *)passiveButton {
+    
+    if (_passiveButton == nil){
+        
+        return _passiveButton;
+        
+    }
+    
+    else{
+        
+        return nil;
+    }
+}
+
 
 - (void) setState:(NSString *)state {
     _state = state;
@@ -74,6 +112,8 @@ typedef enum CourtSide : NSUInteger {
 
 - (id)initWithFrame:(CGRect)frame
 {
+    
+    [self addSubview:self.toughButton];
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat courtAspectRatio = 8/5.f;
@@ -282,13 +322,8 @@ typedef enum CourtSide : NSUInteger {
     if (startArea == CourtAreaServeZone) {
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        UIButton *toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [toughButton addTarget:self
-                   action:@selector(toughButtonTapped:)
-         forControlEvents:UIControlEventTouchUpInside];
-        [toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
-        [self addSubview:toughButton];
+        self.toughButton.hidden = NO;
+        
         
         
         UIButton *passiveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -303,6 +338,23 @@ typedef enum CourtSide : NSUInteger {
     } else {
         //Hit
         stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
+        UIButton *handsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [handsButton addTarget:self
+                        action:@selector(toughButtonTapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [handsButton setTitle:@"Hands" forState:UIControlStateNormal];
+        handsButton.frame = CGRectMake(420.0, self.bounds.size.height - 20, 160.0, 40.0);
+        [self addSubview:handsButton];
+        
+        
+        UIButton *nohandsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [nohandsButton addTarget:self
+                        action:@selector(toughButtonTapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [nohandsButton setTitle:@"No Hands" forState:UIControlStateNormal];
+        nohandsButton.frame = CGRectMake(590.0, self.bounds.size.height - 20, 160.0, 40.0);
+        [self addSubview:nohandsButton];
+        
     }
     stat.details[@"line"] = line;
     [self.play.stats addObject:stat];
