@@ -52,6 +52,7 @@ typedef enum CourtSide : NSUInteger {
 @property CourtView *courtView;
 @property UIView *addResultView;
 @property StatEventButtonsView *addResultButtons;
+
 @property NSString* selectedPlayer;
 @property StatEventButtonsView *addDetailButtons;
 @property UIButton *toughButton;
@@ -309,6 +310,7 @@ typedef enum CourtSide : NSUInteger {
 
 //This is where we change the state
 - (void)advanceStateForLine:(NSArray*)line player:(NSString*)player {
+    self.toughButton.hidden = YES;
     
     CourtSide startSide, endSide;
     CourtArea startArea, endArea;
@@ -320,9 +322,13 @@ typedef enum CourtSide : NSUInteger {
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
+        self.toughButton.hidden = YES;
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
         self.toughButton.hidden = NO;
+        
+        
+            
         
         
         
@@ -364,7 +370,11 @@ typedef enum CourtSide : NSUInteger {
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
     NSLog(@"Tough Button Tapped!");
-    _toughButton.hidden = YES;
+    self.toughButton.hidden = YES;
+    [_toughButton setHidden:YES];
+    //sender.hidden = YES;
+    
+    
     
 }
 
@@ -374,7 +384,7 @@ typedef enum CourtSide : NSUInteger {
     } else {
         self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
     }
-    self.addResultView.hidden = NO;
+    self.addResultView.hidden = YES;
     
     [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
         stat.details[@"result"] = result;
