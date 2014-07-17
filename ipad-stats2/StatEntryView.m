@@ -55,10 +55,10 @@ typedef enum CourtSide : NSUInteger {
 
 @property NSString* selectedPlayer;
 @property StatEventButtonsView *addDetailButtons;
-@property UIButton *toughButton;
-@property UIButton *passiveButton;
-@property UIButton *handsButton;
-@property UIButton *nohandsButton;
+@property (readonly)  UIButton *toughButton;
+@property (readonly) UIButton *passiveButton;
+@property (readonly) UIButton *handsButton;
+@property (readonly) UIButton *nohandsButton;
 @end
 
 
@@ -73,13 +73,13 @@ typedef enum CourtSide : NSUInteger {
 -(UIButton *)toughButton {
     
     if (_toughButton == nil){
-        UIButton *toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [toughButton addTarget:self
+        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_toughButton addTarget:self
                         action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
-        [toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
-        [self addSubview:toughButton];
+        [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        _toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
+        [self addSubview:_toughButton];
         
         return _toughButton;
         
@@ -87,7 +87,7 @@ typedef enum CourtSide : NSUInteger {
     
     else{
         
-        return nil;
+        return _toughButton;
     }
 }
 -(UIButton *)passiveButton {
@@ -370,8 +370,8 @@ typedef enum CourtSide : NSUInteger {
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
     NSLog(@"Tough Button Tapped!");
-    self.toughButton.hidden = YES;
-    [_toughButton setHidden:YES];
+    _toughButton.hidden = YES;
+
     //sender.hidden = YES;
     
     
@@ -412,6 +412,8 @@ typedef enum CourtSide : NSUInteger {
         
         [self emit:@"play-added" data:self.play];
         [self emit:@"stat-added" data:stat];
+
+        
         
     }];
 }
