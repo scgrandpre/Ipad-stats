@@ -11,7 +11,7 @@
 
 @interface StatEntryView : UIView
 - (id)initWithFrame:(CGRect)frame;
-- (NSString*)nextStateForLine:(NSArray*)line;
+//- (NSString*)nextStateForLine:(NSArray*)line;
 @property NSMutableString* currentStateTest;
 @property (strong) NSMutableDictionary* currentPlay;
 -(IBAction)toughButtonTapped:(UIButton*)sender;

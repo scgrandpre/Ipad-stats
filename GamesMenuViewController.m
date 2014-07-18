@@ -58,9 +58,10 @@
 - (UITextView *)header {
   if (_header == nil) {
     _header = [[UITextView alloc]
-        initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 50, 75, 50,
-                                 50)];
-    _header.text = @"Main Menu";
+        initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 200, 75, 400,
+                                 100)];
+    _header.text = @"Welcome to RIPP Stats";
+    [_header setFont:[UIFont fontWithName:@"ArialMT" size:30]];
     _header.editable = NO;
   }
   return _header;
@@ -68,7 +69,8 @@
 
 - (UIButton *)newGame {
   if (_newGame == nil) {
-    _newGame = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _newGame = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_newGame setBackgroundImage:[UIImage imageNamed:@"cleanButton.png"] forState:UIControlStateNormal];
     [_newGame setTitle:@"New Game" forState:UIControlStateNormal];
     [_newGame addTarget:self
                   action:@selector(makeNewGame:)
@@ -93,15 +95,17 @@
 }
 
 - (void)viewWillLayoutSubviews {
-  self.newGame.frame = CGRectMake(10, 0, 300, 150);
-  self.homeTeam.frame = CGRectMake(10, 5, 300, 65);
-  self.awayTeam.frame = CGRectMake(10, 75, 300, 65);
+  self.newGame.frame = CGRectMake(self.view.bounds.size.width-300, 200, 300, 65);
+  self.homeTeam.frame = CGRectMake(self.view.bounds.size.width-300, 200, 300, 65);
+  self.awayTeam.frame = CGRectMake(self.view.bounds.size.width-300, 275, 300, 65);
 }
 
 - (void)makeNewGame:(UIButton *)sender {
+    
   self.awayTeam.hidden = NO;
   self.homeTeam.hidden = NO;
   // Make a game?
+    [sender setBackgroundImage:[UIImage imageNamed:@"images/icon.png"] forState:UIControlStateNormal];
   [sender setTitle:@"PressMe!. Again" forState:UIControlStateNormal];
 }
 
@@ -113,7 +117,7 @@
                                   reuseIdentifier:@"cell"];
   }
   Game *game = self.games[indexPath.row];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@", game.date];
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ at %@", game.awayTeam,game.homeTeam];
   return cell;
 }
 

@@ -13,7 +13,6 @@
 		380F5820171711CF005ED397 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 380F581E171711CF005ED397 /* InfoPlist.strings */; };
 		380F5822171711CF005ED397 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F5821171711CF005ED397 /* main.m */; };
 		380F5826171711CF005ED397 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 380F5825171711CF005ED397 /* AppDelegate.m */; };
-		380F5828171711CF005ED397 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F5827171711CF005ED397 /* Default.png */; };
 		380F582A171711CF005ED397 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F5829171711CF005ED397 /* Default@2x.png */; };
 		380F582C171711CF005ED397 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 380F582B171711CF005ED397 /* Default-568h@2x.png */; };
 		380F5834171711CF005ED397 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380F5833171711CF005ED397 /* SenTestingKit.framework */; };
@@ -54,6 +53,8 @@
 		F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07129178B8BE600FED04E /* StatListViewCell.m */; };
 		F1A078491895792C006D54ED /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A078481895792C006D54ED /* MediaPlayer.framework */; };
 		F1A8DC8C17A0C85900B62DA6 /* ToggleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */; };
+		F1B0F0BB1979A5D10076560C /* cleanButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F1B0F0BA1979A5D10076560C /* cleanButton.png */; };
+		F1B0F0BF1979A8770076560C /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F1B0F0BE1979A8770076560C /* greyButton.png */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
 		F1CE9B691770099F00D63DD8 /* PlayListView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B681770099F00D63DD8 /* PlayListView.m */; };
 		F1CE9B6C17700B0700D63DD8 /* PlayListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9B6B17700B0700D63DD8 /* PlayListViewCell.m */; };
@@ -138,6 +139,8 @@
 		F1A078481895792C006D54ED /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F1A8DC8A17A0C85800B62DA6 /* ToggleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleButtonView.h; sourceTree = "<group>"; };
 		F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleButtonView.m; sourceTree = "<group>"; };
+		F1B0F0BA1979A5D10076560C /* cleanButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cleanButton.png; sourceTree = "<group>"; };
+		F1B0F0BE1979A8770076560C /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
 		F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalyzer.m; sourceTree = "<group>"; };
 		F1CE9B671770099F00D63DD8 /* PlayListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayListView.h; sourceTree = "<group>"; };
@@ -302,7 +305,9 @@
 		380F585117172EC5005ED397 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F1B0F0BA1979A5D10076560C /* cleanButton.png */,
 				F1F8EA56193047E300D2FDA5 /* Icon.png */,
+				F1B0F0BE1979A8770076560C /* greyButton.png */,
 				F1F8EA4E1930436000D2FDA5 /* Default.png */,
 				380F585817173845005ED397 /* Pitt_center.png */,
 			);
@@ -378,7 +383,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "RIPP Volleyball";
 				TargetAttributes = {
 					380F5811171711CE005ED397 = {
@@ -410,10 +415,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				380F5820171711CF005ED397 /* InfoPlist.strings in Resources */,
+				F1B0F0BF1979A8770076560C /* greyButton.png in Resources */,
 				F1F8EA4F1930436000D2FDA5 /* Default.png in Resources */,
-				380F5828171711CF005ED397 /* Default.png in Resources */,
 				380F582A171711CF005ED397 /* Default@2x.png in Resources */,
 				F1F8EA57193047E300D2FDA5 /* Icon.png in Resources */,
+				F1B0F0BB1979A5D10076560C /* cleanButton.png in Resources */,
 				380F582C171711CF005ED397 /* Default-568h@2x.png in Resources */,
 				380F585917173845005ED397 /* Pitt_center.png in Resources */,
 			);

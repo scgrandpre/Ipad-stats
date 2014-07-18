@@ -73,9 +73,8 @@ typedef enum CourtSide : NSUInteger {
 -(UIButton *)toughButton {
     
     if (_toughButton == nil){
-        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [_toughButton addTarget:self
-                        action:@selector(toughButtonTapped:)
+                    action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
         [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
         _toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
