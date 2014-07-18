@@ -73,13 +73,12 @@ typedef enum CourtSide : NSUInteger {
 -(UIButton *)toughButton {
     
     if (_toughButton == nil){
+        //_toughButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_toughButton addTarget:self
                     action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
         [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        _toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
         [self addSubview:_toughButton];
-        
         return _toughButton;
         
     }
@@ -108,6 +107,11 @@ typedef enum CourtSide : NSUInteger {
     _state = state;
     self.stateLabel.text = state;
     self.buttonsView.buttonTitles = self.buttonsForState[state];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.toughButton.frame = CGRectMake(80.0, self.bounds.size.height - 20, 160.0, 40.0);
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -309,7 +313,7 @@ typedef enum CourtSide : NSUInteger {
 
 //This is where we change the state
 - (void)advanceStateForLine:(NSArray*)line player:(NSString*)player {
-    self.toughButton.hidden = YES;
+    //self.toughButton.hidden = YES;
     
     CourtSide startSide, endSide;
     CourtArea startArea, endArea;
@@ -321,11 +325,10 @@ typedef enum CourtSide : NSUInteger {
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
-        self.toughButton.hidden = YES;
+        //self.toughButton.hidden = YES;
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        self.toughButton.hidden = NO;
-        
+        [_toughButton setHidden:NO];
         
             
         
@@ -369,7 +372,7 @@ typedef enum CourtSide : NSUInteger {
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
     NSLog(@"Tough Button Tapped!");
-    _toughButton.hidden = YES;
+//    _toughButton.hidden = YES;
 
     //sender.hidden = YES;
     
