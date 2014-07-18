@@ -321,7 +321,6 @@ typedef enum CourtSide : NSUInteger {
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
-        self.toughButton.hidden = YES;
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
         self.toughButton.hidden = NO;
@@ -343,6 +342,11 @@ typedef enum CourtSide : NSUInteger {
     } else {
         //Hit
         stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
+        stat.details[@"line"] = line;
+        [self.play.stats addObject:stat];
+        
+        [self addResultForStat:stat];
+        
         UIButton *handsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [handsButton addTarget:self
                         action:@selector(toughButtonTapped:)
@@ -361,10 +365,7 @@ typedef enum CourtSide : NSUInteger {
         [self addSubview:nohandsButton];
         
     }
-    stat.details[@"line"] = line;
-    [self.play.stats addObject:stat];
 
-    [self addResultForStat:stat];
 }
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
