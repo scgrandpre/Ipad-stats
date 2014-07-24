@@ -55,10 +55,12 @@ typedef enum CourtSide : NSUInteger {
 
 @property NSString* selectedPlayer;
 @property StatEventButtonsView *addDetailButtons;
-@property (readonly)  UIButton *toughButton;
+@property (readonly) UIButton *toughButton;
 @property (readonly) UIButton *passiveButton;
 @property (readonly) UIButton *handsButton;
 @property (readonly) UIButton *nohandsButton;
+
+@property (readonly) UIButton *testButton;
 @end
 
 
@@ -66,18 +68,46 @@ typedef enum CourtSide : NSUInteger {
 @synthesize state = _state;
 @synthesize toughButton = _toughButton;
 @synthesize passiveButton = _passiveButton;
-
+@synthesize testButton = _testButton;
 - (NSString*) state {
     return _state;
+}
+
+-(UIButton *)testButton {
+    
+    if (_testButton == nil){
+        _testButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _testButton.frame = CGRectMake(0.0, 30, 160.0, 40.0);
+        [_testButton addTarget:self
+                         action:@selector(toughButtonTapped:)
+               forControlEvents:UIControlEventTouchUpInside];
+        [_toughButton setTitle:@"test button" forState:UIControlStateNormal];
+        //_toughButton.hidden = YES;
+        //[self addSubview:_toughButton];
+        //We are not currently adding the button anywhere
+        //also just addded _toughButton.hidden = yes
+        return _testButton;
+        
+    }
+    
+    else{
+        
+        return _testButton;
+    }
 }
 -(UIButton *)toughButton {
     
     if (_toughButton == nil){
-        _toughButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _toughButton.frame = CGRectMake(0.0, 30, 160.0, 40.0);
         [_toughButton addTarget:self
                     action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
         [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        //_toughButton.hidden = YES;
+        //[self addSubview:_toughButton];
+        //We are not currently adding the button anywhere
+        //also just addded _toughButton.hidden = yes
         return _toughButton;
         
     }
@@ -108,18 +138,19 @@ typedef enum CourtSide : NSUInteger {
     self.buttonsView.buttonTitles = self.buttonsForState[state];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.toughButton.frame = CGRectMake(0.0, self.bounds.size.height - 20, 160.0, 40.0);
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    self.toughButton.frame = CGRectMake(0.0, self.bounds.size.height - 20, 160.0, 40.0);
+//}
 
 - (id)initWithFrame:(CGRect)frame
 {
     
-    [self addSubview:self.toughButton];
-    self = [super initWithFrame:frame];
+self = [super initWithFrame:frame];
     if (self) {
         CGFloat courtAspectRatio = 8/5.f;
+        [self addSubview:self.toughButton];
+        [self addSubview:self.testButton];
         
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
@@ -324,11 +355,12 @@ typedef enum CourtSide : NSUInteger {
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
-        //self.toughButton.hidden = YES;
+        //[self.toughButton setHidden:YES];
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        self.toughButton.hidden = NO;
-        
+        //NSLog(@"what is tough button?%@",self.toughButton);
+        [self.toughButton setHidden:NO];
+        self.toughButton.opaque = YES;
             
         
         
@@ -370,7 +402,7 @@ typedef enum CourtSide : NSUInteger {
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
     NSLog(@"Tough Button Tapped!");
-    self.toughButton.hidden = NO;
+    //self.toughButton.hidden = NO;
 //    _toughButton.hidden = YES;
 
     //sender.hidden = YES;

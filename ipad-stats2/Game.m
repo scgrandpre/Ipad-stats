@@ -63,6 +63,10 @@
   if (game.homeTeam == nil) {
     game.homeTeam = @"HOME";
   };
+    game.matchOffset = dict[@"offset"];
+    if (game.matchOffset == nil) {
+        game.matchOffset = @"offset";
+    };
   return game;
 }
 
@@ -75,6 +79,7 @@
                            @"plays" : plays,
                            @"homeTeam" : self.homeTeam,
                            @"awayTeam" : self.awayTeam,
+                           @"offset" : self.matchOffset
                          }];
   if (self.id) {
     dict[@"id"] = self.id;

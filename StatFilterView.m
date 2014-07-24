@@ -65,6 +65,7 @@ static NSInteger kResultComponent = 2;
     _picker = [[UIPickerView alloc] init];
     _picker.delegate = self;
     _picker.dataSource = self;
+    _picker.backgroundColor = [UIColor clearColor];
     [self addSubview:_picker];
   }
   return _picker;
@@ -82,20 +83,33 @@ static NSInteger kResultComponent = 2;
 }
 
 - (void)recomputeFilteredStats {
-    //NSMutableDictionary *filter = [@{} mutableCopy];
+    NSMutableDictionary *filter = [@{} mutableCopy];
     NSInteger player = [self.picker selectedRowInComponent:kPlayerComponent];
   if (player != 0) {
-    _filter[@"player"] = [self players][player - 1];
+    filter[@"player"] = [self players][player - 1];
       NSLog(@"selected player: %@",[self players][player - 1]);
   }
-    NSLog(@"Please enter the value of a");
-    double a;
-    scanf("%lf", &a);
+    NSInteger skill = [self.picker selectedRowInComponent:kSkillComponent];
+    if (skill != 0) {
+        filter[@"skill"] = [self skills][skill- 1];
+            }
     NSInteger result = [self.picker selectedRowInComponent:kResultComponent];
+    
     if (result != 0) {
-        _filter[@"result"] = [self resultHit][result- 1];
+        if (skill == 1) {
+            if (result > self.resultHit.count){
+                result = self.resultHit.count;
+            }
+                
+            filter[@"details"]= @{@"result":self.resultHit[result - 1]} ;
+        }
+        else if (skill == 2){
+            filter[@"details"]= @{@"result":self.resultServe[result - 1]} ;
+        }
     }
-  _filteredStats = [Stat filterStats:self.stats withFilters:_filter];
+   
+    //@"details": @{@"result": ....}
+  _filteredStats = [Stat filterStats:self.stats withFilters:filter];
   [self emit:@"filtered-stats" data:_filteredStats];
 }
 //current skill was made to determine what the current skill is.
@@ -106,6 +120,7 @@ static NSInteger kResultComponent = 2;
             return self.skills[skill - 1];
     }else{
         return nil;
+        
     }
 }
 

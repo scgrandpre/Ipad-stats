@@ -40,6 +40,7 @@
     _homeTeam = [[UITextField alloc] init];
     _homeTeam.backgroundColor = [UIColor grayColor];
     _homeTeam.hidden = YES;
+    _homeTeam.placeholder = @"Enter Home Team";
     _homeTeam.delegate = self;
   }
   return _homeTeam;
@@ -50,6 +51,7 @@
     _awayTeam = [[UITextField alloc] init];
     _awayTeam.backgroundColor = [UIColor grayColor];
     _awayTeam.hidden = YES;
+    _awayTeam.placeholder = @"Enter Away Team";
     _awayTeam.delegate = self;
   }
   return _awayTeam;

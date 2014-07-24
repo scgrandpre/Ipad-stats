@@ -10,6 +10,8 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "AVPlayerView.h"
+#import "Game.h"
+
 
 @interface StatAnalysisVideoPlayer ()
 @property(readonly) AVPlayerView *videoPlayer;
