@@ -66,41 +66,18 @@ typedef enum CourtSide : NSUInteger {
 @synthesize state = _state;
 @synthesize toughButton = _toughButton;
 @synthesize passiveButton = _passiveButton;
-@synthesize handsButton = _HandsButton;
+@synthesize handsButton = _handsButton;
 @synthesize noHandsButton = _noHandsButton;
 
 - (NSString*) state {
     return _state;
 }
 
-//-(UIButton *)testButton {
-//    
-//    if (_testButton == nil){
-//        _testButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//        _testButton.frame = CGRectMake(0.0, 30, 160.0, 40.0);
-//        [_testButton addTarget:self
-//                         action:@selector(toughButtonTapped:)
-//               forControlEvents:UIControlEventTouchUpInside];
-//        [_toughButton setTitle:@"test button" forState:UIControlStateNormal];
-//        [self.toughButton setHidden:YES];
-//        //_toughButton.hidden = YES;
-//        //[self addSubview:_toughButton];
-//        //We are not currently adding the button anywhere
-//        //also just addded _toughButton.hidden = yes
-//        return _testButton;
-//        
-//    }
-//    
-//    else{
-//        
-//        return _testButton;
-//    }
-//}
 -(UIButton *)toughButton {
     
     if (_toughButton == nil){
         _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _toughButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
+        _toughButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
         [_toughButton addTarget:self
                     action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
@@ -113,54 +90,55 @@ typedef enum CourtSide : NSUInteger {
     }
 }
 
--(UIButton *)toughButton {
+-(UIButton *)passiveButton {
     
-    if (_toughButton == nil){
-        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _toughButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
-        [_toughButton addTarget:self
-                         action:@selector(toughButtonTapped:)
+    if (_passiveButton == nil){
+        _passiveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _passiveButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
+
+        [_passiveButton addTarget:self
+                         action:@selector(passiveButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        [self.toughButton setHidden:YES];
-        return _toughButton;
+        [_passiveButton setTitle:@"passive Serve" forState:UIControlStateNormal];
+        [self.passiveButton setHidden:YES];
+        return _passiveButton;
     }
     else{
-        return _toughButton;
+        return _passiveButton;
     }
 }
 
--(UIButton *)toughButton {
+-(UIButton *)handsButton {
     
-    if (_toughButton == nil){
-        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _toughButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
-        [_toughButton addTarget:self
-                         action:@selector(toughButtonTapped:)
+    if (_handsButton == nil){
+        _handsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _handsButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
+        [_handsButton addTarget:self
+                         action:@selector(handsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        [self.toughButton setHidden:YES];
-        return _toughButton;
+        [_handsButton setTitle:@"hands Serve" forState:UIControlStateNormal];
+        [self.handsButton setHidden:YES];
+        return _handsButton;
     }
     else{
-        return _toughButton;
+        return _handsButton;
     }
 }
 
--(UIButton *)toughButton {
+-(UIButton *)noHandsButton {
     
-    if (_toughButton == nil){
-        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _toughButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
-        [_toughButton addTarget:self
-                         action:@selector(toughButtonTapped:)
+    if (_noHandsButton == nil){
+        _noHandsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _noHandsButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
+        [_noHandsButton addTarget:self
+                         action:@selector(noHandsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        [self.toughButton setHidden:YES];
-        return _toughButton;
+        [_noHandsButton setTitle:@"noHands Serve" forState:UIControlStateNormal];
+        [self.noHandsButton setHidden:YES];
+        return _noHandsButton;
     }
     else{
-        return _toughButton;
+        return _noHandsButton;
     }
 }
 
@@ -183,7 +161,9 @@ self = [super initWithFrame:frame];
     if (self) {
         CGFloat courtAspectRatio = 8/5.f;
         [self addSubview:self.toughButton];
-  
+        [self addSubview:self.passiveButton];
+        [self addSubview:self.handsButton];
+        [self addSubview:self.noHandsButton];
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
         [self addSubview:subsView];
@@ -388,43 +368,14 @@ self = [super initWithFrame:frame];
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
         [self.toughButton setHidden:NO];
+        [self.passiveButton setHidden:NO];
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        //NSLog(@"what is tough button?%@",self.toughButton);
-        [self.toughButton setHidden:NO];
-        self.toughButton.opaque = YES;
-            
-        
-        
-        
-        UIButton *passiveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [passiveButton addTarget:self
-                        action:@selector(aMethod:)
-              forControlEvents:UIControlEventTouchUpInside];
-        [passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
-        passiveButton.frame = CGRectMake(250,self.bounds.size.height - 20 , 160.0, 40.0);
-        [self addSubview:passiveButton];
-        
-        
     } else {
         //Hit
+        [self.handsButton setHidden:NO];
+        [self.noHandsButton setHidden:NO];
         stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        UIButton *handsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [handsButton addTarget:self
-                        action:@selector(toughButtonTapped:)
-              forControlEvents:UIControlEventTouchUpInside];
-        [handsButton setTitle:@"Hands" forState:UIControlStateNormal];
-        handsButton.frame = CGRectMake(420.0, self.bounds.size.height - 20, 160.0, 40.0);
-        [self addSubview:handsButton];
-        
-        
-        UIButton *nohandsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [nohandsButton addTarget:self
-                        action:@selector(toughButtonTapped:)
-              forControlEvents:UIControlEventTouchUpInside];
-        [nohandsButton setTitle:@"No Hands" forState:UIControlStateNormal];
-        nohandsButton.frame = CGRectMake(590.0, self.bounds.size.height - 20, 160.0, 40.0);
-        [self addSubview:nohandsButton];
         
     }
     stat.details[@"line"] = line;
@@ -436,13 +387,7 @@ self = [super initWithFrame:frame];
     NSLog(@"Tough Button Tapped!");
     [self.toughButton setHidden:YES];
     [self.passiveButton setHidden:YES];
-    
-    //self.toughButton.hidden = NO;
-//    _toughButton.hidden = YES;
-
-    //sender.hidden = YES;
-    
-    
+    //stat.details[@"toughServe"] = "Tough";
     
 }
 
