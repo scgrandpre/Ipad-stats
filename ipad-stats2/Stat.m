@@ -103,5 +103,17 @@
                                     id:nil];
 }
 
+//+ (NSArray*) playersForStats:(NSArray*)stats{
+//    NSMutableDictionary *players = [[NSMutableDictionary alloc] init];
+//    for (Stat *stat in stats) {
+//        players[stat.player] = stat.player;
+//    }
+//    return [players
+//            keysSortedByValueUsingComparator:^NSComparisonResult(NSString *obj1,
+//                                                                 NSString *obj2) {
+//                return [obj1 integerValue] > [obj2 integerValue];
+//            }];
+//
+//}
 
 @end

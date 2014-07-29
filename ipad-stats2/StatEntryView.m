@@ -73,6 +73,7 @@ typedef enum CourtSide : NSUInteger {
     return _state;
 }
 
+
 -(UIButton *)testButton {
     
     if (_testButton == nil){
@@ -117,6 +118,8 @@ typedef enum CourtSide : NSUInteger {
         return _toughButton;
     }
 }
+
+
 -(UIButton *)passiveButton {
     
     if (_passiveButton == nil){
@@ -456,7 +459,7 @@ self = [super initWithFrame:frame];
         if ([button isEqual: @"Ace"]){
             [self endPointWithResult:@"ace" winner:self.currentSide];
         } else if ([button isEqual: @"Serve Error"]){
-            [self endPointWithResult:@"error" winner:1 - self.currentSide];
+            [self endPointWithResult:@"err" winner:1 - self.currentSide];
         }
     }
     

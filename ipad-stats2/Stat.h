@@ -18,7 +18,7 @@
 @property NSDate* timestamp;
 
 - (id)initWithSkill:(NSString*)skill details:(NSDictionary*)details player:(NSString*)player id:(NSString*)id;
-
+//+ (NSArray*) playersForStats:(NSArray*)stats;
 + (Stat*)stub;
 + (NSArray *)filterStats:(NSArray*)stats withFilters:(NSDictionary*)filters;
 @end

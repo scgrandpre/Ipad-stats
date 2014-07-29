@@ -160,7 +160,11 @@
   self.statsTextView.text = [self basicStats];
 }
 
+
+
 - (NSString *)basicStats {
+        
+    
   NSUInteger kills = [Stat filterStats:self.filters.filteredStats
                            withFilters:@{
                                          @"skill" : @"Hit",
@@ -180,47 +184,48 @@
   /// passing stat team 0
 
   NSArray *passingOptions = [NSArray
-      arrayWithObjects:@"4", @"3", @"2", @"1", @"0", @"ace", @"error", nil];
+      arrayWithObjects:@"4", @"3", @"2", @"1", @"0", @"ace", @"err", nil];
   NSString *currentPassingOption;
   NSMutableDictionary *passValue = [[NSMutableDictionary alloc] init];
-
+    
   for (currentPassingOption in passingOptions) {
 //    NSLog(@"%@", currentPassingOption);
 
     NSUInteger pass =
-        [self.game
-            filterEventsBy:@{
+      [Stat filterStats:self.filters.filteredStats
+            withFilters:@{
                              @"skill" : @"Serve",
                              @"details" : @{@"result" : currentPassingOption}
                            }].count;
 
     passValue[currentPassingOption] = [NSNumber numberWithUnsignedInt:pass];
+      NSLog(@"pass value:%@%@",currentPassingOption,passValue);
   }
-
-  // NSLog(@"here I am");
-  NSUInteger passingAttempts = [Stat filterStats:self.filters.filteredStats
-                                     withFilters:@{@"skill" : @"Serve"}].count;
-//  if ((pass4 + pass3 + pass2 + pass1 + pass0 + passAce) > 0) {
-//    passStat = ((float)pass4 * 4 + pass3 * 3 + pass2 * 2 + pass1 * 1) /
-//               ((float)pass4 + pass3 + pass2 + pass1 + pass0 + passAce);
-//  }
-
-  // NSUInteger countPasses = 0;
-  // for (i in [self filterEventsBy:@{@"skill": @"SERVE"}]){
-  //    countPasses += i
-
-
+    NSUInteger passingAttempts = [Stat filterStats:self.filters.filteredStats
+                                       withFilters:@{@"skill" : @"Serve"}].count;
+    
+    NSNumber *passStat = [NSNumber numberWithDouble:(
+    ([passValue[@"1"] integerValue] *1 +
+    [passValue[@"2"] integerValue] *2 +
+    [passValue[@"3"] integerValue] *3 +
+    [passValue[@"4"] integerValue] *4 +
+    [passValue[@"err"] integerValue] *4
+    )/(float)(passingAttempts))];
+    
 
   NSLog(@"passingattempts: %lu\n%lu", (unsigned long)passingAttempts,
         (unsigned long)passValue[passingOptions[1]]);
 
+    
+    NSNumber *hitPercent = [NSNumber numberWithDouble:((float)kills - hittingErrors) / hittingAttempts];
+    
   return [NSString
-      stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting "
-                       @"Average: %f",
+      stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting Average: %@\nServe Stat: %@:",
                        (unsigned long)hittingAttempts, (unsigned long)kills,
                        (unsigned long)hittingErrors,
-                       ((float)kills - hittingErrors) / hittingAttempts];
-          
+                       hitPercent,
+                        passStat];
+ 
 }
     
 - (void)updateStats {
