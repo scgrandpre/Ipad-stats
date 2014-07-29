@@ -19,7 +19,7 @@
 @property (strong) NSMutableArray* plays;
 @property (strong) NSString* homeTeam;
 @property (strong) NSString* awayTeam;
-@property (strong) NSString* matchOffset;
+//@property (strong) NSString* matchOffset;
 
 
 
