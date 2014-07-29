@@ -53,6 +53,7 @@
 		F1A0712A178B8BE600FED04E /* StatListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A07129178B8BE600FED04E /* StatListViewCell.m */; };
 		F1A078491895792C006D54ED /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A078481895792C006D54ED /* MediaPlayer.framework */; };
 		F1A8DC8C17A0C85900B62DA6 /* ToggleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */; };
+		F1AAB57F1987F987003F3221 /* StatAnalysisTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1AAB57E1987F987003F3221 /* StatAnalysisTableView.m */; };
 		F1B0F0BB1979A5D10076560C /* cleanButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F1B0F0BA1979A5D10076560C /* cleanButton.png */; };
 		F1B0F0BF1979A8770076560C /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F1B0F0BE1979A8770076560C /* greyButton.png */; };
 		F1CD0DBB173C877B006F4A32 /* StatAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CD0DBA173C877B006F4A32 /* StatAnalyzer.m */; };
@@ -139,6 +140,8 @@
 		F1A078481895792C006D54ED /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F1A8DC8A17A0C85800B62DA6 /* ToggleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleButtonView.h; sourceTree = "<group>"; };
 		F1A8DC8B17A0C85800B62DA6 /* ToggleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleButtonView.m; sourceTree = "<group>"; };
+		F1AAB57D1987F987003F3221 /* StatAnalysisTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalysisTableView.h; sourceTree = "<group>"; };
+		F1AAB57E1987F987003F3221 /* StatAnalysisTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatAnalysisTableView.m; sourceTree = "<group>"; };
 		F1B0F0BA1979A5D10076560C /* cleanButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cleanButton.png; sourceTree = "<group>"; };
 		F1B0F0BE1979A8770076560C /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
 		F1CD0DB9173C877B006F4A32 /* StatAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatAnalyzer.h; sourceTree = "<group>"; };
@@ -248,6 +251,8 @@
 				380F584E1717136B005ED397 /* CourtView.m */,
 				F170B4D11757B92400ED6597 /* StatEntryView.h */,
 				F170B4D21757B92400ED6597 /* StatEntryView.m */,
+				F1AAB57D1987F987003F3221 /* StatAnalysisTableView.h */,
+				F1AAB57E1987F987003F3221 /* StatAnalysisTableView.m */,
 				F1A07125178B7A9700FED04E /* StatEventButtonsView.h */,
 				F1A07126178B7A9700FED04E /* StatEventButtonsView.m */,
 				F1A8DC8A17A0C85800B62DA6 /* ToggleButtonView.h */,
@@ -472,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3897495E194BD20D001B13E6 /* StatAnalysisVideoPlayer.m in Sources */,
+				F1AAB57F1987F987003F3221 /* StatAnalysisTableView.m in Sources */,
 				380F5822171711CF005ED397 /* main.m in Sources */,
 				F170415C191DBF9C00D74882 /* StatFilterView.m in Sources */,
 				380F5826171711CF005ED397 /* AppDelegate.m in Sources */,
