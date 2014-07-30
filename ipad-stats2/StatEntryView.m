@@ -99,7 +99,7 @@ typedef enum CourtSide : NSUInteger {
         [_passiveButton addTarget:self
                          action:@selector(passiveButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_passiveButton setTitle:@"passive Serve" forState:UIControlStateNormal];
+        [_passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
         [self.passiveButton setHidden:YES];
         return _passiveButton;
     }
@@ -112,11 +112,11 @@ typedef enum CourtSide : NSUInteger {
     
     if (_handsButton == nil){
         _handsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _handsButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
+        _handsButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
         [_handsButton addTarget:self
                          action:@selector(handsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_handsButton setTitle:@"hands Serve" forState:UIControlStateNormal];
+        [_handsButton setTitle:@"Hands" forState:UIControlStateNormal];
         [self.handsButton setHidden:YES];
         return _handsButton;
     }
@@ -129,11 +129,11 @@ typedef enum CourtSide : NSUInteger {
     
     if (_noHandsButton == nil){
         _noHandsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _noHandsButton.frame = CGRectMake(0.0, 300, 160.0, 40.0);
+        _noHandsButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
         [_noHandsButton addTarget:self
                          action:@selector(noHandsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_noHandsButton setTitle:@"noHands Serve" forState:UIControlStateNormal];
+        [_noHandsButton setTitle:@"No Hands" forState:UIControlStateNormal];
         [self.noHandsButton setHidden:YES];
         return _noHandsButton;
     }
@@ -387,10 +387,37 @@ self = [super initWithFrame:frame];
     NSLog(@"Tough Button Tapped!");
     [self.toughButton setHidden:YES];
     [self.passiveButton setHidden:YES];
-    //stat.details[@"toughServe"] = "Tough";
-    
+    Stat* stat =self.play.stats[0];
+    stat.details[@"toughServe"] = @"Tough";
 }
 
+-(IBAction)passiveButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Passive Button Tapped!");
+    [self.toughButton setHidden:YES];
+    [self.passiveButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"toughServe"] = @"Passive";
+
+}
+
+-(IBAction)handsButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Hands Button Tapped!");
+    [self.handsButton setHidden:YES];
+    [self.noHandsButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Hands"] = @"Hands";
+}
+
+-(IBAction)noHandsButtonTapped:(UIButton *)sender
+{
+    NSLog(@"No Hands Button Tapped!");
+    [self.handsButton setHidden:YES];
+    [self.noHandsButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Hands"] = @"No Hands";
+}
 - (void)addResultForStat:(Stat *)stat {
     if (stat.skill == kSkillServe) {
         self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
