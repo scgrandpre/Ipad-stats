@@ -82,6 +82,9 @@ typedef enum CourtSide : NSUInteger {
                     action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
         [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        [_toughButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        _toughButton.layer.backgroundColor = [UIColor colorWithRed:44.0/255 green:62.0/255 blue:80.0/225.0 alpha:.9].CGColor;
         [self.toughButton setHidden:YES];
         return _toughButton;
     }
@@ -100,6 +103,8 @@ typedef enum CourtSide : NSUInteger {
                          action:@selector(passiveButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
+        [_passiveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _passiveButton.layer.backgroundColor = [UIColor colorWithRed:108.0/255.0 green:122.0/255.0 blue:137.0/225.0 alpha:.9].CGColor;
         [self.passiveButton setHidden:YES];
         return _passiveButton;
     }
