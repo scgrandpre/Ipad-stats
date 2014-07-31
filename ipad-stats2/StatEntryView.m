@@ -125,6 +125,10 @@ typedef enum CourtSide : NSUInteger {
                          action:@selector(handsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_handsButton setTitle:@"Hands" forState:UIControlStateNormal];
+        _handsButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
+        [_handsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_handsButton.layer setBorderWidth:2.0];
+        [_handsButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
         [self.handsButton setHidden:YES];
         return _handsButton;
     }
@@ -142,6 +146,10 @@ typedef enum CourtSide : NSUInteger {
                          action:@selector(noHandsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_noHandsButton setTitle:@"No Hands" forState:UIControlStateNormal];
+        _noHandsButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
+        [_noHandsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_noHandsButton.layer setBorderWidth:2.0];
+        [_noHandsButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
         [self.noHandsButton setHidden:YES];
         return _noHandsButton;
     }
@@ -149,6 +157,7 @@ typedef enum CourtSide : NSUInteger {
         return _noHandsButton;
     }
 }
+//end stat dependent stats buttons
 
 
 -(void) setState:(NSString *)state {
@@ -375,20 +384,25 @@ self = [super initWithFrame:frame];
     
     Stat *stat;
     if (startArea == CourtAreaServeZone) {
-        [self.toughButton setHidden:NO];
-        [self.passiveButton setHidden:NO];
         // Serve
         stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
+
+        stat.details[@"line"] = line;
+        [self.play.stats addObject:stat];
+        [self addResultForStat:stat];
+        [self.toughButton setHidden:NO];
+        [self.passiveButton setHidden:NO];
     } else {
         //Hit
+
+        stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
+
+        stat.details[@"line"] = line;
+        [self.play.stats addObject:stat];
+        [self addResultForStat:stat];
         [self.handsButton setHidden:NO];
         [self.noHandsButton setHidden:NO];
-        stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
-        
     }
-    stat.details[@"line"] = line;
-    [self.play.stats addObject:stat];
-    [self addResultForStat:stat];
 }
 -(IBAction)toughButtonTapped:(UIButton *)sender
 {
@@ -427,6 +441,10 @@ self = [super initWithFrame:frame];
     stat.details[@"Hands"] = @"No Hands";
 }
 - (void)addResultForStat:(Stat *)stat {
+    [self.handsButton setHidden:YES];
+    [self.noHandsButton setHidden:YES];
+    [self.toughButton setHidden:YES];
+    [self.passiveButton setHidden:YES];
     if (stat.skill == kSkillServe) {
         self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err", @"Overpass"];
     } else {
