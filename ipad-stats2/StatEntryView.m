@@ -20,6 +20,7 @@ static NSString *kSkillPass  = @"Pass";
 static NSString *kSkillDig   = @"Dig";
 static NSString *kSkillHit   = @"Hit";
 
+
 static NSString *PlayStatePrePlay  = @"pre-play";
 static NSString *PlayStateServe    = @"serve";
 static NSString *PlayStatePass     = @"pass";
@@ -59,6 +60,9 @@ typedef enum CourtSide : NSUInteger {
 @property (readonly) UIButton *passiveButton;
 @property (readonly) UIButton *handsButton;
 @property (readonly) UIButton *noHandsButton;
+@property (readonly) UIButton *blockTouchButton;
+@property (readonly) UIButton *goodBlockTouchButton;
+@property (readonly) UIButton *badBlockTouchButton;
 @end
 
 
@@ -68,25 +72,32 @@ typedef enum CourtSide : NSUInteger {
 @synthesize passiveButton = _passiveButton;
 @synthesize handsButton = _handsButton;
 @synthesize noHandsButton = _noHandsButton;
+@synthesize blockTouchButton = _blockTouchButton;
+@synthesize goodBlockTouchButton = _goodBlockTouchButton;
+@synthesize badBlockTouchButton = _badBlockTouchButton;
 
 - (NSString*) state {
     return _state;
 }
+- (UIButton *)makeButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button.layer setBorderWidth:2.0];
+    [button.layer setBorderColor:[[UIColor blackColor] CGColor]];
+    [button setHidden:YES];
+    return button;
+}
+
 
 -(UIButton *)toughButton {
     
     if (_toughButton == nil){
-        _toughButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _toughButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
+        _toughButton = [self makeButton];
         [_toughButton addTarget:self
                     action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
         [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        _toughButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
-        [_toughButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_toughButton.layer setBorderWidth:2.0];
-        [_toughButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
-        [self.toughButton setHidden:YES];
         return _toughButton;
     }
     else{
@@ -97,18 +108,11 @@ typedef enum CourtSide : NSUInteger {
 -(UIButton *)passiveButton {
     
     if (_passiveButton == nil){
-        _passiveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _passiveButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
-
+        _passiveButton = [self makeButton];
         [_passiveButton addTarget:self
                          action:@selector(passiveButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
-        _passiveButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
-        [_passiveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_passiveButton.layer setBorderWidth:2.0];
-        [_passiveButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
-        [self.passiveButton setHidden:YES];
         return _passiveButton;
     }
     else{
@@ -119,17 +123,11 @@ typedef enum CourtSide : NSUInteger {
 -(UIButton *)handsButton {
     
     if (_handsButton == nil){
-        _handsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _handsButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
+        _handsButton = [self makeButton];
         [_handsButton addTarget:self
                          action:@selector(handsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_handsButton setTitle:@"Hands" forState:UIControlStateNormal];
-        _handsButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
-        [_handsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_handsButton.layer setBorderWidth:2.0];
-        [_handsButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
-        [self.handsButton setHidden:YES];
         return _handsButton;
     }
     else{
@@ -140,17 +138,11 @@ typedef enum CourtSide : NSUInteger {
 -(UIButton *)noHandsButton {
     
     if (_noHandsButton == nil){
-        _noHandsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        _noHandsButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/8, self.bounds.size.height/16);
+        _noHandsButton = [self makeButton];
         [_noHandsButton addTarget:self
                          action:@selector(noHandsButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_noHandsButton setTitle:@"No Hands" forState:UIControlStateNormal];
-        _noHandsButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
-        [_noHandsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_noHandsButton.layer setBorderWidth:2.0];
-        [_noHandsButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
-        [self.noHandsButton setHidden:YES];
         return _noHandsButton;
     }
     else{
@@ -158,29 +150,81 @@ typedef enum CourtSide : NSUInteger {
     }
 }
 //end stat dependent stats buttons
-
-
+//start right side buttons
+-(UIButton *)blockTouchButton {
+    
+    if (_blockTouchButton == nil){
+        _blockTouchButton = [self makeButton];
+        [_blockTouchButton addTarget:self
+                         action:@selector(blockTouchButtonTapped:)
+               forControlEvents:UIControlEventTouchUpInside];
+        [_blockTouchButton setTitle:@"Block Touch" forState:UIControlStateNormal];
+        [_blockTouchButton setHidden:NO];
+        return _blockTouchButton;
+    }
+    else{
+        return _blockTouchButton;
+    }
+}
+-(UIButton *)badBlockTouchButton {
+    
+    if (_badBlockTouchButton == nil){
+        _badBlockTouchButton = [self makeButton];
+        [_badBlockTouchButton addTarget:self
+                              action:@selector(badBlockTouchButtonTapped:)
+                    forControlEvents:UIControlEventTouchUpInside];
+        [_badBlockTouchButton setTitle:@"Bad Touch" forState:UIControlStateNormal];
+        return _badBlockTouchButton;
+    }
+    else{
+        return _badBlockTouchButton;
+    }
+}
+-(UIButton *)goodBlockTouchButton {
+    
+    if (_goodBlockTouchButton == nil){
+        _goodBlockTouchButton = [self makeButton];
+        [_goodBlockTouchButton addTarget:self
+                              action:@selector(goodBlockTouchButtonTapped:)
+                    forControlEvents:UIControlEventTouchUpInside];
+        [_goodBlockTouchButton setTitle:@"Good Touch" forState:UIControlStateNormal];
+        return _goodBlockTouchButton;
+    }
+    else{
+        return _goodBlockTouchButton;
+    }
+}
 -(void) setState:(NSString *)state {
     _state = state;
     self.stateLabel.text = state;
     self.buttonsView.buttonTitles = self.buttonsForState[state];
 }
 
-//- (void)layoutSubviews {
-//    [super layoutSubviews];
-//    self.toughButton.frame = CGRectMake(0.0, self.bounds.size.height - 20, 160.0, 40.0);
-//}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _toughButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _passiveButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _handsButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _noHandsButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _blockTouchButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _goodBlockTouchButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _badBlockTouchButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
     
 self = [super initWithFrame:frame];
     if (self) {
+        [_blockTouchButton setHidden:NO];
         CGFloat courtAspectRatio = 8/5.f;
         [self addSubview:self.toughButton];
         [self addSubview:self.passiveButton];
         [self addSubview:self.handsButton];
         [self addSubview:self.noHandsButton];
+        [self addSubview:self.blockTouchButton];
+        [self addSubview:self.goodBlockTouchButton];
+        [self addSubview:self.badBlockTouchButton];
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
         [self addSubview:subsView];
@@ -402,6 +446,7 @@ self = [super initWithFrame:frame];
         [self addResultForStat:stat];
         [self.handsButton setHidden:NO];
         [self.noHandsButton setHidden:NO];
+        [self.blockTouchButton setHidden:NO];
     }
 }
 -(IBAction)toughButtonTapped:(UIButton *)sender
@@ -440,6 +485,34 @@ self = [super initWithFrame:frame];
     Stat* stat =self.play.stats[0];
     stat.details[@"Hands"] = @"No Hands";
 }
+-(IBAction)blockTouchButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Block Touch Button Tapped!");
+    [self.blockTouchButton setHidden:YES];
+    [self.goodBlockTouchButton setHidden:NO];
+    [self.badBlockTouchButton setHidden:NO];
+}
+-(IBAction)goodBlockTouchButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Good Block Touch Button Tapped!");
+    [self.blockTouchButton setHidden:NO];
+    [self.goodBlockTouchButton setHidden:YES];
+    [self.badBlockTouchButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Block Touch"] = @"Good Touch";
+
+}
+-(IBAction)badBlockTouchButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Bad Block Touch Button Tapped!");
+    [self.blockTouchButton setHidden:NO];
+    [self.goodBlockTouchButton setHidden:YES];
+    [self.badBlockTouchButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Block Touch"] = @"Bad Touch";
+}
+
+
 - (void)addResultForStat:(Stat *)stat {
     [self.handsButton setHidden:YES];
     [self.noHandsButton setHidden:YES];
