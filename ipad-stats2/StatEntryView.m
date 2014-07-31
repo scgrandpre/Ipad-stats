@@ -82,9 +82,10 @@ typedef enum CourtSide : NSUInteger {
                     action:@selector(toughButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
         [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        [_toughButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-        _toughButton.layer.backgroundColor = [UIColor colorWithRed:44.0/255 green:62.0/255 blue:80.0/225.0 alpha:.9].CGColor;
+        _toughButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
+        [_toughButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_toughButton.layer setBorderWidth:2.0];
+        [_toughButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
         [self.toughButton setHidden:YES];
         return _toughButton;
     }
@@ -103,8 +104,10 @@ typedef enum CourtSide : NSUInteger {
                          action:@selector(passiveButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
         [_passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
-        [_passiveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _passiveButton.layer.backgroundColor = [UIColor colorWithRed:108.0/255.0 green:122.0/255.0 blue:137.0/225.0 alpha:.9].CGColor;
+        _passiveButton.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
+        [_passiveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_passiveButton.layer setBorderWidth:2.0];
+        [_passiveButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
         [self.passiveButton setHidden:YES];
         return _passiveButton;
     }
@@ -425,7 +428,7 @@ self = [super initWithFrame:frame];
 }
 - (void)addResultForStat:(Stat *)stat {
     if (stat.skill == kSkillServe) {
-        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
+        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err", @"Overpass"];
     } else {
         self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
     }

@@ -32,9 +32,10 @@ static const CGFloat BUTTON_PADDING = 10;
                 heightOffset = self.bounds.size.height/2;
             }
             UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            button.layer.backgroundColor = [UIColor colorWithRed:253.0/255 green:227.0/255 blue:167.0/225.0 alpha:.5].CGColor;
+            button.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:1].CGColor;
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            
+            [button.layer setBorderWidth:2.0];
+            [button.layer setBorderColor:[[UIColor blackColor] CGColor]];
             button.frame = CGRectMake((BUTTON_PADDING + buttonWidth) * i, heightOffset, buttonWidth, self.bounds.size.height/2 - BUTTON_PADDING/2);
             [button setTitle:titles[j] forState:UIControlStateNormal];
             [self addSubview:button];
@@ -48,7 +49,7 @@ static const CGFloat BUTTON_PADDING = 10;
     for (UIView *view in self.subviews) {
         UIButton *button = (UIButton*)view;
         if([button.titleLabel.text isEqualToString:selectedButton]) {
-            [button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         } else {
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }

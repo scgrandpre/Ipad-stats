@@ -116,6 +116,8 @@
                                   @"2": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
                                   @"3": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
                                   @"4": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  @"Overpass": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
+                                  
                                   };
     return @{@"line":stat.details[@"line"] ? stat.details[@"line"] : @[] ,
              @"color": resultColor[stat.details[@"result"] ? stat.details[@"result"] : @"kill"]};
