@@ -11,7 +11,7 @@
 
 @interface AnalysisLinesView ()
 
-@property NSMutableDictionary *highlights;
+@property int selectedLine;
 @property Stat *selectedStat;
 
 @end
@@ -25,7 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _stats = [[NSArray alloc] init];
-        _highlights = [[NSMutableDictionary alloc] init];
+      _selectedLine = -1;
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
@@ -93,10 +93,9 @@
                 closest = i;
                 
             }
-            self.highlights[[NSNumber numberWithInteger:i]] = [UIColor colorWithWhite:.7 alpha:1];
         }
     }
-    self.highlights[[NSNumber numberWithInteger:closest]] = [UIColor colorWithWhite:0 alpha:1];
+  self.selectedLine = closest;
     self.selectedStat = self.stats[closest];
 
 
@@ -111,6 +110,7 @@
                                   @"ace":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
                                   @"us": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
                                   @"them": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.2],
+                                  @"overpass": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.2],
                                   @"0": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
                                   @"1": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
                                   @"2": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.2],
@@ -140,7 +140,11 @@
             CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
         }
         //Show the highlights so we can see what we're selecting
-        CGContextSetStrokeColorWithColor(ctx, [self.highlights[[NSNumber numberWithInteger:i]] CGColor]);
+      if (self.selectedLine == i) {
+        CGContextSetStrokeColorWithColor(ctx, [[UIColor blackColor] CGColor]);
+      } else {
+        CGContextSetStrokeColorWithColor(ctx, [lineDict[@"color"] CGColor]);
+      }
         CGContextBeginPath(ctx);
         NSArray *line = lineDict[@"line"];
         if(line.count > 0) {
