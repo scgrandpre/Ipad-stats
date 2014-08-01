@@ -212,8 +212,9 @@
 
 - (void)doSync {
   self.offset =
-      CMTimeGetSeconds(self.video.currentTime) -
+    CMTimeGetSeconds(self.video.currentTime) -
       [((Stat *)self.playlist[0]).timestamp timeIntervalSinceReferenceDate];
+    
 }
 
 - (void)seekSliderChanged {

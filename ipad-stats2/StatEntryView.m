@@ -505,7 +505,6 @@ self = [super initWithFrame:frame];
             stat.details[@"line"] = line;
             [self.play.stats addObject:stat];
             [self addResultForStat:stat];
-            [self.play.stats addObject:stat];
             [self.handsButton setHidden:NO];
             [self.noHandsButton setHidden:NO];
         }
