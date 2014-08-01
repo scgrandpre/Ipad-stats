@@ -12,12 +12,14 @@
 @interface Stat : NSObject <Serializable>
 
 @property (strong) NSString* id;
+@property (strong) NSString* team;
 @property (strong) NSString* skill;
 @property (strong) NSString* player;
 @property (strong) NSMutableDictionary* details;
 @property NSDate* timestamp;
 
-- (id)initWithSkill:(NSString*)skill details:(NSDictionary*)details player:(NSString*)player id:(NSString*)id;
+
+- (id)initWithSkill:(NSString*)skill details:(NSDictionary*)details team:(NSString*)team player:(NSString*)player id:(NSString*)id;
 
 + (Stat*)stub;
 + (NSArray *)filterStats:(NSArray*)stats withFilters:(NSDictionary*)filters;

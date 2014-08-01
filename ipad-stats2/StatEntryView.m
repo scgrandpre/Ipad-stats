@@ -19,7 +19,7 @@ static NSString *kSkillServe = @"Serve";
 static NSString *kSkillPass  = @"Pass";
 static NSString *kSkillDig   = @"Dig";
 static NSString *kSkillHit   = @"Hit";
-
+static NSString *kSkillBlock   = @"Block";
 
 static NSString *PlayStatePrePlay  = @"pre-play";
 static NSString *PlayStateServe    = @"serve";
@@ -56,25 +56,45 @@ typedef enum CourtSide : NSUInteger {
 
 @property NSString* selectedPlayer;
 @property StatEventButtonsView *addDetailButtons;
-@property (readonly) UIButton *toughButton;
-@property (readonly) UIButton *passiveButton;
+@property (readonly) UIButton *toughServeButton;
+@property (readonly) UIButton *passiveServeButton;
 @property (readonly) UIButton *handsButton;
 @property (readonly) UIButton *noHandsButton;
-@property (readonly) UIButton *blockTouchButton;
 @property (readonly) UIButton *goodBlockTouchButton;
 @property (readonly) UIButton *badBlockTouchButton;
+@property (readonly) UIButton *passedByButton;
+@property (readonly) UIButton *aggressivePassButton;
+@property (readonly) UIButton *passivePassButton;
+@property (readonly) UIButton *digErrorButton;
+@property (readonly) UIButton *digButton;
+@property (readonly) UIButton *upButton;
+@property (readonly) UIButton *coverErrorButton;
+@property (readonly) UIButton *coverDigButton;
+@property (readonly) UIButton *coverUpButton;
+
 @end
 
 
 @implementation StatEntryView
 @synthesize state = _state;
-@synthesize toughButton = _toughButton;
-@synthesize passiveButton = _passiveButton;
+@synthesize toughServeButton = _toughServeButton;
+@synthesize passiveServeButton = _passiveServeButton;
 @synthesize handsButton = _handsButton;
 @synthesize noHandsButton = _noHandsButton;
-@synthesize blockTouchButton = _blockTouchButton;
 @synthesize goodBlockTouchButton = _goodBlockTouchButton;
 @synthesize badBlockTouchButton = _badBlockTouchButton;
+//passing
+@synthesize passedByButton = _passedByButton;
+@synthesize aggressivePassButton = _aggressivePassButton;
+@synthesize passivePassButton = _passivePassButton;
+//Digging
+@synthesize digErrorButton = _digErrorButton;
+@synthesize digButton = _digButton;
+@synthesize upButton = _upButton;
+//covering
+@synthesize coverErrorButton = _coverErrorButton;
+@synthesize coverDigButton = _coverDigButton;
+@synthesize coverUpButton = _coverUpButton;
 
 - (NSString*) state {
     return _state;
@@ -89,37 +109,37 @@ typedef enum CourtSide : NSUInteger {
     return button;
 }
 
-
--(UIButton *)toughButton {
+//Serving
+-(UIButton *)toughServeButton {
     
-    if (_toughButton == nil){
-        _toughButton = [self makeButton];
-        [_toughButton addTarget:self
-                    action:@selector(toughButtonTapped:)
+    if (_toughServeButton == nil){
+        _toughServeButton = [self makeButton];
+        [_toughServeButton addTarget:self
+                    action:@selector(toughServeButtonTapped:)
               forControlEvents:UIControlEventTouchUpInside];
-        [_toughButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
-        return _toughButton;
+        [_toughServeButton setTitle:@"Tough Serve" forState:UIControlStateNormal];
+        return _toughServeButton;
     }
     else{
-        return _toughButton;
+        return _toughServeButton;
     }
 }
 
--(UIButton *)passiveButton {
+-(UIButton *)passiveServeButton {
     
-    if (_passiveButton == nil){
-        _passiveButton = [self makeButton];
-        [_passiveButton addTarget:self
-                         action:@selector(passiveButtonTapped:)
+    if (_passiveServeButton == nil){
+        _passiveServeButton = [self makeButton];
+        [_passiveServeButton addTarget:self
+                         action:@selector(passiveServeButtonTapped:)
                forControlEvents:UIControlEventTouchUpInside];
-        [_passiveButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
-        return _passiveButton;
+        [_passiveServeButton setTitle:@"Passive Serve" forState:UIControlStateNormal];
+        return _passiveServeButton;
     }
     else{
-        return _passiveButton;
+        return _passiveServeButton;
     }
 }
-
+//Attacking
 -(UIButton *)handsButton {
     
     if (_handsButton == nil){
@@ -149,23 +169,8 @@ typedef enum CourtSide : NSUInteger {
         return _noHandsButton;
     }
 }
-//end stat dependent stats buttons
-//start right side buttons
--(UIButton *)blockTouchButton {
-    
-    if (_blockTouchButton == nil){
-        _blockTouchButton = [self makeButton];
-        [_blockTouchButton addTarget:self
-                         action:@selector(blockTouchButtonTapped:)
-               forControlEvents:UIControlEventTouchUpInside];
-        [_blockTouchButton setTitle:@"Block Touch" forState:UIControlStateNormal];
-        [_blockTouchButton setHidden:NO];
-        return _blockTouchButton;
-    }
-    else{
-        return _blockTouchButton;
-    }
-}
+
+//blocking
 -(UIButton *)badBlockTouchButton {
     
     if (_badBlockTouchButton == nil){
@@ -194,6 +199,145 @@ typedef enum CourtSide : NSUInteger {
         return _goodBlockTouchButton;
     }
 }
+//Passing
+-(UIButton *)passedByButton {
+    
+    if (_passedByButton == nil){
+        _passedByButton = [self makeButton];
+        [_passedByButton addTarget:self
+                              action:@selector(passedByButtonTapped:)
+                    forControlEvents:UIControlEventTouchUpInside];
+        [_passedByButton setTitle:@"Passed By" forState:UIControlStateNormal];
+        return _passedByButton;
+    }
+    else{
+        return _passedByButton;
+    }
+}
+-(UIButton *)aggressivePassButton {
+    
+    if (_aggressivePassButton == nil){
+        _aggressivePassButton = [self makeButton];
+        [_aggressivePassButton addTarget:self
+                                 action:@selector(aggressivePassButtonTapped:)
+                       forControlEvents:UIControlEventTouchUpInside];
+        [_aggressivePassButton setTitle:@"Aggressive Pass" forState:UIControlStateNormal];
+        return _aggressivePassButton;
+    }
+    else{
+        return _aggressivePassButton;
+    }
+}
+-(UIButton *)passivePassButton {
+    
+    if (_passivePassButton == nil){
+        _passivePassButton = [self makeButton];
+        [_passivePassButton addTarget:self
+                            action:@selector(passivePassButtonTapped:)
+                  forControlEvents:UIControlEventTouchUpInside];
+        [_passivePassButton setTitle:@"Passive Pass" forState:UIControlStateNormal];
+        return _passivePassButton;
+    }
+    else{
+        return _passivePassButton;
+    }
+}
+
+-(UIButton *)digErrorButton {
+    
+    if (_digErrorButton == nil){
+        _digErrorButton = [self makeButton];
+        [_digErrorButton addTarget:self
+                              action:@selector(digErrorButtonTapped:)
+                    forControlEvents:UIControlEventTouchUpInside];
+        [_digErrorButton setTitle:@"Dig Error" forState:UIControlStateNormal];
+        [_digErrorButton setHidden:NO];
+        return _digErrorButton;
+    }
+    else{
+        return _digErrorButton;
+    }
+}
+-(UIButton *)digButton {
+    
+    if (_digButton == nil){
+        _digButton = [self makeButton];
+        [_digButton addTarget:self
+                         action:@selector(digButtonTapped:)
+               forControlEvents:UIControlEventTouchUpInside];
+        [_digButton setTitle:@"Dig" forState:UIControlStateNormal];
+        [_digButton setHidden:NO];
+        return _digButton;
+    }
+    else{
+        return _digButton;
+    }
+}
+-(UIButton *)upButton {
+    
+    if (_upButton == nil){
+        _upButton = [self makeButton];
+        [_upButton addTarget:self
+                         action:@selector(upButtonTapped:)
+               forControlEvents:UIControlEventTouchUpInside];
+        [_upButton setTitle:@"Up" forState:UIControlStateNormal];
+        [_upButton setHidden:NO];
+        return _upButton;
+    }
+    else{
+        return _upButton;
+    }
+}
+
+-(UIButton *)coverErrorButton {
+    
+    if (_coverErrorButton == nil){
+        _coverErrorButton = [self makeButton];
+        [_coverErrorButton addTarget:self
+                              action:@selector(coverErrorButtonTapped:)
+                    forControlEvents:UIControlEventTouchUpInside];
+        [_coverErrorButton setTitle:@"Cover Error" forState:UIControlStateNormal];
+        [_coverErrorButton setHidden:NO];
+        return _coverErrorButton;
+    }
+    else{
+        return _coverErrorButton;
+    }
+}
+-(UIButton *)coverDigButton {
+    
+    if (_coverDigButton == nil){
+        _coverDigButton = [self makeButton];
+        [_coverDigButton addTarget:self
+                             action:@selector(coverDigButtonTapped:)
+                   forControlEvents:UIControlEventTouchUpInside];
+        [_coverDigButton setTitle:@"Cover Dig" forState:UIControlStateNormal];
+        [_coverDigButton setHidden:NO];
+        return _coverDigButton;
+    }
+    else{
+        return _coverDigButton;
+    }
+}
+-(UIButton *)coverUpButton {
+    
+    if (_coverUpButton == nil){
+        _coverUpButton = [self makeButton];
+        [_coverUpButton addTarget:self
+                             action:@selector(coverUpButtonTapped:)
+                   forControlEvents:UIControlEventTouchUpInside];
+        [_coverUpButton setTitle:@"Cover Up" forState:UIControlStateNormal];
+        [_coverUpButton setHidden:NO];
+        return _coverUpButton;
+    }
+    else{
+        return _coverUpButton;
+    }
+}
+
+
+//end button creation
+
 -(void) setState:(NSString *)state {
     _state = state;
     self.stateLabel.text = state;
@@ -202,13 +346,29 @@ typedef enum CourtSide : NSUInteger {
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _toughButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _passiveButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _toughServeButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _passiveServeButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
     _handsButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
     _noHandsButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _blockTouchButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _goodBlockTouchButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _badBlockTouchButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _goodBlockTouchButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _badBlockTouchButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _passedByButton.frame = CGRectMake(self.bounds.origin.x, 9*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _aggressivePassButton.frame = CGRectMake(self.bounds.origin.x, 10*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _passivePassButton.frame = CGRectMake(self.bounds.origin.x, 11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _digButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+                                        6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _upButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+                                        7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _digErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+                                       8*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _coverDigButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+                                       11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _coverUpButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+                                      12*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _coverErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+                                         13*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    
+    
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -216,15 +376,24 @@ typedef enum CourtSide : NSUInteger {
     
 self = [super initWithFrame:frame];
     if (self) {
-        [_blockTouchButton setHidden:NO];
         CGFloat courtAspectRatio = 8/5.f;
-        [self addSubview:self.toughButton];
-        [self addSubview:self.passiveButton];
+        [self addSubview:self.toughServeButton];
+        [self addSubview:self.passiveServeButton];
         [self addSubview:self.handsButton];
         [self addSubview:self.noHandsButton];
-        [self addSubview:self.blockTouchButton];
         [self addSubview:self.goodBlockTouchButton];
         [self addSubview:self.badBlockTouchButton];
+        [self addSubview:self.passedByButton];
+        [self addSubview:self.aggressivePassButton];
+        [self addSubview:self.passivePassButton];
+        [self addSubview:self.digErrorButton];
+        [self addSubview:self.digButton];
+        [self addSubview:self.upButton];
+        [self addSubview:self.coverErrorButton];
+        [self addSubview:self.coverDigButton];
+        [self addSubview:self.coverUpButton];
+
+        
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
         [self addSubview:subsView];
@@ -276,116 +445,7 @@ self = [super initWithFrame:frame];
                              };
 }
 
-- (void) makeStateMachine {
-    NSLog(@"%s%u","current side: ",self.currentSide);
 
-    self.stateMachine = @{
-        PlayStatePrePlay: ^(NSArray *line, NSString* player){
-            self.play = [[Play alloc] init];
-            self.play.rotation = @{};
-            [self emit:@"play-added" data:self.play];
-
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
-            [self.play.stats addObject:stat];
-            
-            [self emit:@"stat-added" data:stat];
-            
-            
-            CourtSide startSide, endSide;
-            CourtArea startArea, endArea;
-            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
-            
-            if (startArea == CourtAreaServeZone) {
-                self.currentSide = startSide;
-                self.state = PlayStateServe;
-                self.servingTeam = self.currentSide;
-            } else {
-                NSLog(@"why aren't you serving?");
-            }
-        },
-        PlayStateServe: ^(NSArray *line, NSString* player){
-            CourtSide startSide, endSide;
-            CourtArea startArea, endArea;
-            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
-            
-            self.currentSide = 1 - self.currentSide;
-            
-            if (endSide == self.currentSide) {
-                self.state = PlayStatePass;
-            } else {
-                self.state = PlayStateOverPass;
-            }
-            
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillPass details:[[NSMutableDictionary alloc] init] player:player id:nil];
-            [self.play.stats addObject:stat];
-            [self emit:@"stat-added" data:stat];
-        },
-        PlayStatePass: ^(NSArray *line, NSString* player) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
-            [self.play.stats addObject:stat];
-            [stat.details setObject:@"no hands" forKey:@"hands"];
-            [self emit:@"stat-added" data:stat];
-            self.state = PlayStateHit;
-        },
-        PlayStateHit: ^(NSArray *line, NSString* player) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] player:player id:nil];
-            [self.play.stats addObject:stat];
-
-            [self emit:@"stat-added" data:stat];
-            
-            CourtSide startSide, endSide;
-            CourtArea startArea, endArea;
-            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
-            
-            if (self.currentSide == startSide) {
-                NSLog(@"Blocked!");
-            } else {
-                self.currentSide = 1 - self.currentSide;
-            }
-            
-            if (self.currentSide == endSide) {
-                self.state = PlayStateDig;
-            } else {
-                self.state = PlayStateOverPass;
-            }
-        },
-        PlayStateOverPass: ^(NSArray *line, NSString* player) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillDig details:[[NSMutableDictionary alloc] init] player:player id:nil];
-            [self.play.stats addObject:stat];
-            [self emit:@"stat-added" data:stat];
-            
-            CourtSide startSide, endSide;
-            CourtArea startArea, endArea;
-            [self locationsForLine:line startSide:&startSide startArea:&startArea endSide:&endSide endArea:&endArea];
-            
-            self.currentSide = 1 - self.currentSide;
-            if (self.currentSide == endSide) {
-                self.state = PlayStateDig;
-            } else {
-                self.state = PlayStateOverPass;
-            };
-        },
-        PlayStateOverPassHit: ^(NSArray *line, NSString* player) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
-            [self.play.stats addObject:stat];
-            [self emit:@"stat-added" data:stat];
-            self.state = PlayStateHit;
-            self.currentSide = 1 - self.currentSide;
-            Stat* currentStat = self.play.stats[self.play.stats.count-1];
-            [currentStat.details setObject:@"no hands" forKey:@"hands"];
-            
-        },
-        PlayStateDig: ^(NSArray *line, NSString* player) {
-            Stat *stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init]
-                                                  player:player id:nil];
-            [self.play.stats addObject:stat];
-            [self emit:@"stat-added" data:stat];
-            self.state = PlayStateHit;
-        }
-
-        
-      };
-}
 
 - (void)locationsForLine:(NSArray*)line
                startSide:(CourtSide*)startSide
@@ -427,42 +487,70 @@ self = [super initWithFrame:frame];
 
     
     Stat *stat;
-    if (startArea == CourtAreaServeZone) {
-        // Serve
-        stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] player:player id:nil];
+    if ( startSide == CourtSideLeft){
+        if (startArea == CourtAreaServeZone) {
+            // Serve
+            stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] team:@"SHU" player:player id:nil];
 
-        stat.details[@"line"] = line;
-        [self.play.stats addObject:stat];
-        [self addResultForStat:stat];
-        [self.toughButton setHidden:NO];
-        [self.passiveButton setHidden:NO];
-    } else {
-        //Hit
+            stat.details[@"line"] = line;
+            [self.play.stats addObject:stat];
+            [self addResultForStat:stat];
+            [self.toughServeButton setHidden:NO];
+            [self.passiveServeButton setHidden:NO];
+        } else {
+            //Hit
 
-        stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] player:player id:nil];
+            stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] team:@"SHU" player:player id:nil];
 
-        stat.details[@"line"] = line;
-        [self.play.stats addObject:stat];
-        [self addResultForStat:stat];
-        [self.handsButton setHidden:NO];
-        [self.noHandsButton setHidden:NO];
-        [self.blockTouchButton setHidden:NO];
+            stat.details[@"line"] = line;
+            [self.play.stats addObject:stat];
+            [self addResultForStat:stat];
+            [self.play.stats addObject:stat];
+            [self.handsButton setHidden:NO];
+            [self.noHandsButton setHidden:NO];
+        }
     }
+        else{
+            NSLog(@"right side of court");
+            if (startArea == CourtAreaServeZone) {
+                // Serve Other team
+                stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] team:@"Other" player:player id:nil];
+                stat.details[@"line"] = line;
+                [self.play.stats addObject:stat];
+                [self addResultForStat:stat];
+                [self.passedByButton setHidden:NO];
+                [self.aggressivePassButton setHidden:NO];
+                [self.passivePassButton setHidden:NO];
+                
+            } else {
+                //Attack other team
+                
+                stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] team:@"Other" player:player id:nil];
+                
+                stat.details[@"line"] = line;
+                [self.play.stats addObject:stat];
+                [self addResultForStat:stat];
+                [self.handsButton setHidden:NO];
+                [self.noHandsButton setHidden:NO];
+            }
+        
+        
+        }
 }
--(IBAction)toughButtonTapped:(UIButton *)sender
+-(IBAction)toughServeButtonTapped:(UIButton *)sender
 {
-    NSLog(@"Tough Button Tapped!");
-    [self.toughButton setHidden:YES];
-    [self.passiveButton setHidden:YES];
+    NSLog(@"Tough Serve Button Tapped!");
+    [self.toughServeButton setHidden:YES];
+    [self.passiveServeButton setHidden:YES];
     Stat* stat =self.play.stats[0];
     stat.details[@"toughServe"] = @"Tough";
 }
 
--(IBAction)passiveButtonTapped:(UIButton *)sender
+-(IBAction)passiveServeButtonTapped:(UIButton *)sender
 {
-    NSLog(@"Passive Button Tapped!");
-    [self.toughButton setHidden:YES];
-    [self.passiveButton setHidden:YES];
+    NSLog(@"Passive ServeButton Tapped!");
+    [self.toughServeButton setHidden:YES];
+    [self.passiveServeButton setHidden:YES];
     Stat* stat =self.play.stats[0];
     stat.details[@"toughServe"] = @"Passive";
 
@@ -473,6 +561,8 @@ self = [super initWithFrame:frame];
     NSLog(@"Hands Button Tapped!");
     [self.handsButton setHidden:YES];
     [self.noHandsButton setHidden:YES];
+    [self.goodBlockTouchButton setHidden:NO];
+    [self.badBlockTouchButton setHidden:NO];
     Stat* stat =self.play.stats[0];
     stat.details[@"Hands"] = @"Hands";
 }
@@ -485,42 +575,131 @@ self = [super initWithFrame:frame];
     Stat* stat =self.play.stats[0];
     stat.details[@"Hands"] = @"No Hands";
 }
--(IBAction)blockTouchButtonTapped:(UIButton *)sender
-{
-    NSLog(@"Block Touch Button Tapped!");
-    [self.blockTouchButton setHidden:YES];
-    [self.goodBlockTouchButton setHidden:NO];
-    [self.badBlockTouchButton setHidden:NO];
-}
+
 -(IBAction)goodBlockTouchButtonTapped:(UIButton *)sender
 {
     NSLog(@"Good Block Touch Button Tapped!");
-    [self.blockTouchButton setHidden:NO];
     [self.goodBlockTouchButton setHidden:YES];
     [self.badBlockTouchButton setHidden:YES];
     Stat* stat =self.play.stats[0];
     stat.details[@"Block Touch"] = @"Good Touch";
+    stat.details[@"Block Touch By"] = self.selectedPlayer;
+
+    
+//
+//    Stat* stat =self.play.stats[0];
+//    stat.skill = kSkillBlock;
+//    stat.details[@"Block Touch"] = @"Good Touch";
 
 }
 -(IBAction)badBlockTouchButtonTapped:(UIButton *)sender
 {
     NSLog(@"Bad Block Touch Button Tapped!");
-    [self.blockTouchButton setHidden:NO];
     [self.goodBlockTouchButton setHidden:YES];
     [self.badBlockTouchButton setHidden:YES];
     Stat* stat =self.play.stats[0];
     stat.details[@"Block Touch"] = @"Bad Touch";
+    stat.details[@"Block Touch By"] = self.selectedPlayer;
+}
+//passing
+-(IBAction)passedByButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Passed By Button Tapped!");
+    [self.passedByButton setHidden:YES];
+    [self.aggressivePassButton setHidden:YES];
+    [self.passivePassButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Passed By"] = self.selectedPlayer;
+}
+
+-(IBAction)aggressivePassButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Aggressive PassButton Tapped!");
+    [self.passedByButton setHidden:YES];
+    [self.aggressivePassButton setHidden:YES];
+    [self.passivePassButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Passed By"] = self.selectedPlayer;
+    stat.details[@"Pass Aggression"] = @"Aggressive";
+}
+-(IBAction)passivePassButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Passive Pass Button Tapped!");
+    [self.passedByButton setHidden:YES];
+    [self.aggressivePassButton setHidden:YES];
+    [self.passivePassButton setHidden:YES];
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Passed By"] = self.selectedPlayer;
+    stat.details[@"Pass Aggression"] = @"Passive";
+}
+//digging
+-(IBAction)digErrorButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Dig Error Button Tapped!");
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Dig By"] = self.selectedPlayer;
+    stat.details[@"Dig Quality"] = @"Error";
+}
+-(IBAction)digButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Dig Button Tapped!");
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Dig By"] = self.selectedPlayer;
+    stat.details[@"Dig Quality"] = @"Dig";
+}
+-(IBAction)upButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Up Button Tapped!");
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Dig By"] = self.selectedPlayer;
+    stat.details[@"Dig Quality"] = @"Up";
+}
+//covering
+-(IBAction)coverErrorButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Cover Error Button Tapped!");
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Covered By"] = self.selectedPlayer;
+    stat.details[@"Cover Quality"] = @"Error";
+}
+-(IBAction)coverDigButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Cover Dig Button Tapped!");
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Covered By"] = self.selectedPlayer;
+    stat.details[@"Cover Quality"] = @"Dig";
+}
+-(IBAction)coverUpButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Cover Up Button Tapped!");
+    Stat* stat =self.play.stats[0];
+    stat.details[@"Covered By"] = self.selectedPlayer;
+    stat.details[@"Cover Quality"] = @"Up";
 }
 
 
-- (void)addResultForStat:(Stat *)stat {
+
+
+//end ibaction section
+
+
+
+
+-(void)addResultForStat:(Stat *)stat {
     [self.handsButton setHidden:YES];
     [self.noHandsButton setHidden:YES];
-    [self.toughButton setHidden:YES];
-    [self.passiveButton setHidden:YES];
+    [self.toughServeButton setHidden:YES];
+    [self.passiveServeButton setHidden:YES];
+    [self.passedByButton setHidden:YES];
+    [self.aggressivePassButton setHidden:YES];
+    [self.passivePassButton setHidden:YES];
+    [self.goodBlockTouchButton setHidden:YES];
+    [self.badBlockTouchButton setHidden:YES];
+     
     if (stat.skill == kSkillServe) {
         self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err", @"Overpass"];
-    } else {
+    }
+    else {
         self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
     }
     self.addResultView.hidden = NO;
@@ -529,77 +708,11 @@ self = [super initWithFrame:frame];
         stat.details[@"result"] = result;
         stat.player = self.selectedPlayer;
         self.addResultView.hidden = YES;
-        
         [self emit:@"play-added" data:self.play];
         [self emit:@"stat-added" data:stat];
         
+        NSLog(@"testing");
     }];
-}
-
-//- (void)addDetailForStat:(Stat *)stat {
-//    if (stat.skill == kSkillServe) {
-//        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err"];
-//    } else {
-//        self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
-//    }
-//    self.addResultView.hidden = NO;
-//    
-//    [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
-//        stat.details[@"result"] = result;
-//        stat.player = self.selectedPlayer;
-//        self.addResultView.hidden = YES;
-//        
-//        [self emit:@"play-added" data:self.play];
-//        [self emit:@"stat-added" data:stat];
-//
-//        
-//        
-//    }];
-//}
-
-- (void)advanceStateForButton:(NSString*)button {
-    if (self.state == PlayStateServe){
-        if ([button isEqual: @"Ace"]){
-            [self endPointWithResult:@"ace" winner:self.currentSide];
-        } else if ([button isEqual: @"Serve Error"]){
-            [self endPointWithResult:@"error" winner:1 - self.currentSide];
-        }
-    }
-    
-    if (self.state == PlayStatePass){
-        if ([button isEqual: @"Ace"]){
-            [self endPointWithResult:@"error" winner:1 - self.currentSide];
-        } else{
-            Stat* currentStat = self.play.stats[self.play.stats.count-1];
-            [currentStat.details setObject:button forKey:@"result"];
-            
-        }
-    }
-
-    if (self.state == PlayStateOverPass){
-        if ([button isEqual: @"FB Error"]){
-            [self endPointWithResult:@"error" winner:self.currentSide];
-        } else if ([button isEqual: @"Overpass Attacked"]){
-            self.state = PlayStateOverPassHit;
-        }
-    }
-    if (self.state == PlayStateDig){
-        if ([button isEqual: @"Dig Error"]){
-            [self endPointWithResult:@"error" winner:1 - self.currentSide];
-        }
-    }
-    
-    if (self.state == PlayStateHit){
-        if ([button isEqual: @"Hit Error"]){
-            [self endPointWithResult:@"error" winner:1 - self.currentSide];
-        } else if ([button isEqual: @"Kill"]){
-            [self endPointWithResult:@"kill" winner:self.currentSide];
-        } else if ([button isEqual: @"Hands"]){
-            Stat* currentStat = self.play.stats[self.play.stats.count-1];
-            [currentStat.details setObject:@"hands" forKey:@"hands"];
-            
-        }
-    }
 }
 
 - (void) endPointWithResult:(NSString*)result winner:(CourtSide)winner {
