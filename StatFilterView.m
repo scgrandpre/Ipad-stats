@@ -10,9 +10,10 @@
 #import <EventEmitter/EventEmitter.h>
 #import "StatEventButtonsView.h"
 
-static NSInteger kPlayerComponent = 0;
-static NSInteger kSkillComponent = 1;
-static NSInteger kResultComponent = 2;
+static NSInteger kTeamComponent = 0;
+static NSInteger kPlayerComponent = 1;
+static NSInteger kSkillComponent = 2;
+static NSInteger kResultComponent = 3;
 
 
 @interface StatFilterView ()
@@ -21,6 +22,8 @@ static NSInteger kResultComponent = 2;
 @property(readonly) NSArray *skills;
 @property(readonly) NSArray *resultHit;
 @property(readonly) NSArray *resultServe;
+@property(readonly) NSArray *team;
+
 @property NSMutableDictionary *filter;
 
 @end
@@ -32,6 +35,7 @@ static NSInteger kResultComponent = 2;
 @synthesize skills = _skills;
 @synthesize resultHit = _resultHit;
 @synthesize resultServe = _resultServe;
+@synthesize team = _team;
 
 - (void)layoutSubviews {
   self.picker.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y,
@@ -60,6 +64,12 @@ static NSInteger kResultComponent = 2;
     return _resultServe;
 }
 
+- (NSArray *)team {
+    if (_team == nil) {
+        _team = @[@"SHU",@"Other"];
+    }
+    return _team;
+}
 - (UIPickerView *)picker {
   if (_picker == nil) {
     _picker = [[UIPickerView alloc] init];
@@ -93,6 +103,10 @@ static NSInteger kResultComponent = 2;
     if (skill != 0) {
         filter[@"skill"] = [self skills][skill- 1];
             }
+    NSInteger team = [self.picker selectedRowInComponent:kTeamComponent];
+    if (team != 0) {
+        filter[@"team"] = [self team][team- 1];
+    }
     NSInteger result = [self.picker selectedRowInComponent:kResultComponent];
     
     if (result != 0) {
@@ -136,14 +150,14 @@ static NSInteger kResultComponent = 2;
       }];
 }
 
-
-
 - (NSInteger)pickerView:(UIPickerView *)pickerView
     numberOfRowsInComponent:(NSInteger)component {
   if (component == kPlayerComponent) {
     return [[self players] count] + 1;
   } else if (component == kSkillComponent) {
     return [[self skills] count] + 1;
+  } else if (component == kTeamComponent) {
+      return [[self team] count] + 1;
   } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Hit"]) {
       return [[self resultHit] count] + 1;
   } else if (component == kResultComponent && [[self currentSkill] isEqual: @"Serve"]) {
@@ -155,12 +169,12 @@ static NSInteger kResultComponent = 2;
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     if (self.picker.numberOfComponents == 0){
-        return 3;
+        return 4;
     }else if ([[self currentSkill]  isEqual: @"Hit"] || [[self currentSkill]  isEqual: @"Serve"]){
         NSLog(@"should be 3:");
-      return 3;
+      return 4;
    }else {
-    return 2;
+    return 3;
     }
 }
 
@@ -174,6 +188,8 @@ static NSInteger kResultComponent = 2;
     return [self players][row - 1];
   } else if (component == kSkillComponent) {
     return [self skills][row - 1];
+  } else if (component == kTeamComponent) {
+      return [self team][row - 1];
   } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Hit"]) {
       return [self resultHit][row - 1];
   } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Serve"]) {
