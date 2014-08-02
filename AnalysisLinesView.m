@@ -151,12 +151,22 @@
             CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
             CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
             CGContextMoveToPoint(ctx, point.x, point.y);
+            CGPoint endPoint = [self pointByExpandingPoint:[line[line.count-1 ] CGPointValue]];
+            //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));
+            CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
+            CGContextSetLineWidth(ctx, 2.0);
+            CGContextMoveToPoint(ctx, point.x, point.y);///move to ur first dot
+            CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from first dot to second dot
         }
-        for(NSValue *pointVal in line) {
-            CGPoint point = [self pointByExpandingPoint:[pointVal CGPointValue]];
-            CGContextAddLineToPoint(ctx, point.x, point.y);
-        }
+        
+        
+        
+        //        for(NSValue *pointVal in line) {
+//            CGPoint point = [self pointByExpandingPoint:[pointVal CGPointValue]];
+//            CGContextAddLineToPoint(ctx, point.x, point.y);
+    //}
         CGContextStrokePath(ctx);
+        
     }
 }
 
