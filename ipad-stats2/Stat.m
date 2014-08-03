@@ -77,6 +77,9 @@
     NSString* filter_skill = filter[@"skill"];
     if(filter_skill != nil && [filter_skill compare:self.skill] != NSOrderedSame) return NO;
     
+    NSString* filter_team = filter[@"team"];
+    if(filter_team != nil && [filter_team compare:self.team] != NSOrderedSame) return NO;
+    
     NSString* filter_player = filter[@"player"];
     if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
     
