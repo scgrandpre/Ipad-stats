@@ -21,8 +21,10 @@
 @property(readonly) UIButton *next;
 @property(readonly) UIButton *done;
 @property(readonly) UIButton *sync;
+@property(readonly) UIButton *syncPlus;
+@property(readonly) UIButton *syncMinus;
 @property(readonly) UISlider *seek;
-@property CGFloat offset;
+@property float     offset;
 @property NSInteger index;
 @end
 
@@ -34,6 +36,8 @@
 @synthesize next = _next;
 @synthesize done = _done;
 @synthesize sync = _sync;
+@synthesize syncPlus = _syncPlus;
+@synthesize syncMinus = _syncMinus;
 @synthesize index = _index;
 @synthesize seek = _seek;
 
@@ -46,7 +50,9 @@
     [self addSubview:self.replay];
     [self addSubview:self.done];
     [self addSubview:self.sync];
-      [self addSubview:self.seek];
+    [self addSubview:self.syncPlus];
+    [self addSubview:self.syncMinus];
+    [self addSubview:self.seek];
       _offset = -1000000000000;
     self.backgroundColor = [UIColor blackColor];
   }
@@ -75,7 +81,10 @@
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
   self.sync.frame = CGRectMake(buttonsRect.origin.x + 4 * buttonWidth,
                                buttonsRect.origin.y, buttonWidth, buttonHeight);
-    
+    self.syncPlus.frame = CGRectMake(buttonsRect.origin.x + 3 * buttonWidth,
+                                 buttonsRect.origin.y, buttonWidth/2, buttonHeight);
+    self.syncMinus.frame = CGRectMake(buttonsRect.origin.x + 3.5 * buttonWidth,
+                                 buttonsRect.origin.y, buttonWidth/2, buttonHeight);
   self.seek.frame = seekRect;
 }
 
@@ -133,7 +142,26 @@
   }
   return _sync;
 }
-
+- (UIButton *)syncPlus {
+    if (_syncPlus == nil) {
+        _syncPlus = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_syncPlus setTitle:@"+1" forState:UIControlStateNormal];
+        [_syncPlus addTarget:self
+                  action:@selector(doSyncPlus)
+        forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _syncPlus;
+}
+- (UIButton *)syncMinus {
+    if (_syncMinus == nil) {
+        _syncMinus = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_syncMinus setTitle:@"-1" forState:UIControlStateNormal];
+        [_syncMinus addTarget:self
+                  action:@selector(doSyncMinus)
+        forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _syncMinus;
+}
 - (UISlider *)seek {
     if (_seek == nil) {
         _seek = [[UISlider alloc] init];
@@ -158,7 +186,11 @@
 }
 
 - (CGFloat)secondsForStat:(Stat *)stat {
-  return [stat.timestamp timeIntervalSinceReferenceDate] + self.offset;
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSString* offsetDate=@"2014-01-01";
+    NSDate *mydate = [dateFormat dateFromString:offsetDate];
+  return [stat.timestamp timeIntervalSinceDate:mydate] + self.offset;
 }
 
 - (void)seekToNext {
@@ -211,9 +243,26 @@
 }
 
 - (void)doSync {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSString* offsetDate=@"2014-01-01";
+    NSDate *mydate = [dateFormat dateFromString:offsetDate];
   self.offset =
     CMTimeGetSeconds(self.video.currentTime) -
-      [((Stat *)self.playlist[0]).timestamp timeIntervalSinceReferenceDate];
+      [((Stat *)self.playlist[0]).timestamp timeIntervalSinceDate:mydate];
+    
+}
+
+- (void)doSyncPlus {
+    
+    self.offset = self.offset+2;
+    
+    NSLog(@"+2");
+}
+
+- (void)doSyncMinus {
+    self.offset = self.offset-2;
+    NSLog(@"-2%f",self.offset);
     
 }
 
