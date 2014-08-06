@@ -145,7 +145,7 @@
 - (UIButton *)syncPlus {
     if (_syncPlus == nil) {
         _syncPlus = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_syncPlus setTitle:@"+1" forState:UIControlStateNormal];
+        [_syncPlus setTitle:@"+2" forState:UIControlStateNormal];
         [_syncPlus addTarget:self
                   action:@selector(doSyncPlus)
         forControlEvents:UIControlEventTouchUpInside];
@@ -155,7 +155,7 @@
 - (UIButton *)syncMinus {
     if (_syncMinus == nil) {
         _syncMinus = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_syncMinus setTitle:@"-1" forState:UIControlStateNormal];
+        [_syncMinus setTitle:@"-2" forState:UIControlStateNormal];
         [_syncMinus addTarget:self
                   action:@selector(doSyncMinus)
         forControlEvents:UIControlEventTouchUpInside];

@@ -220,9 +220,9 @@
     NSNumber *hitPercent = [NSNumber numberWithDouble:((float)kills - hittingErrors) / hittingAttempts];
     
     return [NSString
-            stringWithFormat:@"Attempts: %lu\nKills: %lu\nErrors: %lu\nHitting Average: %@\nServe Stat: %@:",
-            (unsigned long)hittingAttempts, (unsigned long)kills,
-            (unsigned long)hittingErrors,
+            stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu    | %.02@ | %.02@ |\n",
+            (unsigned long)kills, (unsigned long)hittingErrors,
+            (unsigned long)hittingAttempts,
             hitPercent,
             passStat];
     
