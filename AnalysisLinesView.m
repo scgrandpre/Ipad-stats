@@ -111,11 +111,11 @@
                                   @"us": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
                                   @"them": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.7],
                                   @"overpass": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.7],
-                                  @"0": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
-                                  @"1": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
-                                  @"2": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
-                                  @"3": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
-                                  @"4": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
+                                  @"0": [UIColor colorWithRed:.1 green:.0 blue:.9 alpha:.7],
+                                  @"1": [UIColor colorWithRed:.3 green:.0 blue:.7 alpha:.7],
+                                  @"2": [UIColor colorWithRed:.5 green:.0 blue:.5 alpha:.7],
+                                  @"3": [UIColor colorWithRed:.7 green:.0 blue:.3 alpha:.7],
+                                  @"4": [UIColor colorWithRed:.9 green:.0 blue:.1 alpha:.7],
                                   @"Overpass": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
                                   @"Good Touch": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
                                   @"Bad Touch": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
@@ -149,7 +149,7 @@
         NSArray *line = lineDict[@"line"];
         if(line.count > 0) {
             CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
-            CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
+            CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 8, point.y - 8, 16, 16));
             CGContextMoveToPoint(ctx, point.x, point.y);
             CGPoint endPoint = [self pointByExpandingPoint:[line[line.count-1 ] CGPointValue]];
             //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));
@@ -157,6 +157,8 @@
             CGContextSetLineWidth(ctx, 2.0);
             CGContextMoveToPoint(ctx, point.x, point.y);///move to ur first dot
             CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from first dot to second dot
+            //trying to add player label
+            //self.line.player
         }
         
         

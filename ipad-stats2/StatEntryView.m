@@ -71,6 +71,17 @@ typedef enum CourtSide : NSUInteger {
 @property (readonly) UIButton *coverErrorButton;
 @property (readonly) UIButton *coverDigButton;
 @property (readonly) UIButton *coverUpButton;
+//game buttons
+@property (readonly) UIButton *gameButton;
+@property (readonly) UIButton *gameButton1;
+@property (readonly) UIButton *gameButton2;
+@property (readonly) UIButton *gameButton3;
+@property (readonly) UIButton *gameButton4;
+@property (readonly) UIButton *gameButton5;
+
+//game details
+@property NSInteger currentGame;
+@property NSInteger currentRotation;
 
 @end
 
@@ -95,6 +106,14 @@ typedef enum CourtSide : NSUInteger {
 @synthesize coverErrorButton = _coverErrorButton;
 @synthesize coverDigButton = _coverDigButton;
 @synthesize coverUpButton = _coverUpButton;
+
+@synthesize gameButton = _gameButton;
+@synthesize gameButton1 = _gameButton1;
+@synthesize gameButton2 = _gameButton2;
+@synthesize gameButton3 = _gameButton3;
+@synthesize gameButton4 = _gameButton4;
+@synthesize gameButton5 = _gameButton5;
+
 
 - (NSString*) state {
     return _state;
@@ -334,6 +353,106 @@ typedef enum CourtSide : NSUInteger {
         return _coverUpButton;
     }
 }
+-(UIButton *)gameButton {
+    
+    if (_gameButton == nil){
+        _gameButton = [self makeButton];
+        [_gameButton addTarget:self
+                           action:@selector(gameButtonTapped:)
+                 forControlEvents:UIControlEventTouchUpInside];
+        [_gameButton setTitle:@"Change Game" forState:UIControlStateNormal];
+        [_gameButton setHidden:NO];
+        return _gameButton;
+    }
+    else{
+        return _gameButton;
+    }
+}
+
+-(UIButton *)gameButton1 {
+    
+    if (_gameButton1 == nil){
+        _gameButton1 = [self makeButton];
+        [_gameButton1 addTarget:self
+                        action:@selector(gameButton1Tapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [_gameButton1 setTitle:@"Game 1" forState:UIControlStateNormal];
+        [_gameButton1 setHidden:YES];
+        return _gameButton1;
+    }
+    else{
+        return _gameButton1;
+    }
+}
+
+
+-(UIButton *)gameButton2 {
+    
+    if (_gameButton2 == nil){
+        _gameButton2 = [self makeButton];
+        [_gameButton2 addTarget:self
+                        action:@selector(gameButton2Tapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [_gameButton2 setTitle:@"Game 2" forState:UIControlStateNormal];
+        [_gameButton2 setHidden:YES];
+        return _gameButton2;
+    }
+    else{
+        return _gameButton2;
+    }
+}
+
+
+-(UIButton *)gameButton3 {
+    
+    if (_gameButton3 == nil){
+        _gameButton3 = [self makeButton];
+        [_gameButton3 addTarget:self
+                        action:@selector(gameButton3Tapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [_gameButton3 setTitle:@"Game 3" forState:UIControlStateNormal];
+        [_gameButton3 setHidden:YES];
+        return _gameButton3;
+    }
+    else{
+        return _gameButton3;
+    }
+}
+
+
+-(UIButton *)gameButton4 {
+    
+    if (_gameButton4 == nil){
+        _gameButton4 = [self makeButton];
+        [_gameButton4 addTarget:self
+                        action:@selector(gameButton4Tapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [_gameButton4 setTitle:@"Game 4" forState:UIControlStateNormal];
+        [_gameButton4 setHidden:YES];
+        return _gameButton4;
+    }
+    else{
+        return _gameButton4;
+    }
+}
+
+
+-(UIButton *)gameButton5 {
+    
+    if (_gameButton5 == nil){
+        _gameButton5 = [self makeButton];
+        [_gameButton5 addTarget:self
+                        action:@selector(gameButton5Tapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [_gameButton5 setTitle:@"Game 5" forState:UIControlStateNormal];
+        [_gameButton5 setHidden:YES];
+        return _gameButton5;
+    }
+    else{
+        return _gameButton5;
+    }
+}
+
 
 
 //end button creation
@@ -367,7 +486,12 @@ typedef enum CourtSide : NSUInteger {
                                       12*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
     _coverErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
                                          13*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    
+    _gameButton.frame = CGRectMake(self.bounds.origin.x, 14*self.bounds.size.height/16, self.bounds.size.width/10, 2*self.bounds.size.height/16);
+    _gameButton1.frame = CGRectMake(self.bounds.origin.x, 9*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _gameButton2.frame = CGRectMake(self.bounds.origin.x, 10*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _gameButton3.frame = CGRectMake(self.bounds.origin.x, 11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _gameButton4.frame = CGRectMake(self.bounds.origin.x, 12*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _gameButton5.frame = CGRectMake(self.bounds.origin.x, 13*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
     
 }
 
@@ -392,7 +516,19 @@ self = [super initWithFrame:frame];
         [self addSubview:self.coverErrorButton];
         [self addSubview:self.coverDigButton];
         [self addSubview:self.coverUpButton];
-
+        [self addSubview:self.gameButton];
+        [self addSubview:self.gameButton1];
+        [self addSubview:self.gameButton2];
+        [self addSubview:self.gameButton3];
+        [self addSubview:self.gameButton4];
+        [self addSubview:self.gameButton5];
+        //current rotation, current game
+        _currentGame = 1;
+        _currentRotation = 1;
+        
+        
+        
+        
         
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
@@ -485,8 +621,15 @@ self = [super initWithFrame:frame];
     self.play = [[Play alloc] init];
     self.play.rotation = @{};
 
+
     
     Stat *stat;
+    NSNumber *dictCurrentGame = [NSNumber numberWithInt:_currentGame];
+    stat.details[@"game"] =  dictCurrentGame;
+    NSNumber *dictCurrentRotation = [NSNumber numberWithInt:_currentRotation];
+    stat.details[@"rotation"] =  dictCurrentRotation;
+    
+    
     if ( startSide == CourtSideLeft){
         if (startArea == CourtAreaServeZone) {
             // Serve
@@ -637,7 +780,7 @@ self = [super initWithFrame:frame];
     NSLog(@"Dig Error Button Tapped!");
     Stat* stat =self.play.stats[0];
     stat.details[@"Dig By"] = self.selectedPlayer;
-    stat.details[@"Dig Quality"] = @"Error";
+    stat.details[@"Dig Quality"] = @"Dig Error";
 }
 -(IBAction)digButtonTapped:(UIButton *)sender
 {
@@ -659,25 +802,82 @@ self = [super initWithFrame:frame];
     NSLog(@"Cover Error Button Tapped!");
     Stat* stat =self.play.stats[0];
     stat.details[@"Covered By"] = self.selectedPlayer;
-    stat.details[@"Cover Quality"] = @"Error";
+    stat.details[@"Cover Quality"] = @" Cover Error";
 }
 -(IBAction)coverDigButtonTapped:(UIButton *)sender
 {
     NSLog(@"Cover Dig Button Tapped!");
     Stat* stat =self.play.stats[0];
     stat.details[@"Covered By"] = self.selectedPlayer;
-    stat.details[@"Cover Quality"] = @"Dig";
+    stat.details[@"Cover Quality"] = @"Cover";
 }
 -(IBAction)coverUpButtonTapped:(UIButton *)sender
 {
     NSLog(@"Cover Up Button Tapped!");
     Stat* stat =self.play.stats[0];
     stat.details[@"Covered By"] = self.selectedPlayer;
-    stat.details[@"Cover Quality"] = @"Up";
+    stat.details[@"Cover Quality"] = @"Cover Up";
+}
+-(IBAction)gameButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Game Button Tapped!");
+    [_gameButton1 setHidden:NO];
+    [_gameButton2 setHidden:NO];
+    [_gameButton3 setHidden:NO];
+    [_gameButton4 setHidden:NO];
+    [_gameButton5 setHidden:NO];
+}
+-(IBAction)gameButton1Tapped:(UIButton *)sender
+{
+    self.currentGame = 1;
+    NSLog(@"Game Button 1 Tapped!");
+    [_gameButton1 setHidden:YES];
+    [_gameButton2 setHidden:YES];
+    [_gameButton3 setHidden:YES];
+    [_gameButton4 setHidden:YES];
+    [_gameButton5 setHidden:YES];
+}
+-(IBAction)gameButton2Tapped:(UIButton *)sender
+{
+    self.currentGame = 2;
+    NSLog(@"Game Button 2 Tapped!");
+    [_gameButton1 setHidden:YES];
+    [_gameButton2 setHidden:YES];
+    [_gameButton3 setHidden:YES];
+    [_gameButton4 setHidden:YES];
+    [_gameButton5 setHidden:YES];
+}
+-(IBAction)gameButton3Tapped:(UIButton *)sender
+{
+    self.currentGame = 3;
+    NSLog(@"Game Button 3 Tapped!");
+    [_gameButton1 setHidden:YES];
+    [_gameButton2 setHidden:YES];
+    [_gameButton3 setHidden:YES];
+    [_gameButton4 setHidden:YES];
+    [_gameButton5 setHidden:YES];
+}
+-(IBAction)gameButton4Tapped:(UIButton *)sender
+{
+    self.currentGame = 4;
+    NSLog(@"Game Button 4 Tapped!");
+    [_gameButton1 setHidden:YES];
+    [_gameButton2 setHidden:YES];
+    [_gameButton3 setHidden:YES];
+    [_gameButton4 setHidden:YES];
+    [_gameButton5 setHidden:YES];
 }
 
-
-
+-(IBAction)gameButton5Tapped:(UIButton *)sender
+{
+    self.currentGame = 5;
+    NSLog(@"Game Button 5 Tapped!");
+    [_gameButton1 setHidden:YES];
+    [_gameButton2 setHidden:YES];
+    [_gameButton3 setHidden:YES];
+    [_gameButton4 setHidden:YES];
+    [_gameButton5 setHidden:YES];
+}
 
 //end ibaction section
 

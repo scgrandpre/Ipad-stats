@@ -201,6 +201,10 @@
         passValue[currentPassingOption] = [NSNumber numberWithUnsignedInt:pass];
         NSLog(@"pass value:%@%@",currentPassingOption,passValue);
     }
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    [formatter setMaximumFractionDigits:3];
+    [formatter setMinimumFractionDigits:3];
     NSUInteger passingAttempts = [Stat filterStats:self.filters.filteredStats
                                        withFilters:@{@"skill" : @"Serve"}].count;
     
@@ -211,20 +215,43 @@
                                                       [passValue[@"4"] integerValue] *4 +
                                                       [passValue[@"err"] integerValue] *4
                                                       )/(float)(passingAttempts))];
-    
+    NSString*passStatString = [formatter stringFromNumber:passStat];
     
     NSLog(@"passingattempts: %lu\n%lu", (unsigned long)passingAttempts,
           (unsigned long)passValue[passingOptions[1]]);
     
     
     NSNumber *hitPercent = [NSNumber numberWithDouble:((float)kills - hittingErrors) / hittingAttempts];
+    NSString*hitPercentString = [formatter stringFromNumber:hitPercent];
+    
+    NSNumber *killPercent = [NSNumber numberWithDouble:((float)kills) / hittingAttempts];
+    NSString*killPercentString = [formatter stringFromNumber:killPercent];
+    
+    //digging
+    NSUInteger digs = [Stat filterStats:self.filters.filteredStats
+                             withFilters:@{@"details" : @{@"Dig Quality" : @"Dig"}}].count;
+    NSUInteger ups = [Stat filterStats:self.filters.filteredStats
+                            withFilters:@{@"details" : @{@"Dig Quality" : @"Up"}}].count;
+    NSUInteger digErrors = [Stat filterStats:self.filters.filteredStats
+                            withFilters:@{@"details" : @{@"Dig Quality" : @"Dig Error"}}].count;
+    
+    //coverage
+    
+    NSUInteger covers = [Stat filterStats:self.filters.filteredStats
+                            withFilters:@{@"details" : @{@"Cover Quality" : @"Cover"}}].count;
+    NSUInteger coverUps = [Stat filterStats:self.filters.filteredStats
+                           withFilters:@{@"details" : @{@"Cover Quality" : @"Cover Up"}}].count;
+    NSUInteger coverErrors = [Stat filterStats:self.filters.filteredStats
+                                 withFilters:@{@"details" : @{@"Cover Quality" : @"Cover Error"}}].count;
+
+    //[@"Cover Quality"] = @"Dig"
+    
     
     return [NSString
-            stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu    | %.02@ | %.02@ |\n",
+            stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu     | %@ | %@ |\n\n\n##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@" ,
             (unsigned long)kills, (unsigned long)hittingErrors,
-            (unsigned long)hittingAttempts,
-            hitPercent,
-            passStat];
+            (unsigned long)hittingAttempts, killPercentString, hitPercentString,
+            passStatString,passValue[@"ace"],passValue[@"err"]];
     
 }
 
