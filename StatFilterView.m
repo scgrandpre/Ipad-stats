@@ -167,11 +167,11 @@ static NSInteger kRotationComponent = 1;
     }
     
     NSInteger game = [self.gamePicker selectedRowInComponent:kGameComponent];
-    if (team != 0) {
+    if (game != 0) {
         filter[@"game"] = [self game][game- 1];
     }
     NSInteger rotation = [self.gamePicker selectedRowInComponent:kRotationComponent];
-    if (team != 0) {
+    if (rotation != 0) {
         filter[@"rotation"] = [self rotation][rotation- 1];
     }
 
@@ -262,7 +262,7 @@ static NSInteger kRotationComponent = 1;
   if (row == 0) {
     return @"ALL";
   }
-  
+  if ([pickerView isEqual:self.picker]){
         if (component == kPlayerComponent) {
         return [self players][row - 1];
       } else if (component == kSkillComponent) {
@@ -276,6 +276,18 @@ static NSInteger kRotationComponent = 1;
       } else {
         return @"";
       }
+}
+    else if (row == 0) {
+        return @"Match";
+    }else if (component == kGameComponent) {
+        return [self game][row - 1];
+    } else if (component == kRotationComponent) {
+        return [self rotation][row - 1];
+    } else {
+        return @"";
+    }
+
+    
 }
 
 - (NSString *)gamePickerView:(UIPickerView *)pickerView
