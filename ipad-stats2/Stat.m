@@ -83,6 +83,9 @@
     NSString* filter_player = filter[@"player"];
     if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
     
+    NSString* filter_game = filter[@"game"];
+    if(filter_game != nil && [filter_game compare:self.details[@"game"]] != NSOrderedSame) return NO;
+    
     if(filter[@"details"] != nil) {
         for(NSString* detail in [filter[@"details"] allKeys]) {
             NSString* filter_detail = filter[@"details"][detail];

@@ -149,7 +149,7 @@
         NSArray *line = lineDict[@"line"];
         if(line.count > 0) {
             CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
-            CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 8, point.y - 8, 16, 16));
+            CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
             CGContextMoveToPoint(ctx, point.x, point.y);
             CGPoint endPoint = [self pointByExpandingPoint:[line[line.count-1 ] CGPointValue]];
             //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));

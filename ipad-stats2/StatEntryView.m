@@ -80,8 +80,8 @@ typedef enum CourtSide : NSUInteger {
 @property (readonly) UIButton *gameButton5;
 
 //game details
-@property NSInteger currentGame;
-@property NSInteger currentRotation;
+@property NSString* currentGame;
+@property NSString* currentRotation;
 
 @end
 
@@ -523,8 +523,8 @@ self = [super initWithFrame:frame];
         [self addSubview:self.gameButton4];
         [self addSubview:self.gameButton5];
         //current rotation, current game
-        _currentGame = 1;
-        _currentRotation = 1;
+        _currentGame = @"Game 1";
+        _currentRotation = @"Rotation 1";
         
         
         
@@ -829,7 +829,7 @@ self = [super initWithFrame:frame];
 }
 -(IBAction)gameButton1Tapped:(UIButton *)sender
 {
-    self.currentGame = 1;
+    self.currentGame = @"Game 1";
     NSLog(@"Game Button 1 Tapped!");
     [_gameButton1 setHidden:YES];
     [_gameButton2 setHidden:YES];
@@ -839,7 +839,7 @@ self = [super initWithFrame:frame];
 }
 -(IBAction)gameButton2Tapped:(UIButton *)sender
 {
-    self.currentGame = 2;
+    self.currentGame = @"Game 2";
     NSLog(@"Game Button 2 Tapped!");
     [_gameButton1 setHidden:YES];
     [_gameButton2 setHidden:YES];
@@ -849,7 +849,7 @@ self = [super initWithFrame:frame];
 }
 -(IBAction)gameButton3Tapped:(UIButton *)sender
 {
-    self.currentGame = 3;
+    self.currentGame = @"Game 3";
     NSLog(@"Game Button 3 Tapped!");
     [_gameButton1 setHidden:YES];
     [_gameButton2 setHidden:YES];
@@ -859,7 +859,7 @@ self = [super initWithFrame:frame];
 }
 -(IBAction)gameButton4Tapped:(UIButton *)sender
 {
-    self.currentGame = 4;
+    self.currentGame = @"Game 4";
     NSLog(@"Game Button 4 Tapped!");
     [_gameButton1 setHidden:YES];
     [_gameButton2 setHidden:YES];
@@ -870,7 +870,7 @@ self = [super initWithFrame:frame];
 
 -(IBAction)gameButton5Tapped:(UIButton *)sender
 {
-    self.currentGame = 5;
+    self.currentGame = @"Game 5";
     NSLog(@"Game Button 5 Tapped!");
     [_gameButton1 setHidden:YES];
     [_gameButton2 setHidden:YES];

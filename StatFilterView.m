@@ -15,14 +15,27 @@ static NSInteger kPlayerComponent = 1;
 static NSInteger kSkillComponent = 2;
 static NSInteger kResultComponent = 3;
 
+static NSInteger kGameComponent = 0;
+static NSInteger kRotationComponent = 1;
+
+
+
 
 @interface StatFilterView ()
 
 @property(readonly) UIPickerView *picker;
+@property(readonly) UIPickerView *gamePicker;
+
 @property(readonly) NSArray *skills;
 @property(readonly) NSArray *resultHit;
 @property(readonly) NSArray *resultServe;
 @property(readonly) NSArray *team;
+
+@property(readonly) NSArray *game;
+@property(readonly) NSArray *rotation;
+
+
+
 
 @property NSMutableDictionary *filter;
 
@@ -30,16 +43,22 @@ static NSInteger kResultComponent = 3;
 
 @implementation StatFilterView
 @synthesize picker = _picker;
+@synthesize gamePicker = _gamePicker;
 @synthesize stats = _stats;
 @synthesize filteredStats = _filteredStats;
 @synthesize skills = _skills;
 @synthesize resultHit = _resultHit;
 @synthesize resultServe = _resultServe;
 @synthesize team = _team;
-
+@synthesize game = _game;
+@synthesize rotation = _rotation;
 - (void)layoutSubviews {
   self.picker.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y,
                                  300, self.bounds.size.height);
+    self.gamePicker.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y+200,
+                                   300, self.bounds.size.height);
+    
+    
 }
 
 - (NSArray *)skills {
@@ -70,6 +89,20 @@ static NSInteger kResultComponent = 3;
     }
     return _team;
 }
+- (NSArray *)game {
+    if (_game == nil) {
+        _game = @[@"Game 1",@"Game 2",@"Game 3",@"Game 4",@"Game 5"];
+    }
+    return _game;
+}
+- (NSArray *)rotation {
+    if (_rotation == nil) {
+        _rotation = @[@"Rot 1",@"Rot 2",@"Rot 3",@"Rot 4",@"Rot 5",@"Rot 6"];
+    }
+    return _rotation;
+}
+
+
 - (UIPickerView *)picker {
   if (_picker == nil) {
     _picker = [[UIPickerView alloc] init];
@@ -80,6 +113,17 @@ static NSInteger kResultComponent = 3;
   }
   return _picker;
 }
+- (UIPickerView *)gamePicker {
+    if (_gamePicker == nil) {
+        _gamePicker = [[UIPickerView alloc] init];
+        _gamePicker.delegate = self;
+        _gamePicker.dataSource = self;
+        _gamePicker.backgroundColor = [UIColor clearColor];
+        [self addSubview:_gamePicker];
+    }
+    return _gamePicker;
+}
+
 
 - (NSArray *)stats {
   return _stats;
@@ -88,6 +132,7 @@ static NSInteger kResultComponent = 3;
 - (void)setStats:(NSArray *)stats {
   _stats = stats;
   [_picker reloadAllComponents];
+    [_gamePicker reloadAllComponents];
   [self recomputeFilteredStats];
 
 }
@@ -107,8 +152,7 @@ static NSInteger kResultComponent = 3;
     if (team != 0) {
         filter[@"team"] = [self team][team- 1];
     }
-    NSInteger result = [self.picker selectedRowInComponent:kResultComponent];
-    
+       NSInteger result = [self.picker selectedRowInComponent:kResultComponent];
     if (result != 0) {
         if (skill == 1) {
             if (result > self.resultHit.count){
@@ -121,6 +165,16 @@ static NSInteger kResultComponent = 3;
             filter[@"details"]= @{@"result":self.resultServe[result - 1]} ;
         }
     }
+    
+    NSInteger game = [self.gamePicker selectedRowInComponent:kGameComponent];
+    if (team != 0) {
+        filter[@"game"] = [self game][game- 1];
+    }
+    NSInteger rotation = [self.gamePicker selectedRowInComponent:kRotationComponent];
+    if (team != 0) {
+        filter[@"rotation"] = [self rotation][rotation- 1];
+    }
+
    
     //@"details": @{@"result": ....}
   _filteredStats = [Stat filterStats:self.stats withFilters:filter];
@@ -152,6 +206,7 @@ static NSInteger kResultComponent = 3;
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView
     numberOfRowsInComponent:(NSInteger)component {
+    if ([pickerView isEqual: self.picker]){
   if (component == kPlayerComponent) {
     return [[self players] count] + 1;
   } else if (component == kSkillComponent) {
@@ -162,21 +217,44 @@ static NSInteger kResultComponent = 3;
       return [[self resultHit] count] + 1;
   } else if (component == kResultComponent && [[self currentSkill] isEqual: @"Serve"]) {
       return [[self resultServe] count] + 1;
-  } else {
+  }else {
     return 0;
   }
+    }
+    else if ([pickerView isEqual: self.gamePicker]){
+        if (component == kGameComponent) {
+            return [[self game] count] + 1;
+        } else if (component == kRotationComponent) {
+            return [[self rotation] count] + 1;
+            
+        } else {
+            return 0;
+        }
+    }
+    else{
+        return 0;
+    }
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    if (self.picker.numberOfComponents == 0){
-        return 4;
-    }else if ([[self currentSkill]  isEqual: @"Hit"] || [[self currentSkill]  isEqual: @"Serve"]){
-        NSLog(@"should be 3:");
-      return 4;
-   }else {
-    return 3;
+    if ([pickerView isEqual:self.picker]){
+        
+        if (self.picker.numberOfComponents == 0){
+            return 4;
+        }else if ([[self currentSkill]  isEqual: @"Hit"] || [[self currentSkill]  isEqual: @"Serve"]){
+            NSLog(@"should be 3:");
+          return 4;
+       }else {
+        return 3;
+        }
+    }
+    else if ([pickerView isEqual:self.gamePicker]){
+        return 2;
+    }else{
+        return 0;
     }
 }
+        
 
 - (NSString *)pickerView:(UIPickerView *)pickerView
              titleForRow:(NSInteger)row
@@ -184,19 +262,34 @@ static NSInteger kResultComponent = 3;
   if (row == 0) {
     return @"ALL";
   }
-  if (component == kPlayerComponent) {
-    return [self players][row - 1];
-  } else if (component == kSkillComponent) {
-    return [self skills][row - 1];
-  } else if (component == kTeamComponent) {
-      return [self team][row - 1];
-  } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Hit"]) {
-      return [self resultHit][row - 1];
-  } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Serve"]) {
-      return [self resultServe][row - 1];
-  } else {
-    return @"";
-  }
+  
+        if (component == kPlayerComponent) {
+        return [self players][row - 1];
+      } else if (component == kSkillComponent) {
+        return [self skills][row - 1];
+      } else if (component == kTeamComponent) {
+          return [self team][row - 1];
+      } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Hit"]) {
+          return [self resultHit][row - 1];
+      } else if (component == kResultComponent && [[self currentSkill]  isEqual: @"Serve"]) {
+          return [self resultServe][row - 1];
+      } else {
+        return @"";
+      }
+}
+
+- (NSString *)gamePickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component {
+    if (row == 0) {
+        return @"ALL";
+    }else if (component == kGameComponent) {
+            return [self game][row - 1];
+        } else if (component == kRotationComponent) {
+            return [self rotation][row - 1];
+        } else {
+            return @"";
+        }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView
@@ -204,6 +297,8 @@ static NSInteger kResultComponent = 3;
        inComponent:(NSInteger)component {
   [self recomputeFilteredStats];
     [self.picker reloadAllComponents];
+    [self.gamePicker reloadAllComponents];
+    
 }
 
 @end
