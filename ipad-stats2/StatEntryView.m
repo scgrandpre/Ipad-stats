@@ -118,6 +118,7 @@ typedef enum CourtSide : NSUInteger {
 - (NSString*) state {
     return _state;
 }
+
 - (UIButton *)makeButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     button.layer.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4].CGColor;
@@ -624,10 +625,10 @@ self = [super initWithFrame:frame];
 
     
     Stat *stat;
-    NSNumber *dictCurrentGame = [NSNumber numberWithInt:_currentGame];
-    stat.details[@"game"] =  dictCurrentGame;
-    NSNumber *dictCurrentRotation = [NSNumber numberWithInt:_currentRotation];
-    stat.details[@"rotation"] =  dictCurrentRotation;
+    //NSNumber *dictCurrentGame = [NSNumber numberWithInt:_currentGame];
+    stat.details[@"game"] =  _currentGame;
+   // NSNumber *dictCurrentRotation = [NSNumber numberWithInt:_currentRotation];
+    //stat.details[@"rotation"] =  dictCurrentRotation;
     
     
     if ( startSide == CourtSideLeft){
@@ -636,6 +637,7 @@ self = [super initWithFrame:frame];
             stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] team:@"SHU" player:player id:nil];
 
             stat.details[@"line"] = line;
+            stat.details[@"game"] =  _currentGame;
             [self.play.stats addObject:stat];
             [self addResultForStat:stat];
             [self.toughServeButton setHidden:NO];
@@ -646,6 +648,7 @@ self = [super initWithFrame:frame];
             stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] team:@"SHU" player:player id:nil];
 
             stat.details[@"line"] = line;
+            stat.details[@"game"] =  _currentGame;
             [self.play.stats addObject:stat];
             [self addResultForStat:stat];
             [self.handsButton setHidden:NO];
@@ -658,6 +661,7 @@ self = [super initWithFrame:frame];
                 // Serve Other team
                 stat = [[Stat alloc] initWithSkill:kSkillServe details:[[NSMutableDictionary alloc] init] team:@"Other" player:player id:nil];
                 stat.details[@"line"] = line;
+                stat.details[@"game"] =  _currentGame;
                 [self.play.stats addObject:stat];
                 [self addResultForStat:stat];
                 [self.passedByButton setHidden:NO];
@@ -670,6 +674,7 @@ self = [super initWithFrame:frame];
                 stat = [[Stat alloc] initWithSkill:kSkillHit details:[[NSMutableDictionary alloc] init] team:@"Other" player:player id:nil];
                 
                 stat.details[@"line"] = line;
+                stat.details[@"game"] =  _currentGame;
                 [self.play.stats addObject:stat];
                 [self addResultForStat:stat];
                 [self.handsButton setHidden:NO];

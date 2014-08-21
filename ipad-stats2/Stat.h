@@ -15,8 +15,6 @@
 @property (strong) NSString* team;
 @property (strong) NSString* skill;
 @property (strong) NSString* player;
-@property (strong) NSString* game;
-
 @property (strong) NSMutableDictionary* details;
 @property NSDate* timestamp;
 

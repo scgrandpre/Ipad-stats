@@ -51,5 +51,16 @@
 
     self.view.backgroundColor = [UIColor clearColor];
 }
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait; // supports both landscape modes
+}
+//- (NSUInteger)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskPortrait;
+//}
 
 @end
