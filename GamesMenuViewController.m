@@ -85,7 +85,7 @@
   [super loadView];
   UITableView *table = [[UITableView alloc]
       initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width / 2 - 50,
-                               self.view.bounds.size.height - 50)];
+                               self.view.bounds.size.height - 120)];
   [self.view addSubview:table];
   table.delegate = self;
   table.dataSource = self;

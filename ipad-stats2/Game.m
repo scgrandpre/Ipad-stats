@@ -113,7 +113,7 @@
   NSString *filter_player = filter[@"player"];
   if (filter_player != nil &&
       [filter_player compare:stat.player] != NSOrderedSame)
-    return NO;
+    return NO;  
 
   if (filter[@"details"] != nil) {
     for (NSString *detail in [filter[@"details"] allKeys]) {

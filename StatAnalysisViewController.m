@@ -168,7 +168,7 @@
     NSUInteger kills = [Stat filterStats:self.filters.filteredStats
                              withFilters:@{
                                            @"skill" : @"Hit",
-                                           @"details" : @{@"result" : @"kill"}
+                                           @"details" : @{@"result" : @"Kill"}
                                            }].count;
     
     NSUInteger hittingAttempts = [Stat filterStats:self.filters.filteredStats
@@ -178,13 +178,13 @@
     [Stat filterStats:self.filters.filteredStats
           withFilters:@{
                         @"skill" : @"Hit",
-                        @"details" : @{@"result" : @"error"}
+                        @"details" : @{@"result" : @"Error"}
                         }].count;
     
     /// passing stat team 0
     
     NSArray *passingOptions = [NSArray
-                               arrayWithObjects:@"4", @"3", @"2", @"1", @"0", @"ace", @"err", nil];
+                               arrayWithObjects:@"4", @"3", @"2", @"1", @"0", @"Ace", @"Err", nil];
     NSString *currentPassingOption;
     NSMutableDictionary *passValue = [[NSMutableDictionary alloc] init];
     
@@ -213,7 +213,7 @@
                                                       [passValue[@"2"] integerValue] *2 +
                                                       [passValue[@"3"] integerValue] *3 +
                                                       [passValue[@"4"] integerValue] *4 +
-                                                      [passValue[@"err"] integerValue] *4
+                                                      [passValue[@"Err"] integerValue] *4
                                                       )/(float)(passingAttempts))];
     NSString*passStatString = [formatter stringFromNumber:passStat];
     
@@ -251,7 +251,7 @@
             stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu     | %@ | %@ |\n\n\n##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@ \n\n##Defense##\n Digs: %lu \n Ups: %lu \n Dig Errors: %lu \n " ,
             (unsigned long)kills, (unsigned long)hittingErrors,
             (unsigned long)hittingAttempts, killPercentString, hitPercentString,
-            passStatString,passValue[@"ace"],passValue[@"err"], (unsigned long)digs, (unsigned long)ups, (unsigned long)digErrors];
+            passStatString,passValue[@"Ace"],passValue[@"Err"], (unsigned long)digs, (unsigned long)ups, (unsigned long)digErrors];
     
 }
 

@@ -103,13 +103,13 @@
 }
 
 - (NSDictionary*)lineDictForStat:(Stat*)stat {
-    NSDictionary *resultColor = @{@"kill":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
-                                  @"error": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
-                                  @"err": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
+    NSDictionary *resultColor = @{@"Kill":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
+                                  @"Error": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
+                                  @"Err": [UIColor colorWithRed:1 green:.5 blue:.5 alpha:.9],
                                   
-                                  @"ace":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
-                                  @"us": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
-                                  @"them": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.7],
+                                  @"Ace":  [UIColor colorWithRed:.5 green:.5 blue:1 alpha:.9],
+                                  @"Us": [UIColor colorWithRed:.5 green:.5 blue:.7 alpha:.7],
+                                  @"Them": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.7],
                                   @"overpass": [UIColor colorWithRed:.7 green:.5 blue:.5 alpha:.7],
                                   @"0": [UIColor colorWithRed:.1 green:.0 blue:.9 alpha:.7],
                                   @"1": [UIColor colorWithRed:.3 green:.0 blue:.7 alpha:.7],
@@ -122,7 +122,7 @@
                                   
                                   };
     return @{@"line":stat.details[@"line"] ? stat.details[@"line"] : @[] ,
-             @"color": resultColor[stat.details[@"result"] ? stat.details[@"result"] : @"kill"]};
+             @"color": resultColor[stat.details[@"result"] ? stat.details[@"result"] : @"Kill"]};
 }
 
 // Only override drawRect: if you perform custom drawing.

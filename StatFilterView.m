@@ -29,6 +29,9 @@ static NSInteger kRotationComponent = 1;
 @property(readonly) NSArray *skills;
 @property(readonly) NSArray *resultHit;
 @property(readonly) NSArray *resultServe;
+@property(readonly) NSArray *resultCover;
+@property(readonly) NSArray *resultDig;
+@property(readonly) NSArray *resultPass;
 @property(readonly) NSArray *team;
 
 @property(readonly) NSArray *game;
@@ -49,6 +52,9 @@ static NSInteger kRotationComponent = 1;
 @synthesize skills = _skills;
 @synthesize resultHit = _resultHit;
 @synthesize resultServe = _resultServe;
+@synthesize resultCover = _resultCover;
+@synthesize resultPass = _resultPass;
+@synthesize resultDig = _resultDig;
 @synthesize team = _team;
 @synthesize game = _game;
 @synthesize rotation = _rotation;
@@ -63,7 +69,7 @@ static NSInteger kRotationComponent = 1;
 
 - (NSArray *)skills {
   if (_skills == nil) {
-    _skills = @[ @"Hit", @"Serve" ];
+    _skills = @[ @"Hit", @"Serve",@"Pass",@"Dig",@"Cover" ];
   }
   return _skills;
 }
@@ -71,14 +77,14 @@ static NSInteger kRotationComponent = 1;
 
 - (NSArray *)resultHit {
     if (_resultHit == nil) {
-        _resultHit = @[ @"kill", @"error", @"us", @"them" ];
+        _resultHit = @[ @"Kill", @"Error", @"Us", @"Them" ];
     }
     return _resultHit;
 }
 
 - (NSArray *)resultServe {
     if (_resultServe == nil) {
-        _resultServe = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err", @"Overpass"];
+        _resultServe = @[@"Ace", @"0", @"1", @"2", @"3", @"4", @"Err", @"Overpass"];
     }
     return _resultServe;
 }
@@ -142,12 +148,15 @@ static NSInteger kRotationComponent = 1;
     NSInteger player = [self.picker selectedRowInComponent:kPlayerComponent];
   if (player != 0) {
     filter[@"player"] = [self players][player - 1];
-      NSLog(@"selected player: %@",[self players][player - 1]);
+    NSLog(@"selected player: %@",[self players][player - 1]);
   }
     NSInteger skill = [self.picker selectedRowInComponent:kSkillComponent];
     if (skill != 0) {
         filter[@"skill"] = [self skills][skill- 1];
-            }
+//        if (skill == 4){
+//            filter[@"player"] = [self players][player - 1];
+//        }
+    }
     NSInteger team = [self.picker selectedRowInComponent:kTeamComponent];
     if (team != 0) {
         filter[@"team"] = [self team][team- 1];

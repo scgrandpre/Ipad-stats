@@ -534,7 +534,7 @@ self = [super initWithFrame:frame];
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
         [self addSubview:subsView];
-        subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20"];
+        subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"25", @"81"];
         subsView.selectedButton = subsView.buttonTitles[0];
         self.selectedPlayer = subsView.buttonTitles[0];
         [subsView on:@"button-pressed" callback:^(NSString* player) {
@@ -642,6 +642,9 @@ self = [super initWithFrame:frame];
             [self addResultForStat:stat];
             [self.toughServeButton setHidden:NO];
             [self.passiveServeButton setHidden:NO];
+            [self.passedByButton setHidden:NO];
+            [self.aggressivePassButton setHidden:NO];
+            [self.passivePassButton setHidden:NO];
         } else {
             //Hit
 
@@ -664,6 +667,8 @@ self = [super initWithFrame:frame];
                 stat.details[@"game"] =  _currentGame;
                 [self.play.stats addObject:stat];
                 [self addResultForStat:stat];
+                [self.toughServeButton setHidden:NO];
+                [self.passiveServeButton setHidden:NO];
                 [self.passedByButton setHidden:NO];
                 [self.aggressivePassButton setHidden:NO];
                 [self.passivePassButton setHidden:NO];
@@ -751,7 +756,7 @@ self = [super initWithFrame:frame];
 //passing
 -(IBAction)passedByButtonTapped:(UIButton *)sender
 {
-    NSLog(@"Passed By Button Tapped!");
+    NSLog(@"Passed By %@!",self.selectedPlayer);
     [self.passedByButton setHidden:YES];
     [self.aggressivePassButton setHidden:YES];
     [self.passivePassButton setHidden:YES];
@@ -901,10 +906,10 @@ self = [super initWithFrame:frame];
     [self.badBlockTouchButton setHidden:YES];
      
     if (stat.skill == kSkillServe) {
-        self.addResultButtons.buttonTitles = @[@"ace", @"0", @"1", @"2", @"3", @"4", @"err", @"Overpass"];
+        self.addResultButtons.buttonTitles = @[@"Ace", @"0", @"1", @"2", @"3", @"4", @"Err", @"Overpass"];
     }
     else {
-        self.addResultButtons.buttonTitles = @[@"kill", @"error", @"us", @"them"];
+        self.addResultButtons.buttonTitles = @[@"Kill", @"Error", @"Us", @"Them"];
     }
     self.addResultView.hidden = NO;
     
