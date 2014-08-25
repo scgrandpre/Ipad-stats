@@ -24,7 +24,7 @@ static const CGFloat BUTTON_PADDING = 10;
         [view removeFromSuperview];
     }
     if (titles != nil) {
-        CGFloat buttonWidth = MIN((self.bounds.size.width/([titles count]/2) - BUTTON_PADDING), MAX_BUTTON_WIDTH);
+        CGFloat buttonWidth = MIN((self.bounds.size.width/(([titles count]/2)) - BUTTON_PADDING), MAX_BUTTON_WIDTH);
         for (int j = 0; j < [titles count]; j++) {
             int i = j % ([titles count]/2);
             CGFloat heightOffset = 0;

@@ -911,17 +911,64 @@ self = [super initWithFrame:frame];
     else {
         self.addResultButtons.buttonTitles = @[@"Kill", @"Error", @"Us", @"Them"];
     }
+    
     self.addResultView.hidden = NO;
     
     [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
         stat.details[@"result"] = result;
         stat.player = self.selectedPlayer;
-        self.addResultView.hidden = YES;
         [self emit:@"play-added" data:self.play];
         [self emit:@"stat-added" data:stat];
-        
-        NSLog(@"testing");
+        if (stat.skill == kSkillHit) {
+            self.addResultButtons.buttonTitles = @[@"Hands", @"No Hands", @"Tip", @"Clear"];
+            [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
+                if ([result isEqual:@"Clear"]){
+                    self.addResultView.hidden = YES;
+                }else{
+                    stat.details[@"Hands"] = result;
+                    if ([result isEqual:@"Hands"]){
+                        stat.details[@"Blocked By"] = self.selectedPlayer;
+                    }
+                    
+                }
+                self.addResultButtons.buttonTitles = @[@"Dig", @"Up", @"Dig Error", @"Clear"];
+                [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
+                    self.addResultView.hidden = YES;
+                    if ([result isEqual:@"Clear"]){
+                        self.addResultView.hidden = YES;
+                    }else{
+                        stat.details[@"Dig Quality"] = result;
+                        stat.details[@"Dug By"] = self.selectedPlayer;
+                    }
+                }];
+
+            }];
+
+            
+            
+ 
+        }else{
+             self.addResultButtons.buttonTitles = @[@"Passed By", @"Clear"];
+            [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
+                self.addResultView.hidden = YES;
+                if ([result isEqual:@"Clear"]){
+                    self.addResultView.hidden = YES;
+                }else{
+                    stat.details[@"Pass Quality"] = result;
+                    stat.details[@"Passed By"] = self.selectedPlayer;
+                }
+            }];
+
+        }
     }];
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 - (void) endPointWithResult:(NSString*)result winner:(CourtSide)winner {
