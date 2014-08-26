@@ -78,10 +78,14 @@ typedef enum CourtSide : NSUInteger {
 @property (readonly) UIButton *gameButton3;
 @property (readonly) UIButton *gameButton4;
 @property (readonly) UIButton *gameButton5;
+//switch sides buttons
+@property (readonly) UIButton *sideButton;
 
 //game details
 @property NSString* currentGame;
 @property NSString* currentRotation;
+@property NSString* currentSideBeingStated;
+
 
 @end
 
@@ -113,6 +117,8 @@ typedef enum CourtSide : NSUInteger {
 @synthesize gameButton3 = _gameButton3;
 @synthesize gameButton4 = _gameButton4;
 @synthesize gameButton5 = _gameButton5;
+
+@synthesize sideButton = _sideButton;
 
 
 - (NSString*) state {
@@ -454,8 +460,22 @@ typedef enum CourtSide : NSUInteger {
     }
 }
 
-
-
+//side button
+-(UIButton *)sideButton {
+    
+    if (_sideButton == nil){
+        _sideButton = [self makeButton];
+        [_sideButton addTarget:self
+                        action:@selector(sideButtonTapped:)
+              forControlEvents:UIControlEventTouchUpInside];
+        [_sideButton setTitle:@"Left Side" forState:UIControlStateNormal];
+        [_sideButton setHidden:NO];
+        return _sideButton;
+    }
+    else{
+        return _sideButton;
+    }
+}
 //end button creation
 
 -(void) setState:(NSString *)state {
@@ -466,27 +486,28 @@ typedef enum CourtSide : NSUInteger {
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _toughServeButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _passiveServeButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _handsButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _noHandsButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _goodBlockTouchButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _badBlockTouchButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _passedByButton.frame = CGRectMake(self.bounds.origin.x, 9*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _aggressivePassButton.frame = CGRectMake(self.bounds.origin.x, 10*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _passivePassButton.frame = CGRectMake(self.bounds.origin.x, 11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _digButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
-                                        6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _upButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
-                                        7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _digErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
-                                       8*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _coverDigButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
-                                       11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _coverUpButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
-                                      12*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
-    _coverErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
-                                         13*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _toughServeButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _passiveServeButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _handsButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _noHandsButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _goodBlockTouchButton.frame = CGRectMake(self.bounds.origin.x, 6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _badBlockTouchButton.frame = CGRectMake(self.bounds.origin.x, 7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _passedByButton.frame = CGRectMake(self.bounds.origin.x, 9*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _aggressivePassButton.frame = CGRectMake(self.bounds.origin.x, 10*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _passivePassButton.frame = CGRectMake(self.bounds.origin.x, 11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _digButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+//                                        6*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _upButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+//                                        7*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _digErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+//                                       8*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _coverDigButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+//                                       11*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _coverUpButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+//                                      12*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+//    _coverErrorButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10,
+//                                         13*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
+    _sideButton.frame = CGRectMake(self.bounds.size.width-self.bounds.size.width/10, 14*self.bounds.size.height/16, self.bounds.size.width/10, 2*self.bounds.size.height/16);
     _gameButton.frame = CGRectMake(self.bounds.origin.x, 14*self.bounds.size.height/16, self.bounds.size.width/10, 2*self.bounds.size.height/16);
     _gameButton1.frame = CGRectMake(self.bounds.origin.x, 9*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
     _gameButton2.frame = CGRectMake(self.bounds.origin.x, 10*self.bounds.size.height/16, self.bounds.size.width/10, self.bounds.size.height/16);
@@ -523,10 +544,13 @@ self = [super initWithFrame:frame];
         [self addSubview:self.gameButton3];
         [self addSubview:self.gameButton4];
         [self addSubview:self.gameButton5];
+        [self addSubview:self.sideButton];
+       
+        
         //current rotation, current game
         _currentGame = @"Game 1";
         _currentRotation = @"Rotation 1";
-        
+        _currentSideBeingStated = @"Left Side";
         
         
         
@@ -596,10 +620,21 @@ self = [super initWithFrame:frame];
 }
 
 - (void) locationInCourt:(CGPoint)point Side:(CourtSide*)side Area:(CourtArea*)area {
-    if (point.x < 0) {
-        *side = CourtSideLeft;
-    } else {
-        *side = CourtSideRight;
+    
+    if ([_currentSideBeingStated isEqual: @"Left Side"]){
+        if (point.x < 0) {
+            *side = CourtSideLeft;
+        } else {
+            *side = CourtSideRight;
+        }
+    }else{
+        if (point.x > 0) {
+            *side = CourtSideLeft;
+        } else {
+            *side = CourtSideRight;
+        }
+
+        
     }
     
     if (fabs(point.x) > 1) {
@@ -640,11 +675,7 @@ self = [super initWithFrame:frame];
             stat.details[@"game"] =  _currentGame;
             [self.play.stats addObject:stat];
             [self addResultForStat:stat];
-            [self.toughServeButton setHidden:NO];
-            [self.passiveServeButton setHidden:NO];
-            [self.passedByButton setHidden:NO];
-            [self.aggressivePassButton setHidden:NO];
-            [self.passivePassButton setHidden:NO];
+
         } else {
             //Hit
 
@@ -654,8 +685,6 @@ self = [super initWithFrame:frame];
             stat.details[@"game"] =  _currentGame;
             [self.play.stats addObject:stat];
             [self addResultForStat:stat];
-            [self.handsButton setHidden:NO];
-            [self.noHandsButton setHidden:NO];
         }
     }
         else{
@@ -667,11 +696,6 @@ self = [super initWithFrame:frame];
                 stat.details[@"game"] =  _currentGame;
                 [self.play.stats addObject:stat];
                 [self addResultForStat:stat];
-                [self.toughServeButton setHidden:NO];
-                [self.passiveServeButton setHidden:NO];
-                [self.passedByButton setHidden:NO];
-                [self.aggressivePassButton setHidden:NO];
-                [self.passivePassButton setHidden:NO];
                 
             } else {
                 //Attack other team
@@ -682,8 +706,7 @@ self = [super initWithFrame:frame];
                 stat.details[@"game"] =  _currentGame;
                 [self.play.stats addObject:stat];
                 [self addResultForStat:stat];
-                [self.handsButton setHidden:NO];
-                [self.noHandsButton setHidden:NO];
+
             }
         
         
@@ -888,6 +911,17 @@ self = [super initWithFrame:frame];
     [_gameButton4 setHidden:YES];
     [_gameButton5 setHidden:YES];
 }
+-(IBAction)sideButtonTapped:(UIButton *)sender
+{
+    NSLog(@"Side Button Tapped!");
+    if ([_currentSideBeingStated isEqual: @"Left Side"]){
+        [_sideButton setTitle:@"Right Side" forState:UIControlStateNormal];
+        _currentSideBeingStated = @"Right Side";
+    }else{
+        [_sideButton setTitle:@"Left Side" forState:UIControlStateNormal];
+        _currentSideBeingStated = @"Left Side";
+    }
+}
 
 //end ibaction section
 
@@ -930,7 +964,7 @@ self = [super initWithFrame:frame];
                         stat.details[@"Blocked By"] = self.selectedPlayer;
                     }
                     
-                }
+                
                 self.addResultButtons.buttonTitles = @[@"Dig", @"Up", @"Dig Error", @"Clear"];
                 [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
                     self.addResultView.hidden = YES;
@@ -941,7 +975,7 @@ self = [super initWithFrame:frame];
                         stat.details[@"Dug By"] = self.selectedPlayer;
                     }
                 }];
-
+                }
             }];
 
             

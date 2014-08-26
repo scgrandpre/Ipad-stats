@@ -146,6 +146,7 @@ static NSInteger kRotationComponent = 1;
 - (void)recomputeFilteredStats {
     NSMutableDictionary *filter = [@{} mutableCopy];
     NSInteger player = [self.picker selectedRowInComponent:kPlayerComponent];
+
   if (player != 0) {
     filter[@"player"] = [self players][player - 1];
     NSLog(@"selected player: %@",[self players][player - 1]);
@@ -153,8 +154,8 @@ static NSInteger kRotationComponent = 1;
     NSInteger skill = [self.picker selectedRowInComponent:kSkillComponent];
     if (skill != 0) {
         filter[@"skill"] = [self skills][skill- 1];
-//        if (skill == 4){
-//            filter[@"player"] = [self players][player - 1];
+//        if ([skill ==2]){
+//            filter[@"player"] = _stats;
 //        }
     }
     NSInteger team = [self.picker selectedRowInComponent:kTeamComponent];
