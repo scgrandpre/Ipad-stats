@@ -120,6 +120,8 @@ typedef enum CourtSide : NSUInteger {
 
 @synthesize sideButton = _sideButton;
 
+@synthesize allPlayers = _allPlayers;
+
 
 - (NSString*) state {
     return _state;
@@ -558,7 +560,8 @@ self = [super initWithFrame:frame];
         
         StatEventButtonsView *subsView = [[StatEventButtonsView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 200)];
         [self addSubview:subsView];
-        subsView.buttonTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"25", @"81"];
+        _allPlayers = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12", @"13", @"14", @"15", @"16", @"17", @"18", @"19", @"20"];
+        subsView.buttonTitles = _allPlayers;
         subsView.selectedButton = subsView.buttonTitles[0];
         self.selectedPlayer = subsView.buttonTitles[0];
         [subsView on:@"button-pressed" callback:^(NSString* player) {
@@ -962,6 +965,8 @@ self = [super initWithFrame:frame];
                     stat.details[@"Hands"] = result;
                     if ([result isEqual:@"Hands"]){
                         stat.details[@"Blocked By"] = self.selectedPlayer;
+                        [self emit:@"play-added" data:self.play];
+                        [self emit:@"stat-added" data:stat];
                     }
                     
                 
@@ -973,6 +978,8 @@ self = [super initWithFrame:frame];
                     }else{
                         stat.details[@"Dig Quality"] = result;
                         stat.details[@"Dug By"] = self.selectedPlayer;
+                        [self emit:@"play-added" data:self.play];
+                        [self emit:@"stat-added" data:stat];
                     }
                 }];
                 }
@@ -990,6 +997,8 @@ self = [super initWithFrame:frame];
                 }else{
                     stat.details[@"Pass Quality"] = result;
                     stat.details[@"Passed By"] = self.selectedPlayer;
+                    [self emit:@"play-added" data:self.play];
+                    [self emit:@"stat-added" data:stat];
                 }
             }];
 

@@ -14,6 +14,8 @@
 #import "CourtView.h"
 #import "AnalysisLinesView.h"
 #import "StatEventButtonsView.h"
+#import "StatEntryView.h"
+#import "StatEventButtonsView.h"
 #import "StatAnalysisVideoPlayer.h"
 #import <EventEmitter/EventEmitter.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -28,6 +30,9 @@
 @property(readonly) UITextView *offset;
 @property(readonly) StatFilterView *filters;
 @property(readonly) StatAnalysisVideoPlayer *videoPlayer;
+@property(readonly) Stat* currentStat;
+@property(readonly) StatEntryView *allPlayers;
+//@property(readonly) NSMutableDictionary* statDict;
 @end
 
 @implementation StatAnalysisViewController
@@ -38,10 +43,15 @@
 @synthesize offset = _offset;
 @synthesize videoPlayer = _videoPlayer;
 @synthesize filters = _filters;
+@synthesize currentStat = _currentStat;
+@synthesize allPlayers = _allPlayers;
+
+//@synthesize statDict = _statDict;
 
 - (id)initWithGame:(Game *)game {
     self = [super init];
     self.game = game;
+//    _statDict = [[NSMutableDictionary alloc]init];
     
     [game on:@"play-added"
     callback:^(id arg0) {
@@ -157,19 +167,65 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    self.statsTextView.text = [self basicStats];
+    self.statsTextView.text = [self basicStats:@"1"];
+}
+- addStatToDictionary:(NSMutableDictionary*)dict withPlayer:(NSString*)player category:(NSString*) category result:(NSString*)result{
+    if (dict[player] == nil) {
+        dict[player] = [[NSMutableDictionary alloc] init];
+    }
+    
+    if (dict[player][category] == nil) {
+        dict[player][category] = [[NSMutableDictionary alloc] init];
+    }
+    
+    if (dict[player][category][result] == nil) {
+        dict[player][category][result] = @0;
+    }
+    dict[player][category][result] = [NSNumber numberWithInteger:([dict[player][category][result] integerValue] + 1)];
+    return dict;
 }
 
 
 
-- (NSString *)basicStats {
+- (NSString *)basicStats:(NSString*)playerForStats {
+    NSMutableDictionary*statDict = [[NSMutableDictionary alloc]init];
+    
+    for (_currentStat in self.filters.stats){
+        //Hitting
+        if ([_currentStat.skill isEqual:@"Hit"]&& [_currentStat.team isEqual:@"SHU"]){
+            NSString*currentPlayer = _currentStat.player;
+            NSString*currentSkill = _currentStat.skill;
+            NSString*result = _currentStat.details[@"result"];
+            [self addStatToDictionary:statDict withPlayer:currentPlayer category:currentSkill result:result];
+            //blocking
+            if (_currentStat.details[@"Blocked By"] != nil){
+                currentPlayer = _currentStat.details[@"Blocked By"];
+                currentSkill = @"Block";
+                result = _currentStat.details[@"Block Quality"];
+                [self addStatToDictionary:statDict withPlayer:currentPlayer category:currentSkill result:result];
+            }
+        }else if ([_currentStat.skill isEqual:@"Serve"]&& [_currentStat.team isEqual:@"SHU"]){
+            NSString*currentPlayer = _currentStat.player;
+            NSString*currentSkill = _currentStat.skill;
+            NSString*result = _currentStat.details[@"result"];
+            [self addStatToDictionary:statDict withPlayer:currentPlayer category:currentSkill result:result];
+            
+        }
+    };
+//      NSString*currentPlayer;
+//    for ( currentPlayer in statDict){
+//        NSLog(@"junk");
+//    }
+    //NSArray *possiblePlayers =
+    NSString *newKills = statDict [@"1"][@"Hit"][@"Kill"];
     
     
-    NSUInteger kills = [Stat filterStats:self.filters.filteredStats
-                             withFilters:@{
-                                           @"skill" : @"Hit",
-                                           @"details" : @{@"result" : @"Kill"}
-                                           }].count;
+    NSUInteger kills =
+    [Stat filterStats:self.filters.filteredStats
+          withFilters:@{
+                        @"skill" : @"Hit",
+                        @"details" : @{@"result" : @"Kill"}
+                        }].count;
     
     NSUInteger hittingAttempts = [Stat filterStats:self.filters.filteredStats
                                        withFilters:@{@"skill" : @"Hit"}].count;
@@ -257,7 +313,8 @@
 
 - (void)updateStats {
     self.linesView.stats = self.filters.filteredStats;
-    self.statsTextView.text = [self basicStats];
+    //for k in ()
+    self.statsTextView.text = [self basicStats: @"1"];
     self.videoPlayer.playlist = self.filters.filteredStats;
 }
 
