@@ -135,6 +135,19 @@
   return filtered;
 }
 
+- (NSArray *)filterMultipleEventsBy:(NSArray *)filterArray {
+    NSMutableArray *filtered = [[NSMutableArray alloc] init];
+    NSDictionary *currentFilter;
+    for (currentFilter in filterArray){
+    [self forEachEvent:^(Stat *stat) {
+        if ([self stat:stat matchesFilter:currentFilter]) {
+            [filtered addObject:stat];
+        }
+    }];
+    }
+    return filtered;
+}
+
 - (NSArray *)allStats {
   NSMutableArray *stats = [[NSMutableArray alloc] init];
   [self forEachEvent:^(Stat *stat) { [stats addObject:stat]; }];

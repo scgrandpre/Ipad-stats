@@ -954,13 +954,13 @@ self = [super initWithFrame:frame];
     [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
         stat.details[@"result"] = result;
         stat.player = self.selectedPlayer;
-        [self emit:@"play-added" data:self.play];
-        [self emit:@"stat-added" data:stat];
         if (stat.skill == kSkillHit) {
             self.addResultButtons.buttonTitles = @[@"Hands", @"No Hands", @"Tip", @"Clear"];
             [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
                 if ([result isEqual:@"Clear"]){
                     self.addResultView.hidden = YES;
+                    [self emit:@"play-added" data:self.play];
+                    [self emit:@"stat-added" data:stat];
                 }else{
                     stat.details[@"Hands"] = result;
                     if ([result isEqual:@"Hands"]){
@@ -974,6 +974,8 @@ self = [super initWithFrame:frame];
                 [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
                     self.addResultView.hidden = YES;
                     if ([result isEqual:@"Clear"]){
+                        [self emit:@"play-added" data:self.play];
+                        [self emit:@"stat-added" data:stat];
                         self.addResultView.hidden = YES;
                     }else{
                         stat.details[@"Dig Quality"] = result;
@@ -993,6 +995,8 @@ self = [super initWithFrame:frame];
             [self.addResultButtons once:@"button-pressed" callback:^(NSString* result) {
                 self.addResultView.hidden = YES;
                 if ([result isEqual:@"Clear"]){
+                    [self emit:@"play-added" data:self.play];
+                    [self emit:@"stat-added" data:stat];
                     self.addResultView.hidden = YES;
                 }else{
                     stat.details[@"Pass Quality"] = result;

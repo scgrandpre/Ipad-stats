@@ -150,6 +150,7 @@ static NSInteger kRotationComponent = 1;
   if (player != 0) {
     filter[@"player"] = [self players][player - 1];
     NSLog(@"selected player: %@",[self players][player - 1]);
+      
   }
     NSInteger skill = [self.picker selectedRowInComponent:kSkillComponent];
     if (skill != 0) {

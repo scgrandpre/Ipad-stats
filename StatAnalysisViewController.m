@@ -201,7 +201,7 @@
             if (_currentStat.details[@"Blocked By"] != nil){
                 currentPlayer = _currentStat.details[@"Blocked By"];
                 currentSkill = @"Block";
-                result = _currentStat.details[@"Block Quality"];
+                result = _currentStat.details[@"result"];
                 [self addStatToDictionary:statDict withPlayer:currentPlayer category:currentSkill result:result];
             }
         }else if ([_currentStat.skill isEqual:@"Serve"]&& [_currentStat.team isEqual:@"SHU"]){
@@ -217,25 +217,18 @@
 //        NSLog(@"junk");
 //    }
     //NSArray *possiblePlayers =
-    NSString *newKills = statDict [@"1"][@"Hit"][@"Kill"];
+    NSString *hittingKills = statDict [@"1"][@"Hit"][@"Kill"];
+    NSInteger intHittingKills = [hittingKills integerValue];
+    NSString *hittingThem = statDict [@"1"][@"Hit"][@"Them"];
+    NSInteger intHittingThem = [hittingThem integerValue];
+    NSString *hittingUs= statDict [@"1"][@"Hit"][@"@Us"];
+    NSInteger intHittingUs = [hittingUs integerValue];
+    NSString *hittingErrors = statDict [@"1"][@"Hit"][@"Error"];
+    NSInteger intHittingErrors = [hittingErrors integerValue];
     
     
-    NSUInteger kills =
-    [Stat filterStats:self.filters.filteredStats
-          withFilters:@{
-                        @"skill" : @"Hit",
-                        @"details" : @{@"result" : @"Kill"}
-                        }].count;
     
-    NSUInteger hittingAttempts = [Stat filterStats:self.filters.filteredStats
-                                       withFilters:@{@"skill" : @"Hit"}].count;
-    
-    NSUInteger hittingErrors =
-    [Stat filterStats:self.filters.filteredStats
-          withFilters:@{
-                        @"skill" : @"Hit",
-                        @"details" : @{@"result" : @"Error"}
-                        }].count;
+    NSUInteger hittingAttempts = intHittingThem + intHittingKills + intHittingUs + intHittingErrors;
     
     /// passing stat team 0
     
@@ -275,12 +268,10 @@
     
     NSLog(@"passingattempts: %lu\n%lu", (unsigned long)passingAttempts,
           (unsigned long)passValue[passingOptions[1]]);
-    
-    
-    NSNumber *hitPercent = [NSNumber numberWithDouble:((float)kills - hittingErrors) / hittingAttempts];
+    NSNumber *hitPercent = [NSNumber numberWithDouble:((float)intHittingKills - intHittingErrors) / hittingAttempts];
     NSString*hitPercentString = [formatter stringFromNumber:hitPercent];
     
-    NSNumber *killPercent = [NSNumber numberWithDouble:((float)kills) / hittingAttempts];
+    NSNumber *killPercent = [NSNumber numberWithDouble:((float)intHittingKills) / hittingAttempts];
     NSString*killPercentString = [formatter stringFromNumber:killPercent];
     
     //digging
@@ -305,7 +296,7 @@
     
     return [NSString
             stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu     | %@ | %@ |\n\n\n##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@ \n\n##Defense##\n Digs: %lu \n Ups: %lu \n Dig Errors: %lu \n " ,
-            (unsigned long)kills, (unsigned long)hittingErrors,
+            (unsigned long)intHittingKills, (unsigned long)intHittingErrors,
             (unsigned long)hittingAttempts, killPercentString, hitPercentString,
             passStatString,passValue[@"Ace"],passValue[@"Err"], (unsigned long)digs, (unsigned long)ups, (unsigned long)digErrors];
     
