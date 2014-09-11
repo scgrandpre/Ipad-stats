@@ -190,7 +190,7 @@
 - (NSString *)basicStats:(NSString*)playerForStats {
     NSMutableDictionary*statDict = [[NSMutableDictionary alloc]init];
     
-    for (_currentStat in self.filters.stats){
+    for (_currentStat in self.filters.filteredStats){
         //Hitting
         if ([_currentStat.skill isEqual:@"Hit"]&& [_currentStat.team isEqual:@"SHU"]){
             NSString*currentPlayer = _currentStat.player;

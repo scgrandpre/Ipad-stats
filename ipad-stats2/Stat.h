@@ -23,4 +23,6 @@
 
 + (Stat*)stub;
 + (NSArray *)filterStats:(NSArray*)stats withFilters:(NSDictionary*)filters;
++ (NSArray *)filterMultipleStats:(NSArray*)stats withFilters:(NSArray*)filterArray;
+
 @end

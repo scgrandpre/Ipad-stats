@@ -69,7 +69,7 @@ static NSInteger kRotationComponent = 1;
 
 - (NSArray *)skills {
   if (_skills == nil) {
-    _skills = @[ @"Hit", @"Serve",@"Pass",@"Dig",@"Cover" ];
+    _skills = @[ @"Hit", @"Serve",@"Pass",@"Dig",@"Block",@"Cover" ];
   }
   return _skills;
 }
@@ -150,7 +150,6 @@ static NSInteger kRotationComponent = 1;
   if (player != 0) {
     filter[@"player"] = [self players][player - 1];
     NSLog(@"selected player: %@",[self players][player - 1]);
-      
   }
     NSInteger skill = [self.picker selectedRowInComponent:kSkillComponent];
     if (skill != 0) {
@@ -207,7 +206,19 @@ static NSInteger kRotationComponent = 1;
   NSMutableDictionary *players = [[NSMutableDictionary alloc] init];
   for (Stat *stat in self.stats) {
     players[stat.player] = stat.player;
-  }
+    if ([[stat details] objectForKey:@"Passed By"]) {
+        players[[stat details][@"Passed By"]] = [stat details][@"Passed By"];
+    }
+    if ([[stat details] objectForKey:@"Blocked By"]) {
+        players[[stat details][@"Blocked By"]] = [stat details][@"Blocked By"];
+    }
+    if ([[stat details] objectForKey:@"Dug By"]) {
+        players[[stat details][@"Dug By"]] = [stat details][@"Dug By"];
+    }
+    if ([[stat details] objectForKey:@"Covered By"]) {
+        players[[stat details][@"Covered By"]] = [stat details][@"Covered By"];
+    }
+    }
   return [players
       keysSortedByValueUsingComparator:^NSComparisonResult(NSString *obj1,
                                                            NSString *obj2) {

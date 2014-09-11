@@ -75,14 +75,31 @@
 
 -(BOOL) matchesFilter:(NSDictionary*)filter {
     NSString* filter_skill = filter[@"skill"];
-    if(filter_skill != nil && [filter_skill compare:self.skill] != NSOrderedSame) return NO;
+    if (([filter_skill isEqual:@"Hit"]) || ([filter_skill isEqual:@"Serve"])){
+        if(filter_skill != nil && [filter_skill compare:self.skill] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Pass"]){
+        if(filter_skill != nil && [_skill compare:@"Serve"] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Dig"] || [filter_skill isEqual:@"Cover"] || [filter_skill isEqual:@"Block"]){
+        if(filter_skill != nil && [_skill compare:@"Hit"] != NSOrderedSame) return NO;
+    }
     
     NSString* filter_team = filter[@"team"];
     if(filter_team != nil && [filter_team compare:self.team] != NSOrderedSame) return NO;
     
     NSString* filter_player = filter[@"player"];
-    if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
-    
+    if ([filter_skill isEqual:@"Hit"]){
+        if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Serve"]){
+        if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Pass"]){
+        if(filter_player != nil && [filter_player compare:[self details][@"Passed By"]] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Dig"]){
+        if(filter_player != nil && [filter_player compare:[self details][@"Dug By"]] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Cover"]){
+        if(filter_player != nil && [filter_player compare:[self details][@"Covered By"]] != NSOrderedSame) return NO;
+    }else if ([filter_skill isEqual:@"Block"]){
+        if(filter_player != nil && [filter_player compare:[self details][@"Blocked By"]] != NSOrderedSame) return NO;
+    }
     NSString* filter_game = filter[@"game"];
     if(filter_game != nil && [filter_game compare:self.details[@"game"]] != NSOrderedSame) return NO;
     
@@ -101,6 +118,19 @@
        if([stat matchesFilter:filter]) {
             [filtered addObject: stat];
         }
+    }
+    return filtered;
+}
+
++ (NSArray *)filterMultipleStats:(NSArray*)stats withFilters:(NSArray*)filterArray {
+    NSMutableArray *filtered = [[NSMutableArray alloc] init];
+    NSDictionary*currentFilter;
+    for (currentFilter in filterArray){
+    for(Stat *stat in stats) {
+        if([stat matchesFilter:currentFilter]) {
+            [filtered addObject: stat];
+        }
+    }
     }
     return filtered;
 }
