@@ -31,7 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    //[[UIDevice currentDevice] setOrientation:UIInterfaceOrientationPortrait];
+   
     StatEntryView *statEntryView = [[StatEntryView alloc] initWithFrame:CGRectMake(0,0,1024,700)];
     [self.view addSubview:statEntryView];
     
@@ -51,16 +52,5 @@
 
     self.view.backgroundColor = [UIColor clearColor];
 }
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait; // supports both landscape modes
-}
-//- (NSUInteger)supportedInterfaceOrientations {
-//    return UIInterfaceOrientationMaskPortrait;
-//}
 
 @end

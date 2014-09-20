@@ -224,8 +224,8 @@
 - (AVPlayerView *)videoPlayer {
   if (_videoPlayer == nil) {
     _video = [[AVPlayer alloc]
-        initWithURL:[NSURL URLWithString:@"http://rippelite.com/"
-                                  @"videos/8_11_14.mp4"]];
+        initWithURL:[NSURL URLWithString:@"http://www.acsvolleyball.com/"
+                                  @"videos/shu_fordham_small.mp4"]];
     _videoPlayer = [[AVPlayerView alloc] init];
     _videoPlayer.player = _video;
       

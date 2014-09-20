@@ -206,16 +206,16 @@ static NSInteger kRotationComponent = 1;
   NSMutableDictionary *players = [[NSMutableDictionary alloc] init];
   for (Stat *stat in self.stats) {
     players[stat.player] = stat.player;
-    if ([[stat details] objectForKey:@"Passed By"]) {
+    if ([[stat details] objectForKey:@"Passed By"]!= nil) {
         players[[stat details][@"Passed By"]] = [stat details][@"Passed By"];
     }
-    if ([[stat details] objectForKey:@"Blocked By"]) {
+    if ([[stat details] objectForKey:@"Blocked By"]!= nil) {
         players[[stat details][@"Blocked By"]] = [stat details][@"Blocked By"];
     }
-    if ([[stat details] objectForKey:@"Dug By"]) {
+    if ([[stat details] objectForKey:@"Dug By"]!= nil) {
         players[[stat details][@"Dug By"]] = [stat details][@"Dug By"];
     }
-    if ([[stat details] objectForKey:@"Covered By"]) {
+    if ([[stat details] objectForKey:@"Covered By"]!= nil) {
         players[[stat details][@"Covered By"]] = [stat details][@"Covered By"];
     }
     }

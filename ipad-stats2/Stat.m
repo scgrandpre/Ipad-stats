@@ -99,6 +99,8 @@
         if(filter_player != nil && [filter_player compare:[self details][@"Covered By"]] != NSOrderedSame) return NO;
     }else if ([filter_skill isEqual:@"Block"]){
         if(filter_player != nil && [filter_player compare:[self details][@"Blocked By"]] != NSOrderedSame) return NO;
+    }else{
+        if(filter_player != nil && [filter_player compare:self.player] != NSOrderedSame) return NO;
     }
     NSString* filter_game = filter[@"game"];
     if(filter_game != nil && [filter_game compare:self.details[@"game"]] != NSOrderedSame) return NO;

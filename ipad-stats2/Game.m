@@ -130,6 +130,7 @@
   [self forEachEvent:^(Stat *stat) {
       if ([self stat:stat matchesFilter:filter]) {
         [filtered addObject:stat];
+          //break; //Don't try the other filters.
       }
   }];
   return filtered;
