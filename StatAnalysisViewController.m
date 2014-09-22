@@ -146,6 +146,8 @@
     return _courtView;
 };
 
+
+
 - (AnalysisLinesView *)linesView {
     if (_linesView == nil) {
         _linesView = [[AnalysisLinesView alloc] init];
@@ -334,8 +336,24 @@
 
 - (void)updateStats {
     self.linesView.stats = self.filters.filteredStats;
+    //sudo code: we would like to have different stats show up depending on skill selected
+    
+//    switch (skill):{
+//            
+//        case('serve'):{
+//        
+//            break;
+//        }
+//            
+//    }
+//    
+    
     //for k in ()
-    self.statsTextView.text = [self basicStats: @"1"];
+    NSString *firstText = [self basicStats: @"1"];
+    NSString  *secondText = [self basicStats: @"1"];
+    NSString *test = [firstText stringByAppendingString:secondText];
+    self.statsTextView.text =test;
+    
     self.videoPlayer.playlist = self.filters.filteredStats;
 }
 

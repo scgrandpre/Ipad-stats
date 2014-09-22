@@ -19,6 +19,13 @@
     return self;
 }
 
+//  stuff we are putting in for testing, not going to work. help jim.
+
+
+
+
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

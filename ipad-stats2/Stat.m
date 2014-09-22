@@ -119,6 +119,7 @@
     for(Stat *stat in stats) {
        if([stat matchesFilter:filter]) {
             [filtered addObject: stat];
+           
         }
     }
     return filtered;

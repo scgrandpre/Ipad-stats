@@ -965,8 +965,6 @@ self = [super initWithFrame:frame];
                     stat.details[@"Hands"] = result;
                     if ([result isEqual:@"Hands"]){
                         stat.details[@"Blocked By"] = self.selectedPlayer;
-                        [self emit:@"play-added" data:self.play];
-                        [self emit:@"stat-added" data:stat];
                     }
                     
                 
