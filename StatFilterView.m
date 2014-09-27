@@ -40,8 +40,6 @@ static NSInteger kRotationComponent = 1;
 
 
 
-@property NSMutableDictionary *filter;
-
 @end
 
 @implementation StatFilterView
@@ -58,6 +56,7 @@ static NSInteger kRotationComponent = 1;
 @synthesize team = _team;
 @synthesize game = _game;
 @synthesize rotation = _rotation;
+@synthesize filter = _filter;
 - (void)layoutSubviews {
   self.picker.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y,
                                  300, self.bounds.size.height);
@@ -143,7 +142,7 @@ static NSInteger kRotationComponent = 1;
 
 }
 
-- (void)recomputeFilteredStats {
+- (NSMutableDictionary*)recomputeFilteredStats {
     NSMutableDictionary *filter = [@{} mutableCopy];
     NSInteger player = [self.picker selectedRowInComponent:kPlayerComponent];
 
@@ -174,6 +173,7 @@ static NSInteger kRotationComponent = 1;
         else if (skill == 2){
             filter[@"details"]= @{@"result":self.resultServe[result - 1]} ;
         }
+
     }
     
     NSInteger game = [self.gamePicker selectedRowInComponent:kGameComponent];
@@ -189,6 +189,7 @@ static NSInteger kRotationComponent = 1;
     //@"details": @{@"result": ....}
   _filteredStats = [Stat filterStats:self.stats withFilters:filter];
   [self emit:@"filtered-stats" data:_filteredStats];
+    return filter;
 }
 //current skill was made to determine what the current skill is.
 -(NSString*)currentSkill {

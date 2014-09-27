@@ -32,6 +32,7 @@
 @property(readonly) StatAnalysisVideoPlayer *videoPlayer;
 @property(readonly) Stat* currentStat;
 @property(readonly) StatEntryView *allPlayers;
+@property(readonly) StatFilterView *filter;
 //@property(readonly) NSMutableDictionary* statDict;
 @end
 
@@ -45,6 +46,8 @@
 @synthesize filters = _filters;
 @synthesize currentStat = _currentStat;
 @synthesize allPlayers = _allPlayers;
+@synthesize filter = _filter;
+
 
 //@synthesize statDict = _statDict;
 
@@ -107,6 +110,9 @@
                                                    self.view.bounds.size.width / 2,
                                                    self.view.bounds.size.height - courtHeight - 20)];
         _statsTextView.editable = NO;
+        _statsTextView.backgroundColor = [UIColor colorWithRed:218.0/255 green:223.0/255 blue:225.0/255.0 alpha:.4];
+        
+
     }
     return _statsTextView;
 }
@@ -169,8 +175,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    self.statsTextView.text = [self basicStats:@"1"];
-}
+    [self updateStats];
+    }
 - addStatToDictionary:(NSMutableDictionary*)dict withPlayer:(NSString*)player category:(NSString*) category result:(NSString*)result{
     if (dict[player] == nil) {
         dict[player] = [[NSMutableDictionary alloc] init];
@@ -187,9 +193,7 @@
     return dict;
 }
 
-
-
-- (NSString *)basicStats:(NSString*)playerForStats {
+-(NSMutableDictionary*)createStatDict{
     NSMutableDictionary*statDict = [[NSMutableDictionary alloc]init];
     
     for (_currentStat in self.filters.filteredStats){
@@ -197,15 +201,15 @@
         if ([_currentStat.skill isEqual:@"Hit"]){
             NSString*currentPlayer = _currentStat.player;
             NSString*currentSkill = _currentStat.skill;
-          
+            
             NSString*result = _currentStat.details[@"result"];
             [self addStatToDictionary:statDict withPlayer:currentPlayer category:currentSkill result:result];
             [self addStatToDictionary:statDict withPlayer:@"All" category:currentSkill result:result];
             
             //blocking
             if ([_currentStat.details objectForKey:@"Blocked By"]!= nil) {
-
-           
+                
+                
                 currentPlayer = _currentStat.details[@"Blocked By"];
                 currentSkill = @"Block";
                 result = _currentStat.details[@"result"];
@@ -222,7 +226,7 @@
                 [self addStatToDictionary:statDict withPlayer:@"All" category:currentSkill result:result];
                 
             }
-
+            
         }else if ([_currentStat.skill isEqual:@"Serve"]){
             NSString*currentPlayer = _currentStat.player;
             NSString*currentSkill = _currentStat.skill;
@@ -234,12 +238,17 @@
                 currentSkill = @"Pass";
                 result = _currentStat.details[@"result"];
                 [self addStatToDictionary:statDict withPlayer:currentPlayer category:currentSkill result:result];
-                [self addStatToDictionary:statDict withPlayer:currentPlayer category:@"All" result:result];
+                [self addStatToDictionary:statDict withPlayer:@"All" category:@"Pass" result:result];
                 
             }
         }
     };
-    //formatting
+    
+    return statDict;
+}
+
+- (NSString *)hittingStats{
+     NSMutableDictionary* statDict = [self createStatDict];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setMaximumFractionDigits:3];
     [formatter setMinimumFractionDigits:3];
@@ -256,22 +265,94 @@
     NSNumber *killPercent = [NSNumber numberWithDouble:((float)hittingKills) / hittingAttempts];
     NSString*killPercentString = [formatter stringFromNumber:killPercent];
     
+    return [NSString stringWithFormat:
+            @"##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu     | %@ | %@ |\n\n",
+            (unsigned long)hittingKills, (unsigned long)hittingErrors,(unsigned long)hittingAttempts, killPercentString, hitPercentString];
+}
 
+-(NSString*) servingStats{
     
-    //serving
-    //NSString *serveAces = statDict [@"All"][@"Hit"][@"Kill"];
-    //intHittingKills += [hittingKills integerValue];
-    NSInteger servingAces = [statDict [@"All"][@"Serve"][@"Ace"] integerValue];
-    NSInteger serving0 = [statDict [@"All"][@"Serve"][@"0"] integerValue];
-    NSInteger serving1 = [statDict [@"All"][@"Serve"][@"1"] integerValue];
-    NSInteger serving2 = [statDict [@"All"][@"Serve"][@"2"] integerValue];
+NSMutableDictionary* statDict = [self createStatDict];
+//formatting
+NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+[formatter setMaximumFractionDigits:3];
+[formatter setMinimumFractionDigits:3];
+
+NSInteger servingAces = [statDict [@"All"][@"Serve"][@"Ace"] integerValue];
+NSInteger serving0 = [statDict [@"All"][@"Serve"][@"0"] integerValue];
+NSInteger serving1 = [statDict [@"All"][@"Serve"][@"1"] integerValue];
+NSInteger serving2 = [statDict [@"All"][@"Serve"][@"2"] integerValue];
+
+NSInteger serving3 = [statDict [@"All"][@"Serve"][@"3"] integerValue];
+NSInteger serving4 = [statDict [@"All"][@"Serve"][@"4"] integerValue];
+NSInteger servingErrors = [statDict [@"All"][@"Serve"][@"Error"] integerValue];
+NSInteger servingOverpass = [statDict [@"All"][@"Serve"][@"Overpass"] integerValue];
+NSInteger servingAttempts = servingAces + serving0 + serving1 + serving2 + serving3 + serving4 + servingErrors + servingOverpass;
+NSNumber* serveStat = [NSNumber numberWithDouble:((serving1 *1 +
+                                                   serving2 *2 +
+                                                   serving3 *3 +
+                                                   serving4 *4+
+                                                   servingErrors *4)/(float)(servingAttempts))];
+NSString*serveStatString = [formatter stringFromNumber:serveStat];
     
-    NSInteger serving3 = [statDict [@"All"][@"Serve"][@"3"] integerValue];
-    NSInteger serving4 = [statDict [@"All"][@"Serve"][@"4"] integerValue];
-    NSInteger servingError = [statDict [@"All"][@"Serve"][@"Error"] integerValue];
-    NSInteger servingOverpass = [statDict [@"All"][@"Serve"][@"Overpass"] integerValue];
+NSNumber* expectedWin = [NSNumber numberWithDouble:((  servingOverpass * .65+
+                                                       serving1 *.6 +
+                                                       serving2 *.55 +
+                                                       serving3 *.35 +
+                                                       serving4 *.3+
+                                                       servingAces * 1
+                                                     )/(float)(servingAttempts))];
+NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
+    
+
+    return [NSString
+            stringWithFormat:@"##Serving## \n  Aces | Errors | Atts | SStat | EW |\n    %lu    |    %ld    |    %ld     | %@ | %@ |\n\n",(long)servingAces,(long)servingErrors,(long)servingAttempts,serveStatString,expectedWinString];
+}
+-(NSString*) passingStats{
+    NSMutableDictionary* statDict = [self createStatDict];
+    //formatting
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setMaximumFractionDigits:3];
+    [formatter setMinimumFractionDigits:3];
+    
+    NSInteger passingAces = [statDict [@"All"][@"Pass"][@"Ace"] integerValue];
+    NSInteger passing0 = [statDict [@"All"][@"Pass"][@"0"] integerValue];
+    NSInteger passing1 = [statDict [@"All"][@"Pass"][@"1"] integerValue];
+    NSInteger passing2 = [statDict [@"All"][@"Pass"][@"2"] integerValue];
+    NSInteger passing3 = [statDict [@"All"][@"Pass"][@"3"] integerValue];
+    NSInteger passing4 = [statDict [@"All"][@"Pass"][@"4"] integerValue];
+    NSInteger passingErrors = [statDict [@"All"][@"Pass"][@"Error"] integerValue];
+    NSInteger passingOverpass = [statDict [@"All"][@"Pass"][@"Overpass"] integerValue];
+    NSInteger passingAttempts = passingAces + passing0 + passing1 + passing2 + passing3 + passing4 + passingErrors + passingOverpass;
+    NSNumber* passStat = [NSNumber numberWithDouble:((passing1 *1 +
+                                                       passing2 *2 +
+                                                       passing3 *3 +
+                                                       passing4 *4+
+                                                       passingErrors *4)/(float)(passingAttempts))];
+    NSString*passStatString = [formatter stringFromNumber:passStat];
+    
+    NSNumber* expectedWin = [NSNumber numberWithDouble:((  passingOverpass * .65+
+                                                         passing1 *.6 +
+                                                         passing2 *.55 +
+                                                         passing3 *.35 +
+                                                         passing4 *.3+
+                                                         passingAces * 1
+                                                         )/(float)(passingAttempts))];
+    NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
     
     
+    return [NSString
+            stringWithFormat:@"##passing## \n  Aces | Errors | Atts | SStat | EW |\n    %lu    |    %ld    |    %ld     | %@ | %@ |\n\n",(long)passingAces,(long)passingErrors,(long)passingAttempts,passStatString,expectedWinString];
+}
+
+
+
+- (NSString *)basicStats:(NSString*)playerForStats {
+    NSMutableDictionary* statDict = [self createStatDict];
+    //formatting
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setMaximumFractionDigits:3];
+    [formatter setMinimumFractionDigits:3];
    
     /// passing stat team 0
     
@@ -327,9 +408,8 @@
     
     
     return [NSString
-            stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu     | %@ | %@ |\n\n\n##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@ \n\n##Defense##\n Digs: %lu \n Ups: %lu \n Dig Errors: %lu \n " ,
-            (unsigned long)hittingKills, (unsigned long)hittingErrors,
-            (unsigned long)hittingAttempts, killPercentString, hitPercentString,
+            stringWithFormat:@"##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@ \n\n##Defense##\n Digs: %lu \n Ups: %lu \n Dig Errors: %lu \n " ,
+            
             passStatString,passValue[@"Ace"],passValue[@"Err"], (unsigned long)digs, (unsigned long)ups, (unsigned long)digErrors];
     
 }
@@ -349,10 +429,16 @@
 //    
     
     //for k in ()
-    NSString *firstText = [self basicStats: @"1"];
-    NSString  *secondText = [self basicStats: @"1"];
-    NSString *test = [firstText stringByAppendingString:secondText];
-    self.statsTextView.text =test;
+    
+    NSString  *hittingText = [self hittingStats];
+    NSString *servingText = [self servingStats];
+    NSString *passingText = [self passingStats];
+    
+    
+    
+    NSString *test = [hittingText stringByAppendingString:servingText];
+    NSString *addedPassing = [test stringByAppendingString:passingText];
+    self.statsTextView.text =addedPassing;
     
     self.videoPlayer.playlist = self.filters.filteredStats;
 }

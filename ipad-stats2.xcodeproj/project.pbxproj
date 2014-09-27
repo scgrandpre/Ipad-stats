@@ -379,7 +379,7 @@
 			name = "ipad-stats2Tests";
 			productName = "ipad-stats2Tests";
 			productReference = 380F5832171711CF005ED397 /* ipad-stats2Tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -387,7 +387,7 @@
 		380F580A171711CE005ED397 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0600;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "RIPP Volleyball";
 				TargetAttributes = {

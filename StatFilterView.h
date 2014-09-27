@@ -13,5 +13,6 @@
 
 @property NSArray *stats;
 @property(readonly) NSArray *filteredStats;
+@property NSMutableDictionary *filter;
 
 @end
