@@ -411,8 +411,10 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
     
     
     return [NSString
-            stringWithFormat:@"##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@ \n\n##Defense##\n Digs: %lu \n Ups: %lu \n Dig Errors: %lu \n " ,
-            
+            stringWithFormat:@"STATS\n\n##Hitting##\n    K    |    E    |    A    | Kill Per | Hit Per |\n    %lu    |    %lu    |    %lu     | %@ | %@ |\n\n\n##Serving##\n Serve Average: %@\n Serve Aces: %@\n Serve Errors: %@ \n\n##Defense##\n Digs: %lu \n Ups: %lu \n Dig Errors: %lu \n " ,
+
+            (unsigned long)kills, (unsigned long)hittingErrors,
+            (unsigned long)hittingAttempts, killPercentString, hitPercentString,
             passStatString,passValue[@"Ace"],passValue[@"Err"], (unsigned long)digs, (unsigned long)ups, (unsigned long)digErrors];
     
 }
