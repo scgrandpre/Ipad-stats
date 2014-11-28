@@ -12,4 +12,5 @@
 
 @interface StatAnalysisViewController : UIViewController
 -(id)initWithGame:(Game*) game;
+-(void)updateStats;
 @end

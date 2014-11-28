@@ -339,10 +339,13 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
                                                          passingAces * 1
                                                          )/(float)(passingAttempts))];
     NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
+    NSNumber* inSystem = [NSNumber numberWithDouble:(  (passing3+passing4)/
+                                                         (float)(passingAttempts))];
+    NSString*inSystemString = [formatter stringFromNumber:inSystem];
     
     
     return [NSString
-            stringWithFormat:@"##passing## \n  Aces | Errors | Atts | SStat | EW |\n    %lu    |    %ld    |    %ld     | %@ | %@ |\n\n",(long)passingAces,(long)passingErrors,(long)passingAttempts,passStatString,expectedWinString];
+            stringWithFormat:@"##passing## \n  Aces | inSys | Atts | SStat | EW |\n    %lu    |    %@    |    %ld     | %@ | %@ |\n\n",(long)passingAces,inSystemString,(long)passingAttempts,passStatString,expectedWinString];
 }
 
 
@@ -416,20 +419,6 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
 
 - (void)updateStats {
     self.linesView.stats = self.filters.filteredStats;
-    //sudo code: we would like to have different stats show up depending on skill selected
-    
-//    switch (skill):{
-//            
-//        case('serve'):{
-//        
-//            break;
-//        }
-//            
-//    }
-//    
-    
-    //for k in ()
-    
     NSString  *hittingText = [self hittingStats];
     NSString *servingText = [self servingStats];
     NSString *passingText = [self passingStats];

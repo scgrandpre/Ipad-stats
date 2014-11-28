@@ -9,6 +9,7 @@
 #import "StatFilterView.h"
 #import <EventEmitter/EventEmitter.h>
 #import "StatEventButtonsView.h"
+#import "StatAnalysisViewController.h"
 
 static NSInteger kTeamComponent = 0;
 static NSInteger kPlayerComponent = 1;
@@ -135,10 +136,11 @@ static NSInteger kRotationComponent = 1;
 }
 
 - (void)setStats:(NSArray *)stats {
-  _stats = stats;
-  [_picker reloadAllComponents];
+    _stats = stats;
+    [_picker reloadAllComponents];
     [_gamePicker reloadAllComponents];
-  [self recomputeFilteredStats];
+    [self recomputeFilteredStats];
+    //[StatAnalysisViewController updateStats];
 
 }
 
@@ -190,6 +192,7 @@ static NSInteger kRotationComponent = 1;
   _filteredStats = [Stat filterStats:self.stats withFilters:filter];
   [self emit:@"filtered-stats" data:_filteredStats];
     return filter;
+    
 }
 //current skill was made to determine what the current skill is.
 -(NSString*)currentSkill {
