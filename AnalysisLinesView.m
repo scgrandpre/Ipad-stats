@@ -151,10 +151,21 @@
             if ([[_stats[i] details][@"Hands"] isEqual:@"Hands"]){
                 NSLog(@"woohoo");
                 CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
+                
+                CGFloat minx = CGFLOAT_MAX;
+                CGPoint midPoint;
+                for (int j = 0; j < [line count]; j++) {
+                    CGPoint point = [line[j] CGPointValue];
+                    float x = fabs(point.x);
+                    if (x < minx) {
+                        minx = x;
+                        midPoint = [self pointByExpandingPoint:point];
+                    }
+                }
+
                 CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
                 CGContextMoveToPoint(ctx, point.x, point.y);
                 CGPoint endPoint = [self pointByExpandingPoint:[line[line.count-1 ] CGPointValue]];
-                CGPoint midPoint = [self pointByExpandingPoint:[line[line.count/2 ] CGPointValue]];
                 
                 //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));
                 CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
@@ -162,19 +173,19 @@
                 CGContextMoveToPoint(ctx, point.x, point.y);///move to ur first dot
                 CGContextAddLineToPoint(ctx, midPoint.x, midPoint.y);//add line from first dot to second dot
                 CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from first dot to second dot
-
+                
             }else{
-            CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
-            CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
-            CGContextMoveToPoint(ctx, point.x, point.y);
-            CGPoint endPoint = [self pointByExpandingPoint:[line[line.count-1 ] CGPointValue]];
-            //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));
-            CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
-            CGContextSetLineWidth(ctx, 2.0);
-            CGContextMoveToPoint(ctx, point.x, point.y);///move to ur first dot
-            CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from first dot to second dot
-            //trying to add player label
-            //self.line.player
+                CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
+                CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
+                CGContextMoveToPoint(ctx, point.x, point.y);
+                CGPoint endPoint = [self pointByExpandingPoint:[line[line.count-1 ] CGPointValue]];
+                //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));
+                CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
+                CGContextSetLineWidth(ctx, 2.0);
+                CGContextMoveToPoint(ctx, point.x, point.y);///move to ur first dot
+                CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from first dot to second dot
+                //trying to add player label
+                //self.line.player
             }
         }
         
