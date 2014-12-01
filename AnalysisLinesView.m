@@ -170,11 +170,57 @@
                 //CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x - 5, endPoint.y - 5, 10, 10));
                 CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
                 CGContextSetLineWidth(ctx, 2.0);
-                CGContextMoveToPoint(ctx, point.x, point.y);///move to ur first dot
-                CGContextAddLineToPoint(ctx, midPoint.x, midPoint.y);//add line from first dot to second dot
-                CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from first dot to second dot
+                CGContextMoveToPoint(ctx, point.x, point.y);///move to our first dot
+                CGContextAddLineToPoint(ctx, midPoint.x, midPoint.y);//add line from first dot to mid dot
+                CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from mid dot to end dot
                 
-            }else{
+            }else if([[_stats[i] details][@"Hands"]  isEqual:@"Tip"]){
+                //if its a tip we want to draw a curved line ....  after the net
+                NSLog(@"IN TIPS ..... WAHOO");
+                CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
+                CGFloat RAD = 25;   // the arc radius
+                
+                
+                CGFloat minx = CGFLOAT_MAX;
+                CGPoint midPoint;
+                for (int n=0; n<[line count]; n++)
+                {
+                    CGPoint point = [line[n] CGPointValue];
+                    float x = fabs(point.x);
+                    if (x < minx){
+                        minx = x;
+                        midPoint = [self pointByExpandingPoint:point];
+                    }
+                }
+                
+                CGContextAddEllipseInRect(ctx,CGRectMake(point.x -5, point.y - 5, 10,10));
+                CGContextMoveToPoint(ctx,point.x, point.y);
+                CGPoint endPoint = [self pointByExpandingPoint:[line[line.count -1] CGPointValue]];
+                
+                CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
+                CGContextSetLineWidth(ctx, 2.0);
+                CGContextMoveToPoint(ctx, point.x, point.y);
+                CGContextAddLineToPoint(ctx, midPoint.x, midPoint.y);
+                
+                // These 2 lines are here so I could see where the midpoint and endpoints were....
+                // delete them when you don't need them anymore.'
+                CGContextAddEllipseInRect(ctx, CGRectMake(midPoint.x, midPoint.y, 20,20));
+                CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x, endPoint.y, 30, 30));
+                
+                
+                CGContextMoveToPoint(ctx, midPoint.x, midPoint.y);
+                
+                //CGContextAddArcToPoint(ctx, midPoint.x, midPoint.y, endPoint.x, endPoint.y, RAD);
+                //CGContextAddCurveToPoint(ctx, midPoint.x, midPoint.y, endPoint.x, endPoint.y, .5, .5);
+                //CGContextAddQuadCurveToPoint(ctx, midPoint.x, midPoint.y, endPoint.x, endPoint.y);
+                
+                // It would be nice to have a curved line between the midpoint and the endpoint... but
+                //since I can't a=make that happen, we're going for a straight line.....
+                
+                CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);
+                
+            }
+            else{
                 CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
                 CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
                 CGContextMoveToPoint(ctx, point.x, point.y);
