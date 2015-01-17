@@ -177,12 +177,12 @@
                 
             }else if([[_stats[i] details][@"Hands"]  isEqual:@"Tip"]){
                 //if its a tip we want to draw a curved line ....
-                //let's try using AddArcToPoint function
+                
                 
             
                 CGPoint startPoint  = [line[0] CGPointValue];              //starting point in court coordinates
                 CGPoint endPoint    = [line[line.count -1] CGPointValue];  //ending point in court coordinates
-                CGPoint midPoint    = CGPointMake((endPoint.x + startPoint.x)/2, (endPoint.y + startPoint.y)/2);
+                CGPoint midPoint    = CGPointMake((endPoint.x + startPoint.x)/2, (endPoint.y + startPoint.y)/2); //court coordinates
                 
                                
                               CGContextSetLineWidth(ctx, 2.0);
@@ -192,13 +192,13 @@
                 // Set the starting point of the shape.
                 [aPath moveToPoint:[self pointByExpandingPoint:startPoint]]; //now we're in screen coordinates
                 
-                CGPoint jimsPoint = [self pointByExpandingPoint: CGPointMake(midPoint.x, midPoint.y -.3)];  //control point
+                CGPoint jimsPoint = [self pointByExpandingPoint: CGPointMake(midPoint.x, midPoint.y -.3)];  //control point for Bezier path in screen coordinates
                 CGPoint screenEndPoint = [self pointByExpandingPoint:endPoint];
                 
                 // Draw the lines.
                 [aPath addQuadCurveToPoint:screenEndPoint controlPoint:jimsPoint];
                 
-                [aPath stroke];
+                [aPath stroke];  // this draws the curve
                 
                            }
             else{
