@@ -25,6 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _stats = [[NSArray alloc] init];
+        self.clipsToBounds = NO;
       _selectedLine = -1;
         self.backgroundColor = [UIColor clearColor];
     }
@@ -175,51 +176,31 @@
                 CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);//add line from mid dot to end dot
                 
             }else if([[_stats[i] details][@"Hands"]  isEqual:@"Tip"]){
-                //if its a tip we want to draw a curved line ....  after the net
-                NSLog(@"IN TIPS ..... WAHOO");
-                CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
-                CGFloat RAD = 25;   // the arc radius
+                //if its a tip we want to draw a curved line ....
+                //let's try using AddArcToPoint function
                 
+            
+                CGPoint startPoint  = [line[0] CGPointValue];              //starting point in court coordinates
+                CGPoint endPoint    = [line[line.count -1] CGPointValue];  //ending point in court coordinates
+                CGPoint midPoint    = CGPointMake((endPoint.x + startPoint.x)/2, (endPoint.y + startPoint.y)/2);
                 
-                CGFloat minx = CGFLOAT_MAX;
-                CGPoint midPoint;
-                for (int n=0; n<[line count]; n++)
-                {
-                    CGPoint point = [line[n] CGPointValue];
-                    float x = fabs(point.x);
-                    if (x < minx){
-                        minx = x;
-                        midPoint = [self pointByExpandingPoint:point];
-                    }
-                }
+                               
+                              CGContextSetLineWidth(ctx, 2.0);
                 
-                CGContextAddEllipseInRect(ctx,CGRectMake(point.x -5, point.y - 5, 10,10));
-                CGContextMoveToPoint(ctx,point.x, point.y);
-                CGPoint endPoint = [self pointByExpandingPoint:[line[line.count -1] CGPointValue]];
+                UIBezierPath *aPath = [UIBezierPath bezierPath];
                 
-                CGContextMoveToPoint(ctx, endPoint.x, endPoint.y);
-                CGContextSetLineWidth(ctx, 2.0);
-                CGContextMoveToPoint(ctx, point.x, point.y);
-                CGContextAddLineToPoint(ctx, midPoint.x, midPoint.y);
+                // Set the starting point of the shape.
+                [aPath moveToPoint:[self pointByExpandingPoint:startPoint]]; //now we're in screen coordinates
                 
-                // These 2 lines are here so I could see where the midpoint and endpoints were....
-                // delete them when you don't need them anymore.'
-                CGContextAddEllipseInRect(ctx, CGRectMake(midPoint.x, midPoint.y, 20,20));
-                CGContextAddEllipseInRect(ctx, CGRectMake(endPoint.x, endPoint.y, 30, 30));
+                CGPoint jimsPoint = [self pointByExpandingPoint: CGPointMake(midPoint.x, midPoint.y -.3)];  //control point
+                CGPoint screenEndPoint = [self pointByExpandingPoint:endPoint];
                 
+                // Draw the lines.
+                [aPath addQuadCurveToPoint:screenEndPoint controlPoint:jimsPoint];
                 
-                CGContextMoveToPoint(ctx, midPoint.x, midPoint.y);
+                [aPath stroke];
                 
-                //CGContextAddArcToPoint(ctx, midPoint.x, midPoint.y, endPoint.x, endPoint.y, RAD);
-                //CGContextAddCurveToPoint(ctx, midPoint.x, midPoint.y, endPoint.x, endPoint.y, .5, .5);
-                //CGContextAddQuadCurveToPoint(ctx, midPoint.x, midPoint.y, endPoint.x, endPoint.y);
-                
-                // It would be nice to have a curved line between the midpoint and the endpoint... but
-                //since I can't a=make that happen, we're going for a straight line.....
-                
-                CGContextAddLineToPoint(ctx, endPoint.x, endPoint.y);
-                
-            }
+                           }
             else{
                 CGPoint point = [self pointByExpandingPoint:[line[0] CGPointValue]];
                 CGContextAddEllipseInRect(ctx, CGRectMake(point.x - 5, point.y - 5, 10, 10));
