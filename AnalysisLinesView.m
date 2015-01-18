@@ -219,8 +219,8 @@
         
         
         //        for(NSValue *pointVal in line) {
-//            CGPoint point = [self pointByExpandingPoint:[pointVal CGPointValue]];
-//            CGContextAddLineToPoint(ctx, point.x, point.y);
+        //            CGPoint point = [self pointByExpandingPoint:[pointVal CGPointValue]];
+        //            CGContextAddLineToPoint(ctx, point.x, point.y);
     //}
         CGContextStrokePath(ctx);
         

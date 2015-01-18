@@ -331,13 +331,17 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
                                                        passingErrors *4)/(float)(passingAttempts))];
     NSString*passStatString = [formatter stringFromNumber:passStat];
     
-    NSNumber* expectedWin = [NSNumber numberWithDouble:((  passingOverpass * .65+
+    NSNumber* expectedLoss = [NSNumber numberWithDouble:((  passingOverpass * .65+
                                                          passing1 *.6 +
                                                          passing2 *.55 +
                                                          passing3 *.35 +
                                                          passing4 *.3+
                                                          passingAces * 1
                                                          )/(float)(passingAttempts))];
+    double expectedLossVar = [expectedLoss doubleValue];
+    double expectedWinVar = 1 - expectedLossVar;
+    NSNumber* expectedWin = [NSNumber numberWithDouble: expectedWinVar];
+    
     NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
     NSNumber* inSystem = [NSNumber numberWithDouble:(  (passing3+passing4)/
                                                          (float)(passingAttempts))];
@@ -345,7 +349,7 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
     
     
     return [NSString
-            stringWithFormat:@"##passing## \n  Aces | inSys | Atts | SStat | EW |\n    %lu    |    %@    |    %ld     | %@ | %@ |\n\n",(long)passingAces,inSystemString,(long)passingAttempts,passStatString,expectedWinString];
+            stringWithFormat:@"##Passing## \n  Aces | inSys | Atts | PStat | EW |\n    %lu    |    %@    |    %ld     | %@ | %@ |\n\n",(long)passingAces,inSystemString,(long)passingAttempts,passStatString,expectedWinString];
 }
 
 
