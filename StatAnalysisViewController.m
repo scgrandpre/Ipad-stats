@@ -324,11 +324,12 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
     NSInteger passingErrors = [statDict [@"All"][@"Pass"][@"Error"] integerValue];
     NSInteger passingOverpass = [statDict [@"All"][@"Pass"][@"Overpass"] integerValue];
     NSInteger passingAttempts = passingAces + passing0 + passing1 + passing2 + passing3 + passing4 + passingErrors + passingOverpass;
-    NSNumber* passStat = [NSNumber numberWithDouble:((passing1 *1 +
+    NSNumber* passStat = [NSNumber numberWithDouble:(4 - (passing1 *1 +
                                                        passing2 *2 +
                                                        passing3 *3 +
                                                        passing4 *4+
                                                        passingErrors *4)/(float)(passingAttempts))];
+    
     NSString*passStatString = [formatter stringFromNumber:passStat];
     
     NSNumber* expectedLoss = [NSNumber numberWithDouble:((  passingOverpass * .65+
