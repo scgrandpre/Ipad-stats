@@ -63,12 +63,21 @@
   if (game.homeTeam == nil) {
     game.homeTeam = @"HOME";
   };
+    
+  game.videoUrl = dict[@"videoUrl"];
+  if (game.videoUrl == nil) {
+    game.videoUrl = @"videoUrl";
+  };
+    
+    
 //    game.matchOffset = dict[@"offset"];
 //    if (game.matchOffset == nil) {
 //        game.matchOffset = @"offset";
 //    };
   return game;
 }
+
+
 
 - (NSDictionary *)asDict {
   NSArray *plays = map([self plays], ^(Play *play) { return [play asDict]; });
@@ -79,6 +88,7 @@
                            @"plays" : plays,
                            @"homeTeam" : self.homeTeam,
                            @"awayTeam" : self.awayTeam,
+                           @"videoUrl" : self.videoUrl,
   //                         @"offset" : self.matchOffset
                          }];
   if (self.id) {

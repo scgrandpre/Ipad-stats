@@ -14,6 +14,7 @@
 @property(readonly) UITextView *header;
 @property(readonly) UITextField *homeTeam;
 @property(readonly) UITextField *awayTeam;
+@property(readonly) UITextField *videoUrl;
 @property(readonly) UIButton *newGame;
 @end
 
@@ -21,6 +22,7 @@
 @synthesize header = _header;
 @synthesize homeTeam = _homeTeam;
 @synthesize awayTeam = _awayTeam;
+@synthesize videoUrl = _videoUrl;
 @synthesize newGame = _newGame;
 @synthesize label;
 
@@ -55,6 +57,16 @@
     _awayTeam.delegate = self;
   }
   return _awayTeam;
+}
+- (UITextField *)videoUrl {
+    if (_videoUrl == nil) {
+        _videoUrl = [[UITextField alloc] init];
+        _videoUrl.backgroundColor = [UIColor grayColor];
+        _videoUrl.hidden = YES;
+        _videoUrl.placeholder = @"Enter Video Url";
+        _videoUrl.delegate = self;
+    }
+    return _videoUrl;
 }
 
 - (UITextView *)header {
@@ -94,18 +106,23 @@
   [self.view addSubview:self.newGame];
   [self.view addSubview:self.homeTeam];
   [self.view addSubview:self.awayTeam];
+  [self.view addSubview:self.videoUrl];
+    
 }
 
 - (void)viewWillLayoutSubviews {
-  self.newGame.frame = CGRectMake(self.view.bounds.size.width-300, 200, 300, 65);
+  self.newGame.frame  = CGRectMake(self.view.bounds.size.width-300, 200, 300, 65);
   self.homeTeam.frame = CGRectMake(self.view.bounds.size.width-300, 200, 300, 65);
   self.awayTeam.frame = CGRectMake(self.view.bounds.size.width-300, 275, 300, 65);
+  self.videoUrl.frame = CGRectMake(self.view.bounds.size.width-300, 350, 300, 65);
 }
 
 - (void)makeNewGame:(UIButton *)sender {
     
   self.awayTeam.hidden = NO;
   self.homeTeam.hidden = NO;
+  self.videoUrl.hidden = NO;
+    
   // Make a game?
     [sender setBackgroundImage:[UIImage imageNamed:@"images/icon.png"] forState:UIControlStateNormal];
   [sender setTitle:@"PressMe!. Again" forState:UIControlStateNormal];
@@ -151,14 +168,17 @@
     [self.awayTeam becomeFirstResponder];
       NSLog(@"%@",self.homeTeam.text);
   } else if (textField == self.awayTeam) {
-    [self.awayTeam resignFirstResponder];
-      NSLog(@"%@", self.awayTeam.text);
+    [self.videoUrl resignFirstResponder];
+      NSLog(@"%@", self.videoUrl.text);
+  } else if (textField == self.videoUrl) {
+      [self.homeTeam resignFirstResponder];
+      NSLog(@"%@", self.videoUrl.text);
 
     // create game
     Game *game = [[Game alloc] init];
     game.awayTeam = self.awayTeam.text;
     game.homeTeam = self.homeTeam.text;
-
+    game.videoUrl = self.videoUrl.text;
     SerializableManager *manager = [SerializableManager manager];
     [manager SaveSerializable:game
                  withCallback:^(NSObject<Serializable> *object) {}];

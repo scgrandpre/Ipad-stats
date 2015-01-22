@@ -26,6 +26,7 @@
 @property(readonly) UISlider *seek;
 @property float     offset;
 @property NSInteger index;
+@property Game *game;
 @end
 
 @implementation StatAnalysisVideoPlayer
@@ -222,6 +223,7 @@
 }
 
 - (AVPlayerView *)videoPlayer {
+    
   if (_videoPlayer == nil) {
     _video = [[AVPlayer alloc]
         initWithURL:[NSURL URLWithString:@"http://www.acsvolleyball.com/"
