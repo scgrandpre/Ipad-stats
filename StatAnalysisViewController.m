@@ -169,7 +169,7 @@
 
 - (StatAnalysisVideoPlayer *)videoPlayer {
     if (_videoPlayer == nil) {
-        _videoPlayer = [[StatAnalysisVideoPlayer alloc] init];
+        _videoPlayer = [[StatAnalysisVideoPlayer alloc] initWithURL:self.game.videoUrl];
     }
     return _videoPlayer;
 }

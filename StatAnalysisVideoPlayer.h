@@ -14,5 +14,6 @@
 @property NSArray *playlist;
 
 - (void)seekTo:(Stat *)stat;
+-(id)initWithURL:(NSString*) videoUrl;
 
 @end

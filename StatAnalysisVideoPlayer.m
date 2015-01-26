@@ -26,7 +26,8 @@
 @property(readonly) UISlider *seek;
 @property float     offset;
 @property NSInteger index;
-@property Game *game;
+@property NSString *videoUrl;
+
 @end
 
 @implementation StatAnalysisVideoPlayer
@@ -41,10 +42,12 @@
 @synthesize syncMinus = _syncMinus;
 @synthesize index = _index;
 @synthesize seek = _seek;
+@synthesize videoUrl = _videoUrl;
 
 - (id)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
   if (self) {
+    
     [self addSubview:self.videoPlayer];
     [self addSubview:self.previous];
     [self addSubview:self.next];
@@ -56,8 +59,18 @@
     [self addSubview:self.seek];
       _offset = -1000000000000;
     self.backgroundColor = [UIColor blackColor];
+      
   }
   return self;
+}
+
+-(id)initWithURL:(NSString*) videoUrl{
+    self = [super init];
+    if (self){
+        
+    _videoUrl = videoUrl;
+    }
+    return self;
 }
 
 - (void)layoutSubviews {
@@ -226,8 +239,7 @@
     
   if (_videoPlayer == nil) {
     _video = [[AVPlayer alloc]
-        initWithURL:[NSURL URLWithString:@"http://www.acsvolleyball.com/"
-                                  @"videos/shu_fordham_small.mp4"]];
+        initWithURL:[NSURL URLWithString:_videoUrl]];
     _videoPlayer = [[AVPlayerView alloc] init];
     _videoPlayer.player = _video;
       
