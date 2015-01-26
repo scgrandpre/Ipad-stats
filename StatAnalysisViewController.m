@@ -169,6 +169,7 @@
 
 - (StatAnalysisVideoPlayer *)videoPlayer {
     if (_videoPlayer == nil) {
+      //  acsvolleyball.com/+videoURL
         _videoPlayer = [[StatAnalysisVideoPlayer alloc] initWithURL:self.game.videoUrl];
     }
     return _videoPlayer;
