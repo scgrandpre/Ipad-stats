@@ -168,9 +168,17 @@
 }
 
 - (StatAnalysisVideoPlayer *)videoPlayer {
+    
     if (_videoPlayer == nil) {
-      //  acsvolleyball.com/+videoURL
-        _videoPlayer = [[StatAnalysisVideoPlayer alloc] initWithURL:self.game.videoUrl];
+        NSString* acsString = @"http://acsvolleyball.com/videos/";
+        NSString* dotMPfour = @".mp4";
+        
+        NSString* videoUrlString = [NSString stringWithFormat:@"%@%@%@",acsString,self.game.videoUrl,dotMPfour];
+        NSURL *videoUrlUrl = [NSURL URLWithString:videoUrlString];
+
+      //  acsvolleyball.com/%@.com,videoURL
+        //http://acsvolleyball.com/videos/shu_liu_a_smaller.mp4
+        _videoPlayer = [[StatAnalysisVideoPlayer alloc] initWithURL:videoUrlString];
     }
     return _videoPlayer;
 }

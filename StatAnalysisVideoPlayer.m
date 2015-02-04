@@ -26,7 +26,7 @@
 @property(readonly) UISlider *seek;
 @property float     offset;
 @property NSInteger index;
-@property NSString *videoUrl;
+@property NSString *videoUrlString;
 
 @end
 
@@ -42,7 +42,7 @@
 @synthesize syncMinus = _syncMinus;
 @synthesize index = _index;
 @synthesize seek = _seek;
-@synthesize videoUrl = _videoUrl;
+@synthesize videoUrlString = _videoUrlString;
 
 - (id)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
@@ -64,11 +64,11 @@
   return self;
 }
 
--(id)initWithURL:(NSString*) videoUrl{
+-(id)initWithURL:(NSString*) videoUrlString{
+    _videoUrlString = videoUrlString;
     self = [super init];
     if (self){
-        
-    _videoUrl = videoUrl;
+        _videoUrlString = videoUrlString;
     }
     return self;
 }
@@ -235,11 +235,11 @@
   [self seekTo:stat];
 }
 
-- (AVPlayerView *)videoPlayer {
+- (AVPlayerView *)videoPlayer  {
     
   if (_videoPlayer == nil) {
     _video = [[AVPlayer alloc]
-        initWithURL:[NSURL URLWithString:_videoUrl]];
+        initWithURL:[NSURL URLWithString:_videoUrlString]];
     _videoPlayer = [[AVPlayerView alloc] init];
     _videoPlayer.player = _video;
       
