@@ -446,6 +446,11 @@ NSString*expectedWinString = [formatter stringFromNumber:expectedWin];
     self.statsTextView.text =addedPassing;
     
     self.videoPlayer.playlist = self.filters.filteredStats;
+    
+    SerializableManager *manager = [SerializableManager manager];
+    [manager SaveSerializable: self.game withCallback:^(NSObject<Serializable> *object) {}];
+    
+
 }
 
 @end

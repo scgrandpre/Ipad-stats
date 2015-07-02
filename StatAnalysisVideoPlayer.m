@@ -75,6 +75,7 @@
 
 -(id)initWithURL:(NSString*) videoUrlString{
     _videoUrlString = videoUrlString;
+
     self = [super init];
     if (self){
         _videoUrlString = videoUrlString;
@@ -350,6 +351,10 @@
     //http://acsvolleyball.com/videos/shu_liu_a_smaller.mp4
     _videoPlayer = nil;
     _videoPlayer = [[StatAnalysisVideoPlayer alloc] initWithURL:videoUrlString];
+//    self.game.videoUrl = videoUrlNewText;
+//    SerializableManager *manager = [SerializableManager manager];
+//    [manager SaveSerializable: self.game withCallback:^(NSObject<Serializable> *object) {}];
+//    
     
 //
 //        // create game
