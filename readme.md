@@ -10,7 +10,7 @@
 
 * [NodeJs](http://nodejs.org)
 * [CoffeeScript](http://coffeescript.org)
-* [Mocha](http://visionmedia.github.com/mocha/)
+* [Mocha](http://mochajs.org/)
 
 ## Included Packages
 
@@ -18,7 +18,7 @@ Via npm: (`npm install`)
 * [Express](http://expressjs.com)
 * [Jade](http://jade-lang.com/)
 * [connect-assets](http://github.com/TrevorBurnham/connect-assets)
-* [Mocha](http://visionmedia.github.com/mocha/)
+* [Mocha](http://mochajs.org/)
 * [Should.Js](https://github.com/visionmedia/should.js/)
 
 ## Usage
